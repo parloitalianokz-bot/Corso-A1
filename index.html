@@ -57,6 +57,18 @@
             "antonio": { pass: "admin",  maxUnit: 10 } // Tu
         };
 
+        window.onload = function() {
+    const savedUser = localStorage.getItem('user_parloitaliano');
+    const savedPass = localStorage.getItem('pass_parloitaliano');
+
+    if (savedUser && savedPass) {
+        // Verifica se le credenziali salvate sono ancora valide
+        if (database[savedUser] && database[savedPass] === savedPass) {
+            mostraDashboard(savedUser);
+        }
+    }
+};
+
         function login() {
     const u = document.getElementById('user').value.toLowerCase().trim();
     const p = document.getElementById('pass').value.trim();
