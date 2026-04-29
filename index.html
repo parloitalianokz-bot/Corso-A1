@@ -8,7 +8,23 @@
         .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 500px; text-align: center; }
         input { width: 80%; padding: 10px; margin: 10px 0; border-radius: 8px; border: 1px solid #ddd; }
         button { background: #008C45; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
-        .unit-link { display: block; padding: 15px; margin: 10px 0; background: #e8f5e9; border-radius: 10px; text-decoration: none; color: #2e7d32; font-weight: bold; border-left: 5px solid #CD212A; }
+        .unit-link { display: block; padding: 15px 20px; margin: 12px 0; background: #ffffff; border-radius: 12px; text-decoration: none; color: #2c3e50; font-weight: normal; border-left: 6px solid #008C45; /* Verde Italia */ box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: all 0.3s ease; text-align: left; }
+
+.unit-link:hover {
+    transform: translateX(10px); /* Effetto scorrimento a destra al passaggio del mouse */
+    background: #f1f8f4;
+    border-left-color: #CD212A; /* Cambia in Rosso Italia al passaggio */
+}
+
+.card {
+    /* Assicurati che il contenitore principale non forzi il centro sui figli */
+    text-align: left; 
+    max-width: 600px;
+}
+
+#welcome-msg, #dashboard p {
+    text-align: center; /* Se vuoi mantenere solo il benvenuto al centro */
+}
         #dashboard { display: none; }
     </style>
 </head>
@@ -55,18 +71,20 @@
         function mostraDashboard(userName) {
     document.getElementById('login-section').style.display = 'none';
     document.getElementById('dashboard').style.display = 'block';
+    
+    // Benvenuto personalizzato
     document.getElementById('welcome-msg').innerText = "Ciao, " + userName.charAt(0).toUpperCase() + userName.slice(1) + "!";
     
     const max = database[userName].maxUnit;
     const container = document.getElementById('units-list');
-    container.innerHTML = ""; // Pulisce la lista prima di crearla
+    container.innerHTML = ""; 
 
-    // Definiamo i nomi delle unità qui
+    // Qui definisci i nomi delle tue unità
     const nomiUnita = {
         1: "Benvenuti! (Добро пожаловать)",
         2: "In Città (В городе)",
-        3: "Al Ristorante (В ресторане)"
-        // Aggiungi le altre man mano che le crei
+        3: "La Famiglia (Моя семья)",
+        4: "Al Ristorante (В ресторане)"
     };
     
     for (let i = 1; i <= max; i++) {
@@ -74,9 +92,10 @@
         link.href = "unita" + i + ".html";
         link.className = "unit-link";
         
-        // Se esiste un nome personalizzato lo usa, altrimenti mette "Unità X"
         const titolo = nomiUnita[i] ? nomiUnita[i] : "Unità " + i;
-        link.innerText = "Unità " + i + " - " + titolo;
+        
+        // Costruiamo il testo dell'unità
+        link.innerHTML = `<strong>Unità ${i}</strong> - ${titolo}`;
         
         container.appendChild(link);
     }
