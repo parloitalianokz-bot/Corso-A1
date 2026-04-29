@@ -53,22 +53,34 @@
         }
 
         function mostraDashboard(userName) {
-            document.getElementById('login-section').style.display = 'none';
-            document.getElementById('dashboard').style.display = 'block';
-            document.getElementById('welcome-msg').innerText = "Ciao, " + userName.charAt(0).toUpperCase() + userName.slice(1) + "!";
-            
-            const max = database[userName].maxUnit;
-            const container = document.getElementById('units-list');
-            
-            // Crea i link solo fino all'unità permessa
-            for (let i = 1; i <= max; i++) {
-                const link = document.createElement('a');
-                link.href = "unita" + i + ".html";
-                link.className = "unit-link";
-                link.innerText = "Unità " + i + " - Accedi alla lezione";
-                container.appendChild(link);
-            }
-        }
+    document.getElementById('login-section').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    document.getElementById('welcome-msg').innerText = "Ciao, " + userName.charAt(0).toUpperCase() + userName.slice(1) + "!";
+    
+    const max = database[userName].maxUnit;
+    const container = document.getElementById('units-list');
+    container.innerHTML = ""; // Pulisce la lista prima di crearla
+
+    // Definiamo i nomi delle unità qui
+    const nomiUnita = {
+        1: "Benvenuti! (Добро пожаловать)",
+        2: "In Città (В городе)",
+        3: "Al Ristorante (В ресторане)"
+        // Aggiungi le altre man mano che le crei
+    };
+    
+    for (let i = 1; i <= max; i++) {
+        const link = document.createElement('a');
+        link.href = "unita" + i + ".html";
+        link.className = "unit-link";
+        
+        // Se esiste un nome personalizzato lo usa, altrimenti mette "Unità X"
+        const titolo = nomiUnita[i] ? nomiUnita[i] : "Unità " + i;
+        link.innerText = "Unità " + i + " - " + titolo;
+        
+        container.appendChild(link);
+    }
+}
     </script>
 </body>
 </html>
