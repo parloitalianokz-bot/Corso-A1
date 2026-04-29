@@ -6,61 +6,55 @@
     <title>Unità 1 - Benvenuti!</title>
 
     <script>
-    const user = localStorage.getItem('user_parloitaliano');
-    // Se non c'è l'utente, rimanda al login
-    if (!user) {
-        window.location.href = "index.html";
-    }
-</script>
-
+        const user = localStorage.getItem('user_parloitaliano');
+        if (!user) { window.location.href = "index.html"; }
+    </script>
     
     <style>
         :root {
-            --primary: #008C45;
-            --secondary: #CD212A;
+            --it-verde: #008C45;
+            --it-rosso: #CD212A;
             --bg: #f4f7f6;
         }
         body { font-family: 'Segoe UI', sans-serif; line-height: 1.6; color: #333; background: var(--bg); margin: 0; padding: 20px; }
-        .container { max-width: 800px; margin: auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .container { max-width: 850px; margin: auto; background: white; padding: 40px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
         
-        header { text-align: center; border-bottom: 3px solid var(--primary); margin-bottom: 30px; padding-bottom: 20px; }
-        h1 { color: var(--primary); margin: 0; }
-        .ru-subtitle { color: #666; font-style: italic; margin-top: 5px; }
+        /* Titoli Bilingui Colorati */
+        .welcome-header { text-align: center; margin-bottom: 40px; }
+        .welcome-it { color: var(--it-rosso); font-size: 2.5rem; font-weight: bold; margin-bottom: 5px; }
+        .welcome-ru { color: var(--it-verde); font-size: 1.8rem; font-style: italic; margin-top: 0; }
 
-        .dialogo-box { background: #e8f5e9; padding: 20px; border-radius: 15px; margin: 20px 0; }
-        .battuta { margin-bottom: 15px; }
-        .it { font-weight: bold; color: #2c3e50; display: block; }
-        .ru { color: #666; font-size: 0.9rem; display: block; }
+        /* Sezione Introduzione con Foto */
+        .intro-section { display: flex; align-items: center; gap: 30px; margin-top: 30px; }
+        .intro-text { flex: 1; font-size: 1.2rem; }
+        .intro-img { flex: 1; max-width: 400px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
 
-        img.profile { width: 150px; border-radius: 50%; border: 4px solid var(--primary); display: block; margin: 20px auto; }
+        .highlight-red { color: var(--it-rosso); font-weight: bold; }
+        .highlight-green { color: var(--it-verde); font-weight: bold; }
         
-        .btn-back { display: inline-block; margin-top: 30px; text-decoration: none; color: var(--secondary); font-weight: bold; border: 1px solid var(--secondary); padding: 10px 20px; border-radius: 10px; transition: 0.3s; }
-        .btn-back:hover { background: var(--secondary); color: white; }
+        .btn-back { display: inline-block; margin-top: 30px; text-decoration: none; color: #666; border: 1px solid #ccc; padding: 10px 20px; border-radius: 10px; transition: 0.3s; }
+        .btn-back:hover { background: #eee; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <header>
-        <h1>Unità 1: Benvenuti!</h1>
-        <div class="ru-subtitle">Урок 1: Добро пожаловать!</div>
+    <header class="welcome-header">
+        <div class="welcome-it">Benvenuti a lezione!</div>
+        <div class="welcome-ru">Добро пожаловать на урок!</div>
     </header>
 
-    <img src="img/Antonio1.jpg" alt="Antonio" class="profile">
-
-    <section class="dialogo-box">
-        <h3>Ascolta e Leggi / Слушайте и читайте</h3>
+    <div class="intro-section">
+        <div class="intro-text">
+            <p>Cominciamo il nostro viaggio in Italia.</p>
+            <p>Questa è la scuola <span class="highlight-red">"Parlo Italiano"</span>.</p>
+            <p>La scuola "Parlo Italiano" è una <span class="highlight-green">scuola online</span>.</p>
+        </div>
         
-        <div class="battuta">
-            <span class="it">Antonio: Ciao! Io sono Antonio, il tuo insegnante di italiano.</span>
-            <span class="ru">Антонио: Привет! Я Антонио, твой учитель итальянского.</span>
-        </div>
+        <img src="img/racconta_storia.jpg" alt="Scuola Online" class="intro-img">
+    </div>
 
-        <div class="battuta">
-            <span class="it">Aigerim: Piacere, Antonio! Io sono Aigerim.</span>
-            <span class="ru">Айгерим: Приятно познакомиться, Антонио! Я Айгерим.</span>
-        </div>
-    </section>
+    <hr style="margin: 40px 0; border: 0; border-top: 1px solid #eee;">
 
     <a href="index.html" class="btn-back">⬅ Torna alla Dashboard</a>
 </div>
