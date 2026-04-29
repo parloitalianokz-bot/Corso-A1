@@ -2,30 +2,65 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Corso A1 - Parlo Italiano</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; display: flex; justify-content: center; padding: 20px; }
-        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 500px; text-align: center; }
-        input { width: 80%; padding: 10px; margin: 10px 0; border-radius: 8px; border: 1px solid #ddd; }
-        button { background: #008C45; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
-        .unit-link { display: block; padding: 15px 20px; margin: 12px 0; background: #ffffff; border-radius: 12px; text-decoration: none; color: #2c3e50; font-weight: normal; border-left: 6px solid #008C45; /* Verde Italia */ box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: all 0.3s ease; text-align: left; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; display: flex; justify-content: center; padding: 20px; margin: 0; }
+        
+        .card { 
+            background: white; 
+            padding: 30px; 
+            border-radius: 20px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
+            width: 100%; 
+            max-width: 500px; 
+            text-align: left; /* Allineamento generale a sinistra */
+        }
 
-.unit-link:hover {
-    transform: translateX(10px); /* Effetto scorrimento a destra al passaggio del mouse */
-    background: #f1f8f4;
-    border-left-color: #CD212A; /* Cambia in Rosso Italia al passaggio */
-}
+        #login-section { text-align: center; } /* Solo il login resta centrato */
+        
+        input { width: 90%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #ddd; }
+        
+        button { 
+            background: #008C45; 
+            color: white; 
+            border: none; 
+            padding: 10px 25px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        
+        button:hover { opacity: 0.8; }
 
-.card {
-    /* Assicurati che il contenitore principale non forzi il centro sui figli */
-    text-align: left; 
-    max-width: 600px;
-}
+        .unit-link { 
+            display: block; 
+            padding: 15px 20px; 
+            margin: 12px 0; 
+            background: #ffffff; 
+            border-radius: 12px; 
+            text-decoration: none; 
+            color: #2c3e50; 
+            border-left: 6px solid #008C45; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
+            transition: all 0.3s ease; 
+            text-align: left; 
+        }
 
-#welcome-msg, #dashboard p {
-    text-align: center; /* Se vuoi mantenere solo il benvenuto al centro */
-}
+        .unit-link:hover {
+            transform: translateX(10px);
+            background: #f1f8f4;
+            border-left-color: #CD212A;
+        }
+
+        #welcome-msg, .dashboard-text {
+            text-align: center; 
+            color: #008C45;
+        }
+
         #dashboard { display: none; }
+        #error { color: red; display: none; text-align: center; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -34,88 +69,87 @@
         <h2 style="color: #008C45;">Login Studenti</h2>
         <input type="text" id="user" placeholder="Nome Utente">
         <input type="password" id="pass" placeholder="Password">
-        <br>
-        <button onclick="login()">Entra</button>
-        <p id="error" style="color:red; display:none;">Dati errati!</p>
+        <br><br>
+        <button onclick="login()">ENTRA</button>
+        <p id="error">Dati errati!</p>
     </div>
 
     <div id="dashboard" class="card">
         <h2 id="welcome-msg">Benvenuto!</h2>
-        <p>Le tue lezioni disponibili:</p>
+        <p class="dashboard-text">Le tue lezioni disponibili:</p>
         <div id="units-list"></div>
         <br>
-        <button onclick="location.reload()" style="background:#666;">Esci</button>
+        <div style="text-align: center;">
+            <button onclick="logout()" style="background:#666;">Esci (Logout)</button>
+        </div>
     </div>
 
     <script>
-        // --- IL TUO DATABASE GRUPPI ---
         const database = {
-            "anna":  { pass: "roma24",   maxUnit: 3 }, // Gruppo Roma
-            "yulia": { pass: "roma24",   maxUnit: 3 }, // Gruppo Roma
-            "marat": { pass: "milano24", maxUnit: 1 }, // Gruppo Milano
-            "assel": { pass: "milano24", maxUnit: 1 }, // Gruppo Milano
-            "antonio": { pass: "admin",  maxUnit: 10 } // Tu
+            "anna":    { pass: "roma24",   maxUnit: 3 },
+            "yulia":   { pass: "roma24",   maxUnit: 3 },
+            "marat":   { pass: "milano24", maxUnit: 1 },
+            "assel":   { pass: "milano24", maxUnit: 1 },
+            "antonio": { pass: "admin",    maxUnit: 10 }
         };
 
         window.onload = function() {
-    const savedUser = localStorage.getItem('user_parloitaliano');
-    const savedPass = localStorage.getItem('pass_parloitaliano');
+            const savedUser = localStorage.getItem('user_parloitaliano');
+            const savedPass = localStorage.getItem('pass_parloitaliano');
 
-    if (savedUser && savedPass) {
-        // Verifica se le credenziali salvate sono ancora valide
-        if (database[savedUser] && database[savedPass] === savedPass) {
-            mostraDashboard(savedUser);
-        }
-    }
-};
+            if (savedUser && savedPass) {
+                // CORRETTO: controlla se l'utente esiste e se la password salvata è corretta
+                if (database[savedUser] && database[savedUser].pass === savedPass) {
+                    mostraDashboard(savedUser);
+                }
+            }
+        };
 
         function login() {
-    const u = document.getElementById('user').value.toLowerCase().trim();
-    const p = document.getElementById('pass').value.trim();
-    
-    if (database[u] && database[u].pass === p) {
-        // SALVA L'ACCESSO NEL BROWSER
-        localStorage.setItem('user_parloitaliano', u);
-        localStorage.setItem('pass_parloitaliano', p);
-        
-        mostraDashboard(u);
-    } else {
-        document.getElementById('error').style.display = 'block';
-    }
-}
+            const u = document.getElementById('user').value.toLowerCase().trim();
+            const p = document.getElementById('pass').value.trim();
+            
+            if (database[u] && database[u].pass === p) {
+                localStorage.setItem('user_parloitaliano', u);
+                localStorage.setItem('pass_parloitaliano', p);
+                mostraDashboard(u);
+            } else {
+                document.getElementById('error').style.display = 'block';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('user_parloitaliano');
+            localStorage.removeItem('pass_parloitaliano');
+            location.reload(); 
+        }
 
         function mostraDashboard(userName) {
-    document.getElementById('login-section').style.display = 'none';
-    document.getElementById('dashboard').style.display = 'block';
-    
-    // Benvenuto personalizzato
-    document.getElementById('welcome-msg').innerText = "Ciao, " + userName.charAt(0).toUpperCase() + userName.slice(1) + "!";
-    
-    const max = database[userName].maxUnit;
-    const container = document.getElementById('units-list');
-    container.innerHTML = ""; 
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            
+            document.getElementById('welcome-msg').innerText = "Ciao, " + userName.charAt(0).toUpperCase() + userName.slice(1) + "!";
+            
+            const max = database[userName].maxUnit;
+            const container = document.getElementById('units-list');
+            container.innerHTML = ""; 
 
-    // Qui definisci i nomi delle tue unità
-    const nomiUnita = {
-        1: "Benvenuti! (Добро пожаловать)",
-        2: "In Città (В городе)",
-        3: "La Famiglia (Моя семья)",
-        4: "Al Ristorante (В ресторане)"
-    };
-    
-    for (let i = 1; i <= max; i++) {
-        const link = document.createElement('a');
-        link.href = "unita" + i + ".html";
-        link.className = "unit-link";
-        
-        const titolo = nomiUnita[i] ? nomiUnita[i] : "Unità " + i;
-        
-        // Costruiamo il testo dell'unità
-        link.innerHTML = `<strong>Unità ${i}</strong> - ${titolo}`;
-        
-        container.appendChild(link);
-    }
-}
+            const nomiUnita = {
+                1: "Benvenuti! (Добро пожаловать)",
+                2: "In Città (В городе)",
+                3: "La Famiglia (Моя семья)",
+                4: "Al Ristorante (В ресторане)"
+            };
+            
+            for (let i = 1; i <= max; i++) {
+                const link = document.createElement('a');
+                link.href = "unita" + i + ".html";
+                link.className = "unit-link";
+                const titolo = nomiUnita[i] ? nomiUnita[i] : "Unità " + i;
+                link.innerHTML = `<strong>Unità ${i}</strong> - ${titolo}`;
+                container.appendChild(link);
+            }
+        }
     </script>
 </body>
 </html>
