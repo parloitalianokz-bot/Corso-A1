@@ -2,38 +2,71 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Pannello Docente - Parlo Italiano</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pannello Admin - Corso A1</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; padding: 40px; color: #333; }
-        .container { max-width: 700px; margin: auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 10px solid #008C45; }
-        h1 { color: #008C45; margin-bottom: 5px; }
-        .subtitle { color: #666; margin-bottom: 30px; border-bottom: 2px solid #eee; padding-bottom: 15px; }
-        .lesson-card { background: #f9f9f9; padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #eee; position: relative; }
-        .lesson-card h3 { margin: 0 0 10px 0; color: #CD212A; }
-        .url-box { background: #fff; padding: 10px; border: 1px dashed #ccc; font-family: monospace; font-size: 0.9rem; word-break: break-all; margin: 10px 0; display: block; }
-        .pass-label { font-weight: bold; background: #fff3f3; padding: 2px 8px; border-radius: 4px; color: #CD212A; }
-        .btn-copy { background: #008C45; color: white; border: none; padding: 5px 15px; border-radius: 5px; cursor: pointer; font-size: 0.8rem; margin-top: 5px; }
+        body { 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            background-color: #f4f7f6; 
+            padding: 30px; 
+            color: #333; 
+        }
+        .admin-container { 
+            max-width: 600px; 
+            margin: auto; 
+            background: white; 
+            padding: 25px; 
+            border-radius: 15px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-top: 8px solid #008C45; 
+        }
+        h1 { font-size: 1.5rem; color: #008C45; margin-bottom: 20px; }
+        .lesson-item { 
+            padding: 15px; 
+            border-bottom: 1px solid #eee; 
+        }
+        .lesson-item:last-child { border-bottom: none; }
+        .lesson-name { font-weight: bold; display: block; margin-bottom: 5px; color: #CD212A; }
+        .lesson-url { 
+            display: block; 
+            font-family: monospace; 
+            background: #f9f9f9; 
+            padding: 8px; 
+            border-radius: 5px; 
+            word-break: break-all; 
+            color: #0066cc;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .lesson-url:hover { background: #eef2ff; }
+        .cred { font-size: 0.85rem; margin-top: 5px; color: #666; }
+        strong { color: #333; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Centro di Controllo 🇮🇹</h1>
-        <p class="subtitle">Copia i link e inviali ai tuoi studenti via WhatsApp/Email</p>
 
-        <div class="lesson-card">
-            <h3>Unità 1: Primi Passi</h3>
-            <p>Link da inviare:</p>
-            <span class="url-box">https://parloitalianokz-bot.github.io/Corso-A1/unita1_login.html</span>
-            <p>Password: <span class="pass-label">roma2024</span></p>
-        </div>
-
-        <div class="lesson-card">
-            <h3>Unità 2: In Città</h3>
-            <p>Link da inviare:</p>
-            <span class="url-box">https://parloitalianokz-bot.github.io/Corso-A1/unita2_login.html</span>
-            <p>Password: <span class="pass-label">milano2024</span></p>
-        </div>
-
+<div class="admin-container">
+    <h1>Gestione Link Unità</h1>
+    
+    <div class="lesson-item">
+        <span class="lesson-name">Unità 1: Primi Passi</span>
+        <a href="unita1_login.html" class="lesson-url">https://parloitalianokz-bot.github.io/Corso-A1/unita1_login.html</a>
+        <div class="cred">User: <strong>studente</strong> | Pass: <strong>roma2024</strong></div>
     </div>
+
+    <div class="lesson-item">
+        <span class="lesson-name">Unità 2: In Città</span>
+        <a href="unita2_login.html" class="lesson-url">https://parloitalianokz-bot.github.io/Corso-A1/unita2_login.html</a>
+        <div class="cred">User: <strong>studente</strong> | Pass: <strong>milano2024</strong></div>
+    </div>
+
+    <div class="lesson-item">
+        <span class="lesson-name">Unità 3: Al Ristorante</span>
+        <a href="unita3_login.html" class="lesson-url">https://parloitalianokz-bot.github.io/Corso-A1/unita3_login.html</a>
+        <div class="cred">User: <strong>studente</strong> | Pass: <strong>napoli2024</strong></div>
+    </div>
+
+</div>
+
 </body>
 </html>
