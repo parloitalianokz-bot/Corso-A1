@@ -46,29 +46,38 @@
         .welcome-it { color: var(--it-rosso); font-size: 2.2rem; font-weight: bold; margin-bottom: 5px; }
         .welcome-ru { color: var(--it-verde); font-size: 1.5rem; font-style: italic; margin-top: 0; }
 
-        /* Sezione Introduzione REATTIVA */
+      /* Stile ottimizzato per l'immagine "Scuola Online" */
+        .intro-img { 
+            /* 1. Dimensioni adeguate per Desktop (non troppo grande) */
+            max-width: 450px; /* Imposta il limite che preferisci (es. 400px o 500px) */
+            
+            /* 2. Reattività per Smartphone */
+            width: 100%;      /* Occupa tutto lo spazio SOLO se il telefono è più stretto di 450px */
+            height: auto;     /* Mantiene le proporzioni */
+            
+            /* 3. Estetica e Allineamento */
+            border-radius: 15px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
+            display: block;
+            margin: 20px auto; /* Centra l'immagine orizzontalmente */
+        }
+
+        /* Sezione Introduzione: su Desktop testo e foto sono affiancati */
         .intro-section { 
             display: flex; 
-            flex-wrap: wrap; /* Permette all'immagine di andare sotto su mobile */
+            flex-wrap: wrap; /* Va a capo su mobile */
             align-items: center; 
-            gap: 20px; 
+            justify-content: center; /* Centra gli elementi se c'è spazio */
+            gap: 30px; 
             margin-top: 30px; 
         }
 
         .intro-text { 
-            flex: 1 1 300px; /* Occupa almeno 300px, poi si adatta */
+            flex: 1 1 300px; /* Il testo si adatta, ma non scende sotto i 300px */
             font-size: 1.2rem; 
+            text-align: left; /* Testo allineato a sinistra */
         }
-
-        .intro-img { 
-            flex: 1 1 300px; 
-            max-width: 100%; /* Si adatta alla larghezza del contenitore */
-            height: auto; 
-            border-radius: 15px; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
-            display: block;
-        }
-
+        
         .highlight-red { color: var(--it-rosso); font-weight: bold; }
         .highlight-green { color: var(--it-verde); font-weight: bold; }
         
