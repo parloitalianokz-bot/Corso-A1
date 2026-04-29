@@ -58,15 +58,19 @@
         };
 
         function login() {
-            const u = document.getElementById('user').value.toLowerCase().trim();
-            const p = document.getElementById('pass').value.trim();
-            
-            if (database[u] && database[u].pass === p) {
-                mostraDashboard(u);
-            } else {
-                document.getElementById('error').style.display = 'block';
-            }
-        }
+    const u = document.getElementById('user').value.toLowerCase().trim();
+    const p = document.getElementById('pass').value.trim();
+    
+    if (database[u] && database[u].pass === p) {
+        // SALVA L'ACCESSO NEL BROWSER
+        localStorage.setItem('user_parloitaliano', u);
+        localStorage.setItem('pass_parloitaliano', p);
+        
+        mostraDashboard(u);
+    } else {
+        document.getElementById('error').style.display = 'block';
+    }
+}
 
         function mostraDashboard(userName) {
     document.getElementById('login-section').style.display = 'none';
