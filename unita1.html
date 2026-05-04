@@ -8,6 +8,15 @@
     <script>
         const user = localStorage.getItem('user_parloitaliano');
         if (!user) { window.location.href = "index.html"; }
+
+        // Funzione per cambiare scheda
+        function showStep(stepNumber) {
+            document.querySelectorAll('.unit-step').forEach(step => {
+                step.style.display = 'none';
+            });
+            document.getElementById('step-' + stepNumber).style.display = 'block';
+            window.scrollTo(0,0);
+        }
     </script>
     
     <style>
@@ -23,100 +32,141 @@
             color: #333; 
             background: var(--bg); 
             margin: 0; 
-            padding: 10px; /* Ridotto per mobile */
+            padding: 10px;
         }
 
         .container { 
             max-width: 850px; 
             margin: auto; 
             background: white; 
-            padding: 20px; /* Ridotto per mobile */
+            padding: 20px; 
             border-radius: 25px; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
+            min-height: 80vh;
         }
 
-        /* Desktop: 40px padding */
         @media (min-width: 600px) {
             body { padding: 20px; }
             .container { padding: 40px; }
         }
 
-        /* Titoli Bilingui */
+        /* Header e Titoli */
         .welcome-header { text-align: center; margin-bottom: 30px; }
         .welcome-it { color: var(--it-rosso); font-size: 2.2rem; font-weight: bold; margin-bottom: 5px; }
         .welcome-ru { color: var(--it-verde); font-size: 1.5rem; font-style: italic; margin-top: 0; }
 
-      /* Stile ottimizzato per l'immagine "Scuola Online" */
-        .intro-img { 
-            /* 1. Dimensioni adeguate per Desktop (non troppo grande) */
-            max-width: 250px; /* Imposta il limite che preferisci (es. 400px o 500px) */
-            
-            /* 2. Reattività per Smartphone */
-            width: 100%;      /* Occupa tutto lo spazio SOLO se il telefono è più stretto di 450px */
-            height: auto;     /* Mantiene le proporzioni */
-            
-            /* 3. Estetica e Allineamento */
-            border-radius: 15px; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
-            display: block;
-            margin: 20px auto; /* Centra l'immagine orizzontalmente */
-        }
-
-        /* Sezione Introduzione: su Desktop testo e foto sono affiancati */
+        /* Layout Sezioni */
         .intro-section { 
             display: flex; 
-            flex-wrap: wrap; /* Va a capo su mobile */
+            flex-wrap: wrap; 
             align-items: center; 
-            justify-content: center; /* Centra gli elementi se c'è spazio */
+            justify-content: center; 
             gap: 30px; 
             margin-top: 30px; 
         }
 
         .intro-text { 
-            flex: 1 1 300px; /* Il testo si adatta, ma non scende sotto i 300px */
+            flex: 1 1 300px; 
             font-size: 1.2rem; 
-            text-align: left; /* Testo allineato a sinistra */
         }
-        
+
+        .intro-img, .intro-video { 
+            max-width: 300px; 
+            width: 100%; 
+            height: auto; 
+            border-radius: 15px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
+            display: block;
+            margin: 20px auto;
+        }
+
         .highlight-red { color: var(--it-rosso); font-weight: bold; }
         .highlight-green { color: var(--it-verde); font-weight: bold; }
-        
-        .btn-back { 
-            display: inline-block; 
-            margin-top: 30px; 
-            text-decoration: none; 
-            color: #666; 
-            border: 1px solid #ccc; 
-            padding: 10px 20px; 
-            border-radius: 10px; 
-            transition: 0.3s; 
+
+        /* Pulsanti */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
         }
+
+        .btn-nav {
+            display: inline-block;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 15px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-next { background: var(--it-verde); color: white; }
+        .btn-next:hover { background: #006b35; transform: scale(1.05); }
+
+        .btn-back { background: transparent; color: #666; border: 1px solid #ccc; }
         .btn-back:hover { background: #eee; }
 
         hr { margin: 40px 0; border: 0; border-top: 1px solid #eee; }
+
+        /* Nascondi step inizialmente */
+        .unit-step { display: none; }
+        #step-1 { display: block; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <header class="welcome-header">
-        <div class="welcome-it">Benvenuti a lezione!</div>
-        <div class="welcome-ru">Добро пожаловать на урок!</div>
-    </header>
+    
+    <!-- STEP 1: BENVENUTO -->
+    <div id="step-1" class="unit-step">
+        <header class="welcome-header">
+            <div class="welcome-it">Benvenuti a lezione!</div>
+            <div class="welcome-ru">Добро пожаловать на урок!</div>
+        </header>
 
-    <div class="intro-section">
-        <div class="intro-text">
-            <p>Cominciamo il nostro viaggio in Italia.</p>
-            <p>Questa è la scuola <span class="highlight-red">"Parlo Italiano"</span>.</p>
-            <p>La scuola "Parlo Italiano" è una <span class="highlight-green">scuola online</span>.</p>
+        <div class="intro-section">
+            <div class="intro-text">
+                <p>Cominciamo il nostro viaggio in Italia.</p>
+                <p>Questa è la scuola <span class="highlight-red">"Parlo Italiano"</span>.</p>
+                <p>La scuola "Parlo Italiano" è una <span class="highlight-green">scuola online</span>.</p>
+            </div>
+            <img src="img/1-scuolaonline.jpg" alt="Scuola Online" class="intro-img">
         </div>
-        
-        <img src="img/1-scuolaonline.jpg" alt="Scuola Online" class="intro-img">
+
+        <div class="nav-buttons">
+            <a href="index.html" class="btn-nav btn-back">⬅ Dashboard</a>
+            <button onclick="showStep(2)" class="btn-nav btn-next">Avanti ➡</button>
+        </div>
     </div>
 
-    <hr>
+    <!-- STEP 2: L'INSEGNANTE -->
+    <div id="step-2" class="unit-step">
+        <header class="welcome-header">
+            <div class="welcome-it">L'insegnante di italiano</div>
+            <div class="welcome-ru">Учитель итальянского</div>
+        </header>
 
-    <a href="index.html" class="btn-back">⬅ Torna alla Dashboard</a>
+        <div class="intro-section">
+            <div class="intro-text">
+                <p><span class="highlight-green">Ciao!</span></p>
+                <p>Io sono <span class="highlight-red">Antonio</span>.</p>
+                <p>Io sono <span class="highlight-green">l'insegnante</span> della scuola “Parlo Italiano”.</p>
+            </div>
+            <!-- Video Insegnante -->
+            <video class="intro-video" controls>
+                <source src="video/vd1.mp4" type="video/mp4">
+                Il tuo browser non supporta il video.
+            </video>
+        </div>
+
+        <div class="nav-buttons">
+            <button onclick="showStep(1)" class="btn-nav btn-back">⬅ Indietro</button>
+            <button class="btn-nav btn-next" disabled style="opacity:0.5">Prossima scheda ➡</button>
+        </div>
+    </div>
+
 </div>
 
 </body>
