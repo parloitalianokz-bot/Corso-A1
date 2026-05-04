@@ -6,16 +6,37 @@
     <title>Unità 1 - Benvenuti!</title>
 
     <script>
+        // Controllo accesso
         const user = localStorage.getItem('user_parloitaliano');
         if (!user) { window.location.href = "index.html"; }
 
-        // Funzione per cambiare scheda
-        function showStep(stepNumber) {
+        // Al caricamento della pagina, recupera l'ultimo step salvato
+        window.onload = function() {
+            const lastStep = localStorage.getItem('currentStep_U1');
+            if (lastStep) {
+                showStep(lastStep, false); // Mostra l'ultimo step senza scrollare se non necessario
+            } else {
+                showStep(1, false); // Default al primo step
+            }
+        };
+
+        // Funzione per cambiare scheda e salvare la posizione
+        function showStep(stepNumber, scroll = true) {
+            // Nasconde tutti gli step
             document.querySelectorAll('.unit-step').forEach(step => {
                 step.style.display = 'none';
             });
-            document.getElementById('step-' + stepNumber).style.display = 'block';
-            window.scrollTo(0,0);
+            
+            // Mostra lo step desiderato
+            const targetStep = document.getElementById('step-' + stepNumber);
+            if (targetStep) {
+                targetStep.style.display = 'block';
+                // Salva lo step nel browser
+                localStorage.setItem('currentStep_U1', stepNumber);
+            }
+
+            // Torna in alto solo se richiesto (utile al click del tasto "Avanti")
+            if (scroll) { window.scrollTo(0,0); }
         }
     </script>
     
@@ -112,7 +133,6 @@
 
         /* Nascondi step inizialmente */
         .unit-step { display: none; }
-        #step-1 { display: block; }
     </style>
 </head>
 <body>
