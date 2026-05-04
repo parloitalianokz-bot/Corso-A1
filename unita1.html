@@ -154,19 +154,20 @@
                 <p>Io sono <span class="highlight-red">Antonio</span>.</p>
                 <p>Io sono <span class="highlight-green">l'insegnante</span> della scuola “Parlo Italiano”.</p>
             </div>
-            <!-- Video Insegnante -->
-            <video class="intro-video" controls>
-                <source src="video/vd1.mp4" type="video/mp4">
+            
+            <!-- Video Insegnante - Caricato dalla cartella video/ -->
+            <video class="intro-video" controls poster="img/Antonio1.jpg">
+                <source src="video/Vd1.mp4" type="video/mp4">
                 Il tuo browser non supporta il video.
             </video>
         </div>
 
         <div class="nav-buttons">
             <button onclick="showStep(1)" class="btn-nav btn-back">⬅ Indietro</button>
-            <button class="btn-nav btn-next" disabled style="opacity:0.5">Prossima scheda ➡</button>
+            <button class="btn-nav btn-next" onclick="showStep(3)">Prossima scheda ➡</button>
         </div>
     </div>
-
+    
 </div>
 
 </body>
