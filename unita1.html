@@ -92,14 +92,17 @@
         }
 
         .intro-img, .intro-video { 
-            max-width: 300px; 
-            width: 100%; 
-            height: auto; 
-            border-radius: 15px; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
-            display: block;
-            margin: 20px auto;
-        }
+    max-width: 350px; /* Leggermente più grande per dare risalto al video */
+    width: 100%;      
+    height: auto;     
+    aspect-ratio: 16 / 9; /* CRUCIALE: mantiene lo spazio del video anche se non è in play */
+    background-color: #000; /* Evita il "salto" bianco durante il caricamento */
+    border-radius: 15px; 
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
+    display: block;
+    margin: 20px auto;
+    object-fit: cover; /* Assicura che il poster e il video riempiano bene lo spazio */
+}
 
         .highlight-red { color: var(--it-rosso); font-weight: bold; }
         .highlight-green { color: var(--it-verde); font-weight: bold; }
