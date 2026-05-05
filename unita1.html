@@ -107,31 +107,57 @@
         .highlight-red { color: var(--it-rosso); font-weight: bold; }
         .highlight-green { color: var(--it-verde); font-weight: bold; }
 
-        /* Pulsanti */
+        /* Pulsanti di navigazione tra schede */
         .nav-buttons {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-top: 40px;
         }
-
+        
         .btn-nav {
             display: inline-block;
             text-decoration: none;
-            padding: 12px 25px;
+            padding: 12px 28px;
             border-radius: 15px;
             font-weight: bold;
-            transition: 0.3s;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
             cursor: pointer;
             border: none;
+            min-width: 140px; /* Rende i tasti simili per dimensioni */
+            text-align: center;
+        }
+        
+        /* Tasto Avanti - Verde Bandiera */
+        .btn-next { 
+            background-color: var(--it-verde); 
+            color: white; 
+        }
+        
+    .btn-next:hover { 
+            background-color: #006b35; 
+            transform: translateX(5px); 
         }
 
-        .btn-next { background: var(--it-verde); color: white; }
-        .btn-next:hover { background: #006b35; transform: scale(1.05); }
+        /* Tasto Indietro - Rosso Bandiera */
+        .btn-back { 
+            background-color: var(--it-rosso); 
+            color: white; 
+        }
 
-        .btn-back { background: transparent; color: #666; border: 1px solid #ccc; }
-        .btn-back:hover { background: #eee; }
+        .btn-back:hover { 
+            background-color: #a51a22; 
+            transform: translateX(-5px); 
+        }
 
+        /* Se il tasto è disabilitato (fine unità) */
+        .btn-nav:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
         hr { margin: 40px 0; border: 0; border-top: 1px solid #eee; }
 
         /* Nascondi step inizialmente */
