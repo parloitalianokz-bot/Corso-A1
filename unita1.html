@@ -199,21 +199,43 @@
         }
 
         .info-card {
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            padding: 10px;
-            margin-bottom: 10px;
-            background: #fafafa;
-        }
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 8px 15px; /* Padding ridotto per accorciare la scheda */
+    margin-bottom: 8px; /* Margine ridotto tra le card */
+    background: #fafafa;
+    border-left: 5px solid var(--it-verde); /* Un tocco di colore per guidare l'occhio */
+}
 
-        .info-card .ru-sub { color: #777; font-size: 0.9rem; font-style: italic; }
+.info-card p {
+    margin: 2px 0; /* Riduce lo spazio tra la domanda e la risposta */
+    font-size: 1.1rem;
+}
 
-        .badge-image-container { flex: 1; }
-        .badge-img { width: 100%; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+.info-card strong {
+    color: #333;
+}
 
-        @media (max-width: 768px) {
-            .badge-layout { flex-direction: column; }
-        }
+.info-card .ru-sub { 
+    color: var(--it-verde); /* Risposta più leggibile con il verde */
+    font-size: 0.95rem; 
+    font-weight: 500;
+    font-style: normal; /* Togliamo l'italico per massima chiarezza */
+    display: block;
+    margin-top: 2px;
+}
+
+/* Allineamento immagine badge */
+.badge-image-container { 
+    flex: 1; 
+    display: flex;
+    align-items: center; /* Centra l'immagine verticalmente se il testo è ancora un po' più lungo */
+}
+        
+       @media (max-width: 768px) {
+    .badge-layout { flex-direction: column; }
+    .badge-image-container img { max-width: 250px; margin: 20px auto; } /* Centra e ridimensiona il badge su mobile */
+}
 
 
     </style>
