@@ -180,7 +180,7 @@
 .badge-layout {
     display: flex;
     flex-direction: row;
-    align-items: stretch;
+    align-items: center; /* Cambiato da 'stretch' a 'center' per non forzare l'altezza */
     gap: 20px;
     margin-top: 20px;
 }
@@ -223,14 +223,15 @@
 }
 
 .badge-image-container {
-    flex: 1;
+    flex: 0.8; /* Ridotto da 1 a 0.8 per fare la colonna un po' più stretta */
     display: flex;
+    justify-content: center;
 }
 
 .badge-image-container img {
     width: 100%;
-    height: 100%;
-    object-fit: contain; /* Per mostrare il badge intero senza tagliarlo */
+    max-height: 260px; /* Aggiunto limite massimo di altezza. Puoi alzare o abbassare questo valore! */
+    object-fit: contain;
     border-radius: 15px;
 }
 
