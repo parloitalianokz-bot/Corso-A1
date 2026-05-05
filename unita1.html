@@ -225,42 +225,44 @@
     margin-top: 2px;
 }
 
-/* Layout affiancato per lo Step 3 */
+/* Layout Step 3 con altezze sincronizzate */
 .badge-layout {
     display: flex;
-    flex-direction: row; /* Forza l'immagine a destra delle schede */
-    align-items: flex-start; /* Allinea in alto */
-    gap: 20px; /* Spazio tra schede e immagine */
+    flex-direction: row;
+    align-items: stretch; /* FONDAMENTALE: forza le due colonne ad avere la stessa altezza */
+    gap: 20px;
     margin-top: 20px;
 }
 
-/* Le schede informative prendono più spazio (60%) */
 .info-container {
-    flex: 1.5; 
+    flex: 1.5;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Distribuisce le schede per coprire l'altezza se necessario */
 }
 
-/* L'immagine prende meno spazio (40%) ed è centrata nel suo spazio */
 .badge-image-container {
     flex: 1;
     display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .badge-image-container img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 10px;
+    width: 100%;
+    height: 100%; /* Occupa tutta l'altezza del contenitore (pareggiata alle schede) */
+    object-fit: cover; /* Ritaglia l'immagine in modo che riempia lo spazio senza deformarsi */
+    border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-/* Solo su mobile tornano una sotto l'altra */
+/* Gestione Mobile */
 @media (max-width: 768px) {
     .badge-layout { 
         flex-direction: column; 
     }
+    .badge-image-container img {
+        height: auto; /* Torna all'altezza naturale sul telefono */
+    }
 }
-
     </style>
 </head>
 <body>
