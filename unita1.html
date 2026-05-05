@@ -225,18 +225,41 @@
     margin-top: 2px;
 }
 
-/* Allineamento immagine badge */
-.badge-image-container { 
-    flex: 1; 
+/* Layout affiancato per lo Step 3 */
+.badge-layout {
     display: flex;
-    align-items: center; /* Centra l'immagine verticalmente se il testo è ancora un po' più lungo */
-}
-        
-       @media (max-width: 768px) {
-    .badge-layout { flex-direction: column; }
-    .badge-image-container img { max-width: 250px; margin: 20px auto; } /* Centra e ridimensiona il badge su mobile */
+    flex-direction: row; /* Forza l'immagine a destra delle schede */
+    align-items: flex-start; /* Allinea in alto */
+    gap: 20px; /* Spazio tra schede e immagine */
+    margin-top: 20px;
 }
 
+/* Le schede informative prendono più spazio (60%) */
+.info-container {
+    flex: 1.5; 
+}
+
+/* L'immagine prende meno spazio (40%) ed è centrata nel suo spazio */
+.badge-image-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.badge-image-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Solo su mobile tornano una sotto l'altra */
+@media (max-width: 768px) {
+    .badge-layout { 
+        flex-direction: column; 
+    }
+}
 
     </style>
 </head>
@@ -293,7 +316,7 @@
         </div>
     </div> <!-- FINE STEP 2 -->
 
-    <!-- STEP 3: CHI È ANTONIO? -->
+<!-- STEP 3: CHI È ANTONIO? -->
     <div id="step-3" class="unit-step">
         <header class="welcome-header badge-header">
             <div class="welcome-it">Chi è Antonio?</div>
@@ -301,36 +324,25 @@
         </header>
 
         <div class="intro-section badge-layout">
-            <!-- Colonna Sinistra: Informazioni -->
-            <div class="intro-text badge-info">
-                <div class="badge-title-box">
-                    <span>📇 Lui è Antonio</span>
-                </div>
-
+            <!-- COLONNA SINISTRA: SCHEDE INFORMATIVE -->
+            <div class="info-container">
                 <div class="info-card">
-                    <p>🌍 È <strong>italiano</strong>?</p>
-                    <p class="ru-sub">Sì, è italiano / No, non è italiano</p>
+                    <p><strong>Nome:</strong> Antonio <span class="ru-sub">Имя: Антонио</span></p>
                 </div>
-
                 <div class="info-card">
-                    <p>🌍 È <strong>kazako</strong>?</p>
-                    <p class="ru-sub">Sì, è kazako / No, non è kazako</p>
+                    <p><strong>Città:</strong> Almaty <span class="ru-sub">Город: Алматы</span></p>
                 </div>
-
                 <div class="info-card">
-                    <p>💼 È un <strong>medico</strong>?</p>
-                    <p class="ru-sub">Sì, è un medico / No, non è un medico</p>
+                    <p><strong>Professione:</strong> Insegnante <span class="ru-sub">Профессия: Учитель</span></p>
                 </div>
-
                 <div class="info-card">
-                    <p>💼 È un <strong>insegnante</strong>?</p>
-                    <p class="ru-sub">Sì, è un insegnante / No, non è un insegnante</p>
+                    <p><strong>Lingue:</strong> Italiano, Russo <span class="ru-sub">Языки: Итальянский, Русский</span></p>
                 </div>
             </div>
 
-            <!-- Colonna Destra: Immagine Badge -->
+            <!-- COLONNA DESTRA: IMMAGINE BADGE -->
             <div class="badge-image-container">
-                <img src="img/badge.jpg" alt="Badge Antonio" class="badge-img">
+                <img src="img/badge.jpg" alt="Badge Antonio">
             </div>
         </div>
 
