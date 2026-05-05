@@ -66,9 +66,12 @@
             min-height: 80vh;
         }
 
-        @media (min-width: 600px) {
-            body { padding: 20px; }
-            .container { padding: 40px; }
+       /* Ottimizzazione per mobile: il video non deve essere troppo alto su schermi piccoli */
+        @media (max-width: 600px) {
+        .intro-video {
+              max-width: 100%;
+            aspect-ratio: 16 / 9;
+            }
         }
 
         /* Header e Titoli */
@@ -92,16 +95,16 @@
         }
 
         .intro-img, .intro-video { 
-    max-width: 350px; /* Leggermente più grande per dare risalto al video */
+    max-width: 550px; /* Aumentato da 350px per dare più respiro */
     width: 100%;      
     height: auto;     
-    aspect-ratio: 16 / 9; /* CRUCIALE: mantiene lo spazio del video anche se non è in play */
-    background-color: #000; /* Evita il "salto" bianco durante il caricamento */
+    aspect-ratio: 16 / 9; 
+    background-color: #000; 
     border-radius: 15px; 
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
+    box-shadow: 0 12px 25px rgba(0,0,0,0.15); /* Ombra più profonda per "alzarlo" visivamente */
     display: block;
     margin: 20px auto;
-    object-fit: cover; /* Assicura che il poster e il video riempiano bene lo spazio */
+    object-fit: cover; 
 }
 
         .highlight-red { color: var(--it-rosso); font-weight: bold; }
@@ -213,7 +216,7 @@
 
         <div class="nav-buttons">
             <button onclick="showStep(1)" class="btn-nav btn-back">⬅ Indietro</button>
-            <button class="btn-nav btn-next" onclick="showStep(3)">Prossima scheda ➡</button>
+            <button class="btn-nav btn-next" onclick="showStep(3)">Avanti ➡</button>
         </div>
     </div>
     
