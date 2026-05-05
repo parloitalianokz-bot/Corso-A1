@@ -176,60 +176,52 @@
         }
         .badge-header .welcome-it, .badge-header .welcome-ru { color: white; }
 
-        .badge-layout {
+        /* Layout bilanciato per lo Step 3 */
+.badge-layout {
     display: flex;
     flex-direction: row;
-    align-items: stretch; /* Pareggia le altezze delle due colonne */
-    gap: 15px; /* Spazio leggermente ridotto tra le colonne */
-    margin-top: 15px;
+    align-items: stretch; /* Forza le due colonne ad avere la stessa altezza */
+    gap: 20px;
+    margin-top: 20px;
 }
 
 .info-container {
-    flex: 1.4;
+    flex: 1.5; /* Diamo un po' più di spazio al testo */
     display: flex;
     flex-direction: column;
-    gap: 6px; /* Spazio minimo tra una card e l'altra */
+    gap: 10px; /* Spazio uniforme tra le schede */
 }
 
 .info-card {
-    border: 1px solid #ddd;
-    border-left: 4px solid var(--it-verde);
-    border-radius: 10px;
-    padding: 6px 12px; /* Padding molto ridotto per "schiacciare" la card */
-    background: #fafafa;
+    background: #f9f9f9;
+    border-left: 5px solid #28a745; /* Verde per richiamare il brand */
+    padding: 10px 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    margin: 0; /* Rimuoviamo margini extra per precisione */
 }
 
-.info-card p {
-    margin: 0; /* Elimina i margini del paragrafo */
-    font-size: 1.05rem;
-    line-height: 1.2; /* Interlinea compatta */
-}
-
-.info-card .ru-sub {
-    display: block;
-    font-size: 0.9rem;
-    color: var(--it-verde);
-    margin-top: 1px;
-}
-
-/* Colonna Immagine */
 .badge-image-container {
     flex: 1;
+    display: flex; /* Necessario per far sì che l'immagine riempia il contenitore[cite: 2] */
 }
 
 .badge-image-container img {
     width: 100%;
-    height: 100%;
-    object-fit: cover; /* Riempie lo spazio pareggiando le card senza deformarsi */
-    border-radius: 10px;
+    height: 100%; /* L'immagine ora è obbligata a seguire l'altezza delle schede[cite: 2] */
+    object-fit: cover; /* Ritaglia l'immagine armoniosamente senza schiacciarla[cite: 2] */
+    border-radius: 12px;
 }
 
-/* Mobile: una sotto l'altra */
+/* Responsività per mobile */
 @media (max-width: 768px) {
-    .badge-layout { flex-direction: column; }
-    .badge-image-container img { height: auto; max-width: 200px; margin: 0 auto; }
+    .badge-layout {
+        flex-direction: column;
+    }
+    .badge-image-container img {
+        height: auto; /* Su mobile l'altezza torna libera per non tagliare troppo la foto[cite: 2] */
+    }
 }
-
         
     </style>
 </head>
