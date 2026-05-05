@@ -165,6 +165,57 @@
 
         /* Nascondi step inizialmente */
         .unit-step { display: none; }
+
+        
+        /* Stili specifici per il layout Badge dello Step 3 */
+        .badge-header {
+            background-color: var(--it-rosso);
+            padding: 15px;
+            border-radius: 15px 15px 0 0;
+            margin-bottom: 0;
+        }
+        .badge-header .welcome-it, .badge-header .welcome-ru { color: white; }
+
+        .badge-layout {
+            display: flex;
+            align-items: flex-start;
+            background: #fff;
+            padding: 20px;
+            border: 2px solid var(--it-rosso);
+            border-top: none;
+            border-radius: 0 0 15px 15px;
+            gap: 20px;
+        }
+
+        .badge-title-box {
+            background-color: var(--it-verde);
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .info-card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+            background: #fafafa;
+        }
+
+        .info-card .ru-sub { color: #777; font-size: 0.9rem; font-style: italic; }
+
+        .badge-image-container { flex: 1; }
+        .badge-img { width: 100%; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+
+        @media (max-width: 768px) {
+            .badge-layout { flex-direction: column; }
+        }
+
+
     </style>
 </head>
 <body>
@@ -193,7 +244,7 @@
         </div>
     </div>
 
-    <!-- STEP 2: L'INSEGNANTE -->
+  <!-- STEP 2: L'INSEGNANTE -->
     <div id="step-2" class="unit-step">
         <header class="welcome-header">
             <div class="welcome-it">L'insegnante di italiano</div>
@@ -218,9 +269,53 @@
             <button onclick="showStep(1)" class="btn-nav btn-back">⬅ Indietro</button>
             <button class="btn-nav btn-next" onclick="showStep(3)">Avanti ➡</button>
         </div>
-    </div>
-    
-</div>
+    </div> <!-- FINE STEP 2 -->
 
-</body>
-</html>
+    <!-- STEP 3: CHI È ANTONIO? -->
+    <div id="step-3" class="unit-step">
+        <header class="welcome-header badge-header">
+            <div class="welcome-it">Chi è Antonio?</div>
+            <div class="welcome-ru">Кто такой Антонио?</div>
+        </header>
+
+        <div class="intro-section badge-layout">
+            <!-- Colonna Sinistra: Informazioni -->
+            <div class="intro-text badge-info">
+                <div class="badge-title-box">
+                    <span>📇 Lui è Antonio</span>
+                </div>
+
+                <div class="info-card">
+                    <p>🌍 È <strong>italiano</strong>?</p>
+                    <p class="ru-sub">Sì, è italiano / No, non è italiano</p>
+                </div>
+
+                <div class="info-card">
+                    <p>🌍 È <strong>kazako</strong>?</p>
+                    <p class="ru-sub">Sì, è kazako / No, non è kazako</p>
+                </div>
+
+                <div class="info-card">
+                    <p>💼 È un <strong>medico</strong>?</p>
+                    <p class="ru-sub">Sì, è un medico / No, non è un medico</p>
+                </div>
+
+                <div class="info-card">
+                    <p>💼 È un <strong>insegnante</strong>?</p>
+                    <p class="ru-sub">Sì, è un insegnante / No, non è un insegnante</p>
+                </div>
+            </div>
+
+            <!-- Colonna Destra: Immagine Badge -->
+            <div class="badge-image-container">
+                <img src="img/badge.jpg" alt="Badge Antonio" class="badge-img">
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <button onclick="showStep(2)" class="btn-nav btn-back">⬅ Indietro</button>
+            <button class="btn-nav btn-next" onclick="showStep(4)">Avanti ➡</button>
+        </div>
+    </div> <!-- FINE STEP 3 -->
+
+</div> <!-- CHIUSURA DEFINITIVA DEL CONTAINER -->
