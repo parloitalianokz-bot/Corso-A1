@@ -177,92 +177,60 @@
         .badge-header .welcome-it, .badge-header .welcome-ru { color: white; }
 
         .badge-layout {
-            display: flex;
-            align-items: flex-start;
-            background: #fff;
-            padding: 20px;
-            border: 2px solid var(--it-rosso);
-            border-top: none;
-            border-radius: 0 0 15px 15px;
-            gap: 20px;
-        }
-
-        .badge-title-box {
-            background-color: var(--it-verde);
-            color: white;
-            padding: 10px;
-            border-radius: 10px;
-            text-align: center;
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        .info-card {
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    padding: 8px 15px; /* Padding ridotto per accorciare la scheda */
-    margin-bottom: 8px; /* Margine ridotto tra le card */
-    background: #fafafa;
-    border-left: 5px solid var(--it-verde); /* Un tocco di colore per guidare l'occhio */
-}
-
-.info-card p {
-    margin: 2px 0; /* Riduce lo spazio tra la domanda e la risposta */
-    font-size: 1.1rem;
-}
-
-.info-card strong {
-    color: #333;
-}
-
-.info-card .ru-sub { 
-    color: var(--it-verde); /* Risposta più leggibile con il verde */
-    font-size: 0.95rem; 
-    font-weight: 500;
-    font-style: normal; /* Togliamo l'italico per massima chiarezza */
-    display: block;
-    margin-top: 2px;
-}
-
-/* Layout Step 3 con altezze sincronizzate */
-.badge-layout {
     display: flex;
     flex-direction: row;
-    align-items: stretch; /* FONDAMENTALE: forza le due colonne ad avere la stessa altezza */
-    gap: 20px;
-    margin-top: 20px;
+    align-items: stretch; /* Pareggia le altezze delle due colonne */
+    gap: 15px; /* Spazio leggermente ridotto tra le colonne */
+    margin-top: 15px;
 }
 
 .info-container {
-    flex: 1.5;
+    flex: 1.4;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Distribuisce le schede per coprire l'altezza se necessario */
+    gap: 6px; /* Spazio minimo tra una card e l'altra */
 }
 
+.info-card {
+    border: 1px solid #ddd;
+    border-left: 4px solid var(--it-verde);
+    border-radius: 10px;
+    padding: 6px 12px; /* Padding molto ridotto per "schiacciare" la card */
+    background: #fafafa;
+}
+
+.info-card p {
+    margin: 0; /* Elimina i margini del paragrafo */
+    font-size: 1.05rem;
+    line-height: 1.2; /* Interlinea compatta */
+}
+
+.info-card .ru-sub {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--it-verde);
+    margin-top: 1px;
+}
+
+/* Colonna Immagine */
 .badge-image-container {
     flex: 1;
-    display: flex;
 }
 
 .badge-image-container img {
     width: 100%;
-    height: 100%; /* Occupa tutta l'altezza del contenitore (pareggiata alle schede) */
-    object-fit: cover; /* Ritaglia l'immagine in modo che riempia lo spazio senza deformarsi */
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    height: 100%;
+    object-fit: cover; /* Riempie lo spazio pareggiando le card senza deformarsi */
+    border-radius: 10px;
 }
 
-/* Gestione Mobile */
+/* Mobile: una sotto l'altra */
 @media (max-width: 768px) {
-    .badge-layout { 
-        flex-direction: column; 
-    }
-    .badge-image-container img {
-        height: auto; /* Torna all'altezza naturale sul telefono */
-    }
+    .badge-layout { flex-direction: column; }
+    .badge-image-container img { height: auto; max-width: 200px; margin: 0 auto; }
 }
+
+        
     </style>
 </head>
 <body>
