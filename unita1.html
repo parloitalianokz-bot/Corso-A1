@@ -54,6 +54,7 @@
             background: var(--bg); 
             margin: 0; 
             padding: 10px;
+            font-size: 16px;
         }
 
         .container { 
@@ -72,12 +73,16 @@
               max-width: 100%;
             aspect-ratio: 16 / 9;
             }
+            
+            body {
+                font-size: 14px;
+            }
         }
 
         /* Header e Titoli */
         .welcome-header { text-align: center; margin-bottom: 30px; }
-        .welcome-it { color: var(--it-rosso); font-size: 2.2rem; font-weight: bold; margin-bottom: 5px; }
-        .welcome-ru { color: var(--it-verde); font-size: 1.5rem; font-style: italic; margin-top: 0; }
+        .welcome-it { color: var(--it-rosso); font-size: 2.4rem; font-weight: bold; margin-bottom: 5px; }
+        .welcome-ru { color: var(--it-verde); font-size: 1.7rem; font-style: italic; margin-top: 0; }
 
         /* Layout Sezioni */
         .intro-section { 
@@ -91,7 +96,7 @@
 
         .intro-text { 
             flex: 1 1 300px; 
-            font-size: 1.2rem; 
+            font-size: 1.3rem; 
         }
 
         .intro-img, .intro-video { 
@@ -124,7 +129,7 @@
             padding: 12px 28px;
             border-radius: 15px;
             font-weight: bold;
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             transition: all 0.3s ease;
             cursor: pointer;
             border: none;
@@ -199,7 +204,7 @@
     padding: 12px;
     border-radius: 10px;
     text-align: center;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     font-weight: bold;
     margin-bottom: 5px;
 }
@@ -212,13 +217,13 @@
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
 }
 
-.info-card p { margin: 0; line-height: 1.4; }
+.info-card p { margin: 0; line-height: 1.4; font-size: 1.15rem; }
 
 /* Stile per le risposte Sì/No */
 .answer-line {
     display: block;
     color: #666;
-    font-size: 1rem;
+    font-size: 1.05rem;
     margin-top: 4px;
 }
 
@@ -237,6 +242,12 @@
 
 @media (max-width: 768px) {
     .badge-layout { flex-direction: column; }
+    .welcome-it { font-size: 1.8rem; }
+    .welcome-ru { font-size: 1.3rem; }
+    .intro-text { font-size: 1.1rem; }
+    .badge-title-green { font-size: 1.3rem; }
+    .info-card p { font-size: 1rem; }
+    .answer-line { font-size: 0.95rem; }
 }
         
     </style>
@@ -278,7 +289,7 @@
             <div class="intro-text">
                 <p><span class="highlight-green">Ciao!</span></p>
                 <p>Io sono <span class="highlight-red">Antonio</span>.</p>
-                <p>Io sono <span class="highlight-green">l'insegnante</span> della scuola “Parlo Italiano”.</p>
+                <p>Io sono <span class="highlight-green">l'insegnante</span> della scuola "Parlo Italiano".</p>
             </div>
             
             <!-- Video Insegnante - Caricato dalla cartella video/ -->
@@ -314,11 +325,6 @@
             <div class="info-card">
                 <p>🌍 È <strong>kazako</strong>?</p>
                 <span class="answer-line">Sì, è kazako / No, non è kazako</span>
-            </div>
-
-            <div class="info-card">
-                <p>💼 È un <strong>medico</strong>?</p>
-                <span class="answer-line">Sì, è un medico / No, non è un medico</span>
             </div>
 
             <div class="info-card">
