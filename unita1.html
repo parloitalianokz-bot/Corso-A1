@@ -38,6 +38,26 @@
             // Torna in alto solo se richiesto (utile al click del tasto "Avanti")
             if (scroll) { window.scrollTo(0,0); }
         }
+
+        // Funzione per gestire le risposte interattive
+        function checkAnswer(questionId, isCorrect, fullText) {
+            const button = event.target;
+            const container = button.parentElement;
+            
+            // Disabilita tutti i bottoni di questa domanda
+            const allButtons = container.querySelectorAll('.answer-btn');
+            allButtons.forEach(btn => btn.disabled = true);
+            
+            if (isCorrect) {
+                // Risposta corretta - Verde
+                button.classList.add('correct');
+                button.textContent = '✓ ' + fullText;
+            } else {
+                // Risposta sbagliata - Rossa
+                button.classList.add('incorrect');
+                button.textContent = '✗ ' + fullText;
+            }
+        }
     </script>
     
     <style>
@@ -217,14 +237,51 @@
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
 }
 
-.info-card p { margin: 0; line-height: 1.4; font-size: 1.15rem; }
+.info-card p { margin: 0 0 10px 0; line-height: 1.4; font-size: 1.15rem; }
 
-/* Stile per le risposte Sì/No */
-.answer-line {
-    display: block;
-    color: #666;
-    font-size: 1.05rem;
-    margin-top: 4px;
+/* Stile per i bottoni delle risposte */
+.answer-options {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.answer-btn {
+    flex: 1;
+    min-width: 120px;
+    padding: 12px 15px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    color: #333;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.answer-btn:hover:not(:disabled) {
+    background-color: #e0e0e0;
+    border-color: #999;
+    transform: translateY(-2px);
+}
+
+.answer-btn:disabled {
+    cursor: not-allowed;
+}
+
+/* Risposta corretta - Verde */
+.answer-btn.correct {
+    background-color: #d4edda;
+    border-color: var(--it-verde);
+    color: var(--it-verde);
+}
+
+/* Risposta sbagliata - Rossa */
+.answer-btn.incorrect {
+    background-color: #f8d7da;
+    border-color: var(--it-rosso);
+    color: var(--it-rosso);
 }
 
 .badge-image-container {
@@ -247,7 +304,7 @@
     .intro-text { font-size: 1.1rem; }
     .badge-title-green { font-size: 1.3rem; }
     .info-card p { font-size: 1rem; }
-    .answer-line { font-size: 0.95rem; }
+    .answer-btn { font-size: 0.9rem; padding: 10px 12px; }
 }
         
     </style>
@@ -313,23 +370,35 @@
     </header>
 
     <div class="intro-section badge-layout">
-        <!-- COLONNA SINISTRA: DOMANDE E RISPOSTE -->
+        <!-- COLONNA SINISTRA: DOMANDE E RISPOSTE INTERATTIVE -->
         <div class="info-container">
             <div class="badge-title-green">🪪 Lui è Antonio</div>
             
+            <!-- DOMANDA 1: È italiano? -->
             <div class="info-card">
                 <p>🌍 È <strong>italiano</strong>?</p>
-                <span class="answer-line">Sì, è italiano / No, non è italiano</span>
+                <div class="answer-options">
+                    <button class="answer-btn" onclick="checkAnswer(1, true, 'Sì, Antonio è italiano')">Sì</button>
+                    <button class="answer-btn" onclick="checkAnswer(1, false, 'No, Antonio è italiano')">No</button>
+                </div>
             </div>
 
+            <!-- DOMANDA 2: È kazako? -->
             <div class="info-card">
                 <p>🌍 È <strong>kazako</strong>?</p>
-                <span class="answer-line">Sì, è kazako / No, non è kazako</span>
+                <div class="answer-options">
+                    <button class="answer-btn" onclick="checkAnswer(2, false, 'No, Antonio non è kazako. Antonio è italiano')">Sì</button>
+                    <button class="answer-btn" onclick="checkAnswer(2, true, 'No, Antonio non è kazako. Antonio è italiano')">No</button>
+                </div>
             </div>
 
+            <!-- DOMANDA 3: È un insegnante? -->
             <div class="info-card">
                 <p>💼 È un <strong>insegnante</strong>?</p>
-                <span class="answer-line">Sì, è un insegnante / No, non è un insegnante</span>
+                <div class="answer-options">
+                    <button class="answer-btn" onclick="checkAnswer(3, true, 'Sì, Antonio è l\'insegnante della scuola &quot;Parlo Italiano&quot;')">Sì</button>
+                    <button class="answer-btn" onclick="checkAnswer(3, false, 'No, Antonio è l\'insegnante della scuola &quot;Parlo Italiano&quot;')">No</button>
+                </div>
             </div>
         </div>
 
