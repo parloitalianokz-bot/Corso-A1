@@ -39,7 +39,7 @@
             if (scroll) { window.scrollTo(0,0); }
         }
 
-        // Funzione per gestire le risposte interattive
+        // Funzione per gestire le risposte interattive (Step 3)
         function checkAnswer(questionId, isCorrect, fullText) {
             const button = event.target;
             const container = button.parentElement;
@@ -59,7 +59,7 @@
             }
         }
 
-        // Funzione per resettare l'esercizio
+        // Funzione per resettare l'esercizio (Step 3)
         function resetExercise() {
             // Trova tutti i bottoni delle risposte
             const allAnswerButtons = document.querySelectorAll('#step-3 .answer-btn');
@@ -74,6 +74,76 @@
                 // Ripristina il testo originale usando data-original
                 const originalText = btn.getAttribute('data-original');
                 btn.textContent = originalText;
+            });
+        }
+
+        // ===== DRAG & DROP STEP 4 =====
+        let draggedElement = null;
+
+        function dragStart(e) {
+            draggedElement = e.target;
+            e.dataTransfer.effectAllowed = "move";
+            e.target.style.opacity = "0.5";
+        }
+
+        function dragEnd(e) {
+            e.target.style.opacity = "1";
+        }
+
+        function dragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = "move";
+        }
+
+        function drop(e, motivationId) {
+            e.preventDefault();
+            
+            if (!draggedElement) return;
+            
+            const imageId = draggedElement.getAttribute('data-image-id');
+            const correctMatch = draggedElement.getAttribute('data-correct-match');
+            
+            if (correctMatch === motivationId) {
+                // ✅ Abbinamento corretto
+                const dropZone = document.getElementById('drop-' + motivationId);
+                dropZone.innerHTML = draggedElement.outerHTML;
+                dropZone.style.backgroundColor = '#d4edda';
+                dropZone.style.borderColor = '#008C45';
+                dropZone.classList.add('dropped-correct');
+                
+                // Disabilita l'immagine originale
+                draggedElement.style.opacity = '0.3';
+                draggedElement.draggable = false;
+                draggedElement.style.cursor = 'default';
+            } else {
+                // ❌ Abbinamento sbagliato
+                const dropZone = document.getElementById('drop-' + motivationId);
+                dropZone.style.backgroundColor = '#f8d7da';
+                dropZone.style.borderColor = '#CD212A';
+                
+                // Effetto shake
+                dropZone.classList.add('shake');
+                setTimeout(() => dropZone.classList.remove('shake'), 500);
+            }
+        }
+
+        // Funzione per resettare l'esercizio STEP 4
+        function resetDragDrop() {
+            // Reimposta tutte le zone di drop
+            const dropZones = document.querySelectorAll('#step-4 .drop-zone');
+            dropZones.forEach(zone => {
+                zone.innerHTML = '📌';
+                zone.style.backgroundColor = '#f9f9f9';
+                zone.style.borderColor = '#ddd';
+                zone.classList.remove('dropped-correct');
+            });
+            
+            // Reimposta le immagini
+            const images = document.querySelectorAll('#step-4 .draggable-image');
+            images.forEach(img => {
+                img.style.opacity = '1';
+                img.draggable = true;
+                img.style.cursor = 'grab';
             });
         }
     </script>
@@ -328,7 +398,121 @@
     border-radius: 15px;
 }
 
+/* ===== STILI STEP 4: DRAG & DROP ===== */
+.drag-drop-container {
+    display: flex;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.drag-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.drag-column-left {
+    flex: 1.2;
+}
+
+.drag-column-right {
+    flex: 1;
+}
+
+.motivation-item {
+    background: white;
+    border: 2px solid var(--it-verde);
+    border-radius: 12px;
+    padding: 15px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--it-verde);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.motivation-item-text {
+    margin: 0;
+    line-height: 1.3;
+}
+
+.motivation-item-ru {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 5px;
+}
+
+.images-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.draggable-image {
+    width: 100%;
+    height: 120px;
+    background-color: #e8e8e8;
+    border: 2px dashed #999;
+    border-radius: 12px;
+    cursor: grab;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    user-select: none;
+    object-fit: cover;
+}
+
+.draggable-image:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+}
+
+.draggable-image:active {
+    cursor: grabbing;
+}
+
+.drop-zone {
+    width: 100%;
+    height: 120px;
+    background-color: #f9f9f9;
+    border: 3px dashed #ddd;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    transition: all 0.3s ease;
+}
+
+.drop-zone:hover {
+    background-color: #f0f0f0;
+    border-color: var(--it-verde);
+}
+
+.dropped-correct {
+    border-style: solid !important;
+}
+
+/* Effetto shake per errori */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+
+.shake {
+    animation: shake 0.5s;
+    background-color: #f8d7da !important;
+    border-color: var(--it-rosso) !important;
+}
+
 @media (max-width: 768px) {
+    .drag-drop-container { 
+        flex-direction: column; 
+        gap: 20px;
+    }
     .badge-layout { flex-direction: column; }
     .welcome-it { font-size: 1.8rem; }
     .welcome-ru { font-size: 1.3rem; }
@@ -338,6 +522,8 @@
     .answer-btn { font-size: 0.9rem; padding: 10px 12px; }
     .nav-buttons { justify-content: center; }
     .btn-nav { min-width: 120px; font-size: 1rem; padding: 10px 20px; }
+    .motivation-item { font-size: 1rem; padding: 12px; }
+    .draggable-image, .drop-zone { height: 100px; font-size: 2rem; }
 }
         
     </style>
@@ -447,5 +633,106 @@
             <button class="btn-nav btn-next" onclick="showStep(4)">Avanti ➡</button>
         </div>
     </div> <!-- FINE STEP 3 -->
+
+<!-- STEP 4: PERCHÉ STUDIAMO ITALIANO? -->
+<div id="step-4" class="unit-step">
+    <header class="welcome-header badge-header">
+        <div class="welcome-it">Perché pensi che gli studenti vogliono imparare l'italiano?</div>
+        <div class="welcome-ru">Почему студенты хотят изучать итальянский язык?</div>
+    </header>
+
+    <div class="drag-drop-container">
+        <!-- COLONNA SINISTRA: MOTIVAZIONI -->
+        <div class="drag-column drag-column-left">
+            <!-- Motivazione 1: Arricchimento culturale -->
+            <div class="motivation-item">
+                <p class="motivation-item-text">🎨 Arricchimento culturale</p>
+                <p class="motivation-item-ru">Культурное обогащение</p>
+            </div>
+            <div class="drop-zone" id="drop-1" ondrop="drop(event, '1')" ondragover="dragOver(event)">📌</div>
+
+            <!-- Motivazione 2: Musica e arte -->
+            <div class="motivation-item">
+                <p class="motivation-item-text">🎵 Musica e arte</p>
+                <p class="motivation-item-ru">Музыка и искусство</p>
+            </div>
+            <div class="drop-zone" id="drop-2" ondrop="drop(event, '2')" ondragover="dragOver(event)">📌</div>
+
+            <!-- Motivazione 3: Cucina e gastronomia -->
+            <div class="motivation-item">
+                <p class="motivation-item-text">🍝 Cucina e gastronomia</p>
+                <p class="motivation-item-ru">Кухня и гастрономия</p>
+            </div>
+            <div class="drop-zone" id="drop-3" ondrop="drop(event, '3')" ondragover="dragOver(event)">📌</div>
+
+            <!-- Motivazione 4: Turismo -->
+            <div class="motivation-item">
+                <p class="motivation-item-text">🏛️ Turismo</p>
+                <p class="motivation-item-ru">Туризм</p>
+            </div>
+            <div class="drop-zone" id="drop-4" ondrop="drop(event, '4')" ondragover="dragOver(event)">📌</div>
+
+            <!-- Motivazione 5: Studi universitari -->
+            <div class="motivation-item">
+                <p class="motivation-item-text">🎓 Studi universitari</p>
+                <p class="motivation-item-ru">Университетские исследования</p>
+            </div>
+            <div class="drop-zone" id="drop-5" ondrop="drop(event, '5')" ondragover="dragOver(event)">📌</div>
+
+            <!-- Motivazione 6: Opportunità professionali -->
+            <div class="motivation-item">
+                <p class="motivation-item-text">💼 Opportunità professionali</p>
+                <p class="motivation-item-ru">Профессиональные возможности</p>
+            </div>
+            <div class="drop-zone" id="drop-6" ondrop="drop(event, '6')" ondragover="dragOver(event)">📌</div>
+
+            <!-- Motivazione 7: Motivi personali -->
+            <div class="motivation-item">
+                <p class="motivation-item-text">❤️ Motivi personali</p>
+                <p class="motivation-item-ru">Личные причины</p>
+            </div>
+            <div class="drop-zone" id="drop-7" ondrop="drop(event, '7')" ondragover="dragOver(event)">📌</div>
+        </div>
+
+        <!-- COLONNA DESTRA: IMMAGINI DA TRASCINARE -->
+        <div class="drag-column drag-column-right">
+            <div class="images-container">
+                <img class="draggable-image" src="img/cultura.jpg" alt="Cultura" 
+                     draggable="true" ondragstart="dragStart(event)" ondragend="dragEnd(event)"
+                     data-image-id="1" data-correct-match="1">
+                
+                <img class="draggable-image" src="img/musica.jpg" alt="Musica" 
+                     draggable="true" ondragstart="dragStart(event)" ondragend="dragEnd(event)"
+                     data-image-id="2" data-correct-match="2">
+                
+                <img class="draggable-image" src="img/cibo.jpg" alt="Cibo" 
+                     draggable="true" ondragstart="dragStart(event)" ondragend="dragEnd(event)"
+                     data-image-id="3" data-correct-match="3">
+                
+                <img class="draggable-image" src="img/turismo.jpg" alt="Turismo" 
+                     draggable="true" ondragstart="dragStart(event)" ondragend="dragEnd(event)"
+                     data-image-id="4" data-correct-match="4">
+                
+                <img class="draggable-image" src="img/universita.jpg" alt="Università" 
+                     draggable="true" ondragstart="dragStart(event)" ondragend="dragEnd(event)"
+                     data-image-id="5" data-correct-match="5">
+                
+                <img class="draggable-image" src="img/lavoro.jpg" alt="Lavoro" 
+                     draggable="true" ondragstart="dragStart(event)" ondragend="dragEnd(event)"
+                     data-image-id="6" data-correct-match="6">
+                
+                <img class="draggable-image" src="img/famiglia.jpg" alt="Famiglia" 
+                     draggable="true" ondragstart="dragStart(event)" ondragend="dragEnd(event)"
+                     data-image-id="7" data-correct-match="7">
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-buttons">
+        <button onclick="showStep(3)" class="btn-nav btn-back">⬅ Indietro</button>
+        <button class="btn-nav btn-reset" onclick="resetDragDrop()">🔄 Ripeti l'esercizio / Повтори упражнение</button>
+        <button class="btn-nav btn-next" onclick="showStep(5)">Avanti ➡</button>
+    </div>
+</div> <!-- FINE STEP 4 -->
 
 </div> <!-- CHIUSURA DEFINITIVA DEL CONTAINER -->
