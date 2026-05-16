@@ -71,14 +71,9 @@
                 // Rimuove le classi di colore
                 btn.classList.remove('correct', 'incorrect');
                 
-                // Ripristina il testo originale
-                if (btn.textContent.includes('Sì') || btn.textContent.includes('No')) {
-                    btn.textContent = btn.textContent.split(' ')[btn.textContent.split(' ').length - 1] === 'Sì' ? 'Sì' : 'No';
-                } else {
-                    // Estrai il testo originale dal data attribute o dal contenuto
-                    const originalText = btn.getAttribute('data-original') || (btn.textContent.includes('Sì') ? 'Sì' : 'No');
-                    btn.textContent = originalText;
-                }
+                // Ripristina il testo originale usando data-original
+                const originalText = btn.getAttribute('data-original');
+                btn.textContent = originalText;
             });
         }
     </script>
