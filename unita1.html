@@ -58,6 +58,29 @@
                 button.textContent = '✗ ' + fullText;
             }
         }
+
+        // Funzione per resettare l'esercizio
+        function resetExercise() {
+            // Trova tutti i bottoni delle risposte
+            const allAnswerButtons = document.querySelectorAll('#step-3 .answer-btn');
+            
+            allAnswerButtons.forEach(btn => {
+                // Riabilita i bottoni
+                btn.disabled = false;
+                
+                // Rimuove le classi di colore
+                btn.classList.remove('correct', 'incorrect');
+                
+                // Ripristina il testo originale
+                if (btn.textContent.includes('Sì') || btn.textContent.includes('No')) {
+                    btn.textContent = btn.textContent.split(' ')[btn.textContent.split(' ').length - 1] === 'Sì' ? 'Sì' : 'No';
+                } else {
+                    // Estrai il testo originale dal data attribute o dal contenuto
+                    const originalText = btn.getAttribute('data-original') || (btn.textContent.includes('Sì') ? 'Sì' : 'No');
+                    btn.textContent = originalText;
+                }
+            });
+        }
     </script>
     
     <style>
@@ -141,6 +164,8 @@
             justify-content: space-between;
             align-items: center;
             margin-top: 40px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         
         .btn-nav {
@@ -177,6 +202,17 @@
         .btn-back:hover { 
             background-color: #a51a22; 
             transform: translateX(-5px); 
+        }
+
+        /* Tasto Ripeti - Blu */
+        .btn-reset {
+            background-color: #0066cc;
+            color: white;
+        }
+
+        .btn-reset:hover {
+            background-color: #0052a3;
+            transform: scale(1.05);
         }
 
         /* Se il tasto è disabilitato (fine unità) */
@@ -305,6 +341,8 @@
     .badge-title-green { font-size: 1.3rem; }
     .info-card p { font-size: 1rem; }
     .answer-btn { font-size: 0.9rem; padding: 10px 12px; }
+    .nav-buttons { justify-content: center; }
+    .btn-nav { min-width: 120px; font-size: 1rem; padding: 10px 20px; }
 }
         
     </style>
@@ -378,8 +416,8 @@
             <div class="info-card">
                 <p>🌍 È <strong>italiano</strong>?</p>
                 <div class="answer-options">
-                    <button class="answer-btn" onclick="checkAnswer(1, true, 'Sì, Antonio è italiano')">Sì</button>
-                    <button class="answer-btn" onclick="checkAnswer(1, false, 'No, Antonio è italiano')">No</button>
+                    <button class="answer-btn" data-original="Sì" onclick="checkAnswer(1, true, 'Sì, Antonio è italiano')">Sì</button>
+                    <button class="answer-btn" data-original="No" onclick="checkAnswer(1, false, 'No, Antonio è italiano')">No</button>
                 </div>
             </div>
 
@@ -387,8 +425,8 @@
             <div class="info-card">
                 <p>🌍 È <strong>kazako</strong>?</p>
                 <div class="answer-options">
-                    <button class="answer-btn" onclick="checkAnswer(2, false, 'No, Antonio non è kazako. Antonio è italiano')">Sì</button>
-                    <button class="answer-btn" onclick="checkAnswer(2, true, 'No, Antonio non è kazako. Antonio è italiano')">No</button>
+                    <button class="answer-btn" data-original="Sì" onclick="checkAnswer(2, false, 'No, Antonio non è kazako. Antonio è italiano')">Sì</button>
+                    <button class="answer-btn" data-original="No" onclick="checkAnswer(2, true, 'No, Antonio non è kazako. Antonio è italiano')">No</button>
                 </div>
             </div>
 
@@ -396,8 +434,8 @@
             <div class="info-card">
                 <p>💼 È un <strong>insegnante</strong>?</p>
                 <div class="answer-options">
-                    <button class="answer-btn" onclick="checkAnswer(3, true, 'Sì, Antonio è l\'insegnante della scuola &quot;Parlo Italiano&quot;')">Sì</button>
-                    <button class="answer-btn" onclick="checkAnswer(3, false, 'No, Antonio è l\'insegnante della scuola &quot;Parlo Italiano&quot;')">No</button>
+                    <button class="answer-btn" data-original="Sì" onclick="checkAnswer(3, true, 'Sì, Antonio è l\'insegnante della scuola &quot;Parlo Italiano&quot;')">Sì</button>
+                    <button class="answer-btn" data-original="No" onclick="checkAnswer(3, false, 'No, Antonio è l\'insegnante della scuola &quot;Parlo Italiano&quot;')">No</button>
                 </div>
             </div>
         </div>
@@ -410,6 +448,7 @@
 
         <div class="nav-buttons">
             <button onclick="showStep(2)" class="btn-nav btn-back">⬅ Indietro</button>
+            <button class="btn-nav btn-reset" onclick="resetExercise()">🔄 Ripeti l'esercizio / Повтори упражнение</button>
             <button class="btn-nav btn-next" onclick="showStep(4)">Avanti ➡</button>
         </div>
     </div> <!-- FINE STEP 3 -->
