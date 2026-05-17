@@ -149,12 +149,14 @@
     .answer-btn:disabled { opacity:0.7; cursor:default; }
 
     /* GRIGLIA COMPATTA STEP 4 (Ottimizzata a 6 elementi) */
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: var(--gap);
-      margin: 18px 0;
-    }
+    /* Griglia bloccata a 3 colonne per PC */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); 
+  gap: var(--gap);
+  margin: 18px 0;
+}
+    
     .motivation-card {
       position: relative;
       width: 100%;
@@ -229,10 +231,14 @@
 
     /* RESPONSIVE PER SCHERMI PICCOLI */
     @media (max-width: 768px) {
-      .badge-layout { flex-direction: column-reverse; gap: 15px; }
-      .cards-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-      .draggable-tag { padding: 6px 12px; font-size: 0.85rem; }
-    }
+  .badge-layout { flex-direction: column-reverse; gap: 15px; }
+  
+  /* Mantiene le 3 colonne anche su mobile, riducendo i testi */
+  .cards-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .draggable-tag { padding: 6px 10px; font-size: 0.8rem; }
+  .label-it { font-size: 0.85rem; }
+  .label-ru { font-size: 0.7rem; }
+}
 
     footer { text-align:center; color:var(--muted); font-size:0.85rem; margin-top:24px; padding-top:12px; border-top:1px solid #e5e7eb; }
     
@@ -253,7 +259,7 @@
     <main>
       
       <section class="card unit-step" id="step-1">
-        <h2>Step 1: Presentazione</h2>
+        <h2>Passo 1: Presentazione</h2>
         <div class="h2-ru">Презентация</div>
         <div class="intro-section">
           <div class="intro-text">
@@ -270,7 +276,7 @@
       </section>
 
       <section class="card unit-step" id="step-2">
-        <h2>Step 2: L'insegnante di italiano</h2>
+        <h2>Passo 2: L'insegnante di italiano</h2>
         <div class="h2-ru">Учитель итальянского</div>
         <div class="intro-section">
           <div class="intro-text">
@@ -290,7 +296,7 @@
       </section>
 
       <section class="card unit-step" id="step-3">
-        <h2>Step 3: Chi è Antonio?</h2>
+        <h2>Passo 3: Chi è Antonio?</h2>
         <div class="h2-ru">Кто такой Антонио?</div>
         
         <div class="badge-layout">
@@ -335,7 +341,7 @@
       </section>
 
       <section class="card unit-step" id="step-4">
-        <h2>Step 4: Perché gli studenti vogliono imparare l'italiano?</h2>
+        <h2>Passo 4: Perché gli studenti vogliono imparare l'italiano?</h2>
         <div class="h2-ru">Почему студенты хотят изучать итальянский язык?</div>
         
         <p class="note">
