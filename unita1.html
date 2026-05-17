@@ -456,7 +456,7 @@
             border: 3px solid rgba(255,255,255,0.5);
         }
 
-        /* Immagine di sfondo sfocata/opaca */
+        /* Immagine NITIDA - blur rimosso */
         .motivation-card::before {
             content: '';
             position: absolute;
@@ -465,7 +465,7 @@
             width: 100%;
             height: 100%;
             background: inherit;
-            filter: blur(2px) brightness(0.6);
+            filter: brightness(0.85);
             z-index: 1;
         }
 
@@ -576,6 +576,11 @@
             .cards-grid {
                 grid-template-columns: 1fr;
                 gap: 12px;
+                margin-bottom: 15px;
+            }
+            
+            .motivation-card {
+                aspect-ratio: 1.2 / 1;
             }
 
             .draggable-tag {
@@ -732,7 +737,7 @@
             <div id="card-3" class="motivation-card" style="background-image: url('img/unita1/turismo.jpg')" 
                  ondrop="dropOnCard(event, '3')" ondragover="dragOver(event)"></div>
             
-            <div id="card-4" class="motivation-card" style="background-image: url('img/unita1/universita.jpg')" 
+            <div id="card-4" class="motivation-card" style="background-image: url('img/unita1/studio.jpg')" 
                  ondrop="dropOnCard(event, '4')" ondragover="dragOver(event)"></div>
             
             <div id="card-5" class="motivation-card" style="background-image: url('img/unita1/lavoro.jpg')" 
