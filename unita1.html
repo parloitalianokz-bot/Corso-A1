@@ -435,7 +435,7 @@
         /* Griglia di card */
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 20px;
             margin-top: 20px;
             margin-bottom: 30px;
@@ -549,7 +549,7 @@
             
             /* Step 4 responsive */
             .cards-grid {
-                grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+                grid-template-columns: repeat(2, 1fr);
                 gap: 15px;
             }
             
@@ -574,7 +574,7 @@
 
         @media (max-width: 480px) {
             .cards-grid {
-                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+                grid-template-columns: 1fr;
                 gap: 12px;
             }
 
@@ -696,57 +696,50 @@
         <!-- BOX CON I TAG DA TRASCINARE -->
         <div class="tags-container">
             <button class="draggable-tag" draggable="true" ondragstart="dragStart(event)" ondragend="dragEnd(event)"
-                    data-correct-match="1" data-tag-text="🎨 Cultura" data-tag-ru="Культура">
-                🎨 Cultura
-            </button>
-            <button class="draggable-tag" draggable="true" ondragstart="dragStart(event)" ondragend="dragEnd(event)"
-                    data-correct-match="2" data-tag-text="🎵 Musica" data-tag-ru="Музыка">
+                    data-correct-match="1" data-tag-text="🎵 Musica" data-tag-ru="Музыка">
                 🎵 Musica
             </button>
             <button class="draggable-tag" draggable="true" ondragstart="dragStart(event)" ondragend="dragEnd(event)"
-                    data-correct-match="3" data-tag-text="🍝 Cucina" data-tag-ru="Еда">
+                    data-correct-match="2" data-tag-text="🍝 Cucina" data-tag-ru="Еда">
                 🍝 Cibo
             </button>
             <button class="draggable-tag" draggable="true" ondragstart="dragStart(event)" ondragend="dragEnd(event)"
-                    data-correct-match="4" data-tag-text="🏛️ Turismo" data-tag-ru="Туризм">
+                    data-correct-match="3" data-tag-text="🏛️ Turismo" data-tag-ru="Туризм">
                 🏛️ Turismo
             </button>
             <button class="draggable-tag" draggable="true" ondragstart="dragStart(event)" ondragend="dragEnd(event)"
-                    data-correct-match="5" data-tag-text="🎓 Studio" data-tag-ru="Учеба">
+                    data-correct-match="4" data-tag-text="🎓 Studio" data-tag-ru="Учеба">
                 🎓 Studio
             </button>
             <button class="draggable-tag" draggable="true" ondragstart="dragStart(event)" ondragend="dragEnd(event)"
-                    data-correct-match="6" data-tag-text="💼 Lavoro" data-tag-ru="Работа">
+                    data-correct-match="5" data-tag-text="💼 Lavoro" data-tag-ru="Работа">
                 💼 Lavoro
             </button>
             <button class="draggable-tag" draggable="true" ondragstart="dragStart(event)" ondragend="dragEnd(event)"
-                    data-correct-match="7" data-tag-text="❤️ Amore" data-tag-ru="Любовь">
+                    data-correct-match="6" data-tag-text="❤️ Amore" data-tag-ru="Любовь">
                 ❤️ Amore
             </button>
         </div>
 
         <!-- GRIGLIA DI CARD CON LE IMMAGINI -->
         <div class="cards-grid">
-            <div id="card-1" class="motivation-card" style="background-image: url('img/cultura.jpg')" 
+            <div id="card-1" class="motivation-card" style="background-image: url('img/unita1/musica.jpg')" 
                  ondrop="dropOnCard(event, '1')" ondragover="dragOver(event)"></div>
             
-            <div id="card-2" class="motivation-card" style="background-image: url('img/unita1/musica.jpg')" 
+            <div id="card-2" class="motivation-card" style="background-image: url('img/unita1/cucina.jpg')" 
                  ondrop="dropOnCard(event, '2')" ondragover="dragOver(event)"></div>
             
-            <div id="card-3" class="motivation-card" style="background-image: url('img/unita1/cucina.jpg')" 
+            <div id="card-3" class="motivation-card" style="background-image: url('img/unita1/turismo.jpg')" 
                  ondrop="dropOnCard(event, '3')" ondragover="dragOver(event)"></div>
             
-            <div id="card-4" class="motivation-card" style="background-image: url('img/unita1/turismo.jpg')" 
+            <div id="card-4" class="motivation-card" style="background-image: url('img/unita1/universita.jpg')" 
                  ondrop="dropOnCard(event, '4')" ondragover="dragOver(event)"></div>
             
-            <div id="card-5" class="motivation-card" style="background-image: url('img/unita1/universita.jpg')" 
+            <div id="card-5" class="motivation-card" style="background-image: url('img/unita1/lavoro.jpg')" 
                  ondrop="dropOnCard(event, '5')" ondragover="dragOver(event)"></div>
             
-            <div id="card-6" class="motivation-card" style="background-image: url('img/unita1/lavoro.jpg')" 
+            <div id="card-6" class="motivation-card" style="background-image: url('img/unita1/famiglia.jpg')" 
                  ondrop="dropOnCard(event, '6')" ondragover="dragOver(event)"></div>
-            
-            <div id="card-7" class="motivation-card" style="background-image: url('img/unita1/famiglia.jpg')" 
-                 ondrop="dropOnCard(event, '7')" ondragover="dragOver(event)"></div>
         </div>
 
         <div class="nav-buttons">
