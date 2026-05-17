@@ -1,760 +1,488 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unità 1 - Benvenuti!</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Unità 1 — Parlo Italiano</title>
+  <style>
+    :root{
+      --bg:#f7f7f9;
+      --card:#ffffff;
+      --accent:#008C45; /* Verde bandiera scuola */
+      --accent-red:#CD212A; /* Rosso bandiera */
+      --muted:#666;
+      --gap:12px;
+      --radius:12px;
+      --max-width:850px;
+    }
 
-    <script>
-        // Controllo accesso
-        const user = localStorage.getItem('user_parloitaliano');
-        if (!user) { window.location.href = "index.html"; }
+    html,body{
+      height:100%;
+      margin:0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background:var(--bg);
+      color:#222;
+      -webkit-font-smoothing:antialiased;
+    }
 
-        // Al caricamento della pagina, recupera l'ultimo step salvato
-        window.onload = function() {
-            const lastStep = localStorage.getItem('currentStep_U1');
-            if (lastStep) {
-                showStep(lastStep, false);
-            } else {
-                showStep(1, false);
-            }
-        };
+    .page {
+      max-width: var(--max-width);
+      margin: 18px auto;
+      padding: 18px;
+    }
 
-        // Funzione per cambiare scheda e salvare la posizione
-        function showStep(stepNumber, scroll = true) {
-            document.querySelectorAll('.unit-step').forEach(step => {
-                step.style.display = 'none';
-            });
-            
-            const targetStep = document.getElementById('step-' + stepNumber);
-            if (targetStep) {
-                targetStep.style.display = 'block';
-                localStorage.setItem('currentStep_U1', stepNumber);
-            }
+    header {
+      text-align: center;
+      margin-bottom: 24px;
+      border-bottom: 1px solid #e5e7eb;
+      padding-bottom: 12px;
+    }
 
-            if (scroll) { window.scrollTo(0,0); }
-        }
+    header h1{ margin:0; font-size:1.6rem; color:var(--accent-red); }
+    .subtitle-ru { margin: 4px 0 0 0; font-size:1.1rem; color:var(--accent); font-style: italic; }
 
-        // Funzione per gestire le risposte interattive (Step 3)
-        function checkAnswer(questionId, isCorrect, fullText) {
-            const button = event.target;
-            const container = button.parentElement;
-            
-            const allButtons = container.querySelectorAll('.answer-btn');
-            allButtons.forEach(btn => btn.disabled = true);
-            
-            if (isCorrect) {
-                button.classList.add('correct');
-                button.textContent = '✓ ' + fullText;
-            } else {
-                button.classList.add('incorrect');
-                button.textContent = '✗ ' + fullText;
-            }
-        }
+    .card {
+      background:var(--card);
+      border-radius:var(--radius);
+      padding:20px;
+      box-shadow:0 1px 6px rgba(20,20,30,0.04);
+      margin-bottom:18px;
+    }
 
-        // Funzione per resettare l'esercizio (Step 3)
-        function resetExercise() {
-            const allAnswerButtons = document.querySelectorAll('#step-3 .answer-btn');
-            
-            allAnswerButtons.forEach(btn => {
-                btn.disabled = false;
-                btn.classList.remove('correct', 'incorrect');
-                const originalText = btn.getAttribute('data-original');
-                btn.textContent = originalText;
-            });
-        }
+    h2 { margin:0 0 4px 0; font-size:1.2rem; color:#1f2937; }
+    .h2-ru { margin:0 0 12px 0; font-size:0.95rem; color:var(--muted); font-style: italic; }
+    p { margin:0 0 10px 0; color:#374151; line-height: 1.5; }
 
-        // ===== DRAG & DROP STEP 4 - NUOVO SISTEMA =====
-        let draggedElement = null;
+    .highlight-red { font-weight: bold; color: var(--accent-red); }
+    .highlight-green { font-weight: bold; color: var(--accent); }
 
-        function dragStart(e) {
-            draggedElement = e.target;
-            e.dataTransfer.effectAllowed = "move";
-            e.target.style.opacity = "0.5";
-            e.target.style.transform = "scale(0.95)";
-        }
+    /* Nascondi step inizialmente, controllato da JS */
+    .unit-step { display: none; }
 
-        function dragEnd(e) {
-            e.target.style.opacity = "1";
-            e.target.style.transform = "scale(1)";
-        }
+    /* Layout multimediale Step 1 e 2 */
+    .intro-section {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 15px;
+    }
+    .intro-text { flex: 1 1 300px; font-size: 1.1rem; }
+    .intro-img, .intro-video {
+      max-width: 450px;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      border-radius: var(--radius);
+      object-fit: cover;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
 
-        function dragOver(e) {
-            e.preventDefault();
-            e.dataTransfer.dropEffect = "move";
-        }
+    /* Pulsanti di navigazione tra schede */
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 30px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .btn-nav {
+      padding: 10px 22px;
+      border-radius: 10px;
+      font-weight: bold;
+      font-size: 1rem;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+      min-width: 130px;
+      text-align: center;
+      text-decoration: none;
+    }
+    .btn-next { background-color: var(--accent); color: white; }
+    .btn-next:hover { background-color: #006b35; transform: translateX(3px); }
+    .btn-back { background-color: var(--accent-red); color: white; }
+    .btn-back:hover { background-color: #a51a22; transform: translateX(-3px); }
+    .btn-reset { background-color: #0066cc; color: white; }
+    .btn-reset:hover { background-color: #0052a3; }
 
-        function dropOnCard(e, cardId) {
-            e.preventDefault();
-            
-            if (!draggedElement) return;
-            
-            const correctMatch = draggedElement.getAttribute('data-correct-match');
-            const card = document.getElementById('card-' + cardId);
-            
-            if (correctMatch === cardId) {
-                // ✅ Abbinamento corretto
-                const tagText = draggedElement.getAttribute('data-tag-text');
-                const tagRu = draggedElement.getAttribute('data-tag-ru');
-                
-                card.classList.add('card-correct');
-                
-                // Crea l'overlay con il testo
-                const overlay = document.createElement('div');
-                overlay.className = 'card-overlay-label';
-                overlay.innerHTML = `<div class="label-text">${tagText}</div><div class="label-ru">${tagRu}</div>`;
-                card.appendChild(overlay);
-                
-                // Disabilita il tag originale
-                draggedElement.classList.add('tag-used');
-                draggedElement.draggable = false;
-                draggedElement.style.cursor = 'default';
-                
-                // Effetto di successo
-                card.style.animation = 'pulse-correct 0.6s ease';
-            } else {
-                // ❌ Abbinamento sbagliato - effetto shake
-                card.style.animation = 'shake 0.5s ease';
-                setTimeout(() => {
-                    card.style.animation = '';
-                }, 500);
-            }
-        }
+    /* Layout Layout Badge Step 3 */
+    .badge-layout {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 20px;
+      margin-top: 15px;
+    }
+    .info-container { flex: 1.2; display: flex; flex-direction: column; gap: 10px; }
+    .badge-title-green {
+      background-color: var(--accent);
+      color: white;
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 1.3rem;
+      font-weight: bold;
+    }
+    .info-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px; }
+    .info-card p { margin: 0 0 8px 0; font-weight: 500; }
+    .badge-image-container { flex: 0.8; display: flex; justify-content: center; }
+    .badge-image-container img { width: 100%; max-height: 250px; object-fit: contain; border-radius: var(--radius); }
 
-        // Funzione per resettare l'esercizio STEP 4
-        function resetDragDropNew() {
-            // Rimuovi gli overlay dalle card
-            const overlays = document.querySelectorAll('#step-4 .card-overlay-label');
-            overlays.forEach(overlay => overlay.remove());
-            
-            // Ripristina le card
-            const cards = document.querySelectorAll('#step-4 .motivation-card');
-            cards.forEach(card => {
-                card.classList.remove('card-correct');
-                card.style.animation = '';
-            });
-            
-            // Riabilita i tag
-            const tags = document.querySelectorAll('#step-4 .draggable-tag');
-            tags.forEach(tag => {
-                tag.classList.remove('tag-used');
-                tag.draggable = true;
-                tag.style.cursor = 'grab';
-                tag.style.opacity = '1';
-                tag.style.transform = 'scale(1)';
-            });
-        }
-    </script>
+    /* Pulsanti risposte Step 3 */
+    .answer-options { display:flex; gap:8px; flex-wrap:wrap; }
+    .answer-btn {
+      background:#ffffff;
+      border:1px solid #cbd5e1;
+      padding:8px 12px;
+      border-radius:8px;
+      cursor:pointer;
+      font-size:0.95rem;
+      font-weight: 500;
+      flex: 1;
+      min-width: 100px;
+      transition: background 0.2s;
+    }
+    .answer-btn.correct { background:#e6ffef; border-color:#7be3a8; color:#0b6b3a; font-weight: bold; }
+    .answer-btn.incorrect { background:#fff0f0; border-color:#ffb3b3; color:#8a1b1b; }
+    .answer-btn:disabled { opacity:0.7; cursor:default; }
+
+    /* GRIGLIA COMPATTA STEP 4 (No Scroll su Mobile) */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: var(--gap);
+      margin: 18px 0;
+    }
+    .motivation-card {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background-size: cover;
+      background-position: center;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+      border: 2px solid #e5e7eb;
+      cursor: pointer;
+      transition: all 0.2s;
+      filter: brightness(0.6); 
+    }
+    .motivation-card.card-correct {
+      border-color: var(--accent);
+      filter: brightness(1); 
+    }
+    .card-overlay-label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 140, 69, 0.92);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 8px;
+      text-align: center;
+      width: 85%;
+      box-sizing: border-box;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .label-it { font-weight: bold; font-size: 0.95rem; }
+    .label-ru { font-size: 0.75rem; opacity: 0.9; font-style: italic; margin-top: 2px; }
+
+    .tags-container {
+      background: #f8fafc;
+      border: 2px dashed #cbd5e1;
+      border-radius: var(--radius);
+      padding: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      min-height: 50px;
+    }
+    .draggable-tag {
+      background: var(--card);
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: grab;
+      user-select: none;
+      transition: all 0.2s;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    .draggable-tag.selected { background: #e6ffef; border-color: #000; color: #000; }
+    .draggable-tag.tag-used {
+      background: #e2e8f0 !important;
+      border-color: #cbd5e1 !important;
+      color: #94a3b8 !important;
+      cursor: not-allowed;
+      opacity: 0.5;
+      box-shadow: none;
+    }
+
+    .note { font-size:0.9rem; color:var(--muted); margin-bottom:12px; }
+    .note-ru { font-style: italic; color: #7c8ba1; display: block; margin-top: 2px; }
+
+    /* RESPONSIVE PER SCHERMI PICCOLI */
+    @media (max-width: 768px) {
+      .badge-layout { flex-direction: column-reverse; gap: 15px; }
+      .cards-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .draggable-tag { padding: 6px 12px; font-size: 0.85rem; }
+    }
+
+    footer { text-align:center; color:var(--muted); font-size:0.85rem; margin-top:24px; padding-top:12px; border-top:1px solid #e5e7eb; }
     
-    <style>
-        :root {
-            --it-verde: #008C45;
-            --it-rosso: #CD212A;
-            --bg: #f4f7f6;
-        }
-
-        body { 
-            font-family: 'Segoe UI', sans-serif; 
-            line-height: 1.6; 
-            color: #333; 
-            background: var(--bg); 
-            margin: 0; 
-            padding: 10px;
-            font-size: 16px;
-        }
-
-        .container { 
-            max-width: 850px; 
-            margin: auto; 
-            background: white; 
-            padding: 20px; 
-            border-radius: 25px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
-            min-height: 80vh;
-        }
-
-       @media (max-width: 600px) {
-            .intro-video {
-                max-width: 100%;
-                aspect-ratio: 16 / 9;
-            }
-            
-            body {
-                font-size: 14px;
-            }
-        }
-
-        /* Header e Titoli */
-        .welcome-header { text-align: center; margin-bottom: 30px; }
-        .welcome-it { color: var(--it-rosso); font-size: 2.4rem; font-weight: bold; margin-bottom: 5px; }
-        .welcome-ru { color: var(--it-verde); font-size: 1.7rem; font-style: italic; margin-top: 0; }
-
-        /* Layout Sezioni */
-        .intro-section { 
-            display: flex; 
-            flex-wrap: wrap; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 30px; 
-            margin-top: 30px; 
-        }
-
-        .intro-text { 
-            flex: 1 1 300px; 
-            font-size: 1.3rem; 
-        }
-
-        .intro-img, .intro-video { 
-            max-width: 550px;
-            width: 100%;      
-            height: auto;     
-            aspect-ratio: 16 / 9; 
-            background-color: #000; 
-            border-radius: 15px; 
-            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
-            display: block;
-            margin: 20px auto;
-            object-fit: cover; 
-        }
-
-        .highlight-red { color: var(--it-rosso); font-weight: bold; }
-        .highlight-green { color: var(--it-verde); font-weight: bold; }
-
-        /* Pulsanti di navigazione tra schede */
-        .nav-buttons {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 40px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        
-        .btn-nav {
-            display: inline-block;
-            text-decoration: none;
-            padding: 12px 28px;
-            border-radius: 15px;
-            font-weight: bold;
-            font-size: 1.15rem;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: none;
-            min-width: 140px;
-            text-align: center;
-        }
-        
-        .btn-next { 
-            background-color: var(--it-verde); 
-            color: white; 
-        }
-        
-        .btn-next:hover { 
-            background-color: #006b35; 
-            transform: translateX(5px); 
-        }
-
-        .btn-back { 
-            background-color: var(--it-rosso); 
-            color: white; 
-        }
-
-        .btn-back:hover { 
-            background-color: #a51a22; 
-            transform: translateX(-5px); 
-        }
-
-        .btn-reset {
-            background-color: #0066cc;
-            color: white;
-        }
-
-        .btn-reset:hover {
-            background-color: #0052a3;
-            transform: scale(1.05);
-        }
-
-        .btn-nav:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        hr { margin: 40px 0; border: 0; border-top: 1px solid #eee; }
-
-        .unit-step { display: none; }
-
-        /* Stili Step 3 */
-        .badge-header {
-            background-color: var(--it-rosso);
-            padding: 15px;
-            border-radius: 15px 15px 0 0;
-            margin-bottom: 0;
-        }
-        .badge-header .welcome-it, .badge-header .welcome-ru { color: white; }
-
-        .badge-layout {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .info-container {
-            flex: 1.2;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .badge-title-green {
-            background-color: #008C45;
-            color: white;
-            padding: 12px;
-            border-radius: 10px;
-            text-align: center;
-            font-size: 1.6rem;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .info-card {
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 12px;
-            padding: 10px 15px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-
-        .info-card p { margin: 0 0 10px 0; line-height: 1.4; font-size: 1.15rem; }
-
-        .answer-options {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .answer-btn {
-            flex: 1;
-            min-width: 120px;
-            padding: 12px 15px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            background-color: #f9f9f9;
-            color: #333;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .answer-btn:hover:not(:disabled) {
-            background-color: #e0e0e0;
-            border-color: #999;
-            transform: translateY(-2px);
-        }
-
-        .answer-btn:disabled {
-            cursor: not-allowed;
-        }
-
-        .answer-btn.correct {
-            background-color: #d4edda;
-            border-color: var(--it-verde);
-            color: var(--it-verde);
-        }
-
-        .answer-btn.incorrect {
-            background-color: #f8d7da;
-            border-color: var(--it-rosso);
-            color: var(--it-rosso);
-        }
-
-        .badge-image-container {
-            flex: 0.8;
-            display: flex;
-            justify-content: center;
-        }
-
-        .badge-image-container img {
-            width: 100%;
-            max-height: 300px;
-            object-fit: contain;
-            border-radius: 15px;
-        }
-
-        /* ===== STILI STEP 4: NUOVO SISTEMA COMPATTO ===== */
-
-        /* Box contenente i tag da trascinare */
-        .tags-container {
-            background: linear-gradient(135deg, #f0f7f4 0%, #f9f9f9 100%);
-            border: 2px solid var(--it-verde);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 30px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-            align-items: center;
-            min-height: 70px;
-        }
-
-        /* Tag da trascinare */
-        .draggable-tag {
-            background: linear-gradient(135deg, var(--it-verde) 0%, #006b35 100%);
-            color: white;
-            padding: 10px 18px;
-            border-radius: 20px;
-            border: none;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: grab;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0, 140, 69, 0.3);
-            user-select: none;
-            draggable: true;
-        }
-
-        .draggable-tag:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 16px rgba(0, 140, 69, 0.4);
-        }
-
-        .draggable-tag:active {
-            cursor: grabbing;
-        }
-
-        .draggable-tag.tag-used {
-            background: linear-gradient(135deg, #ccc 0%, #999 100%);
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-
-        /* Griglia di card */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-top: 20px;
-            margin-bottom: 30px;
-        }
-
-        /* Card singola */
-        .motivation-card {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 1 / 1;
-            background-size: cover;
-            background-position: center;
-            border-radius: 15px;
-            overflow: hidden;
-            cursor: drop;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-            border: 3px solid rgba(255,255,255,0.5);
-        }
-
-        /* Immagine NITIDA - blur rimosso */
-        .motivation-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: inherit;
-            filter: brightness(0.85);
-            z-index: 1;
-        }
-
-        .motivation-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 28px rgba(0,0,0,0.2);
-        }
-
-        .motivation-card.card-correct {
-            border-color: var(--it-verde);
-            box-shadow: 0 12px 28px rgba(0, 140, 69, 0.4);
-        }
-
-        /* Label overlay (testo che appare sulla card quando corretto) */
-        .card-overlay-label {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 10;
-            background: rgba(0, 140, 69, 0.85);
-            padding: 12px 20px;
-            border-radius: 12px;
-            text-align: center;
-            backdrop-filter: blur(5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-            animation: slideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .label-text {
-            color: white;
-            font-weight: bold;
-            font-size: 1.1rem;
-            line-height: 1.3;
-        }
-
-        .label-ru {
-            color: rgba(255,255,255,0.8);
-            font-size: 0.85rem;
-            margin-top: 4px;
-            font-style: italic;
-        }
-
-        /* Animazioni */
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-8px); }
-            75% { transform: translateX(8px); }
-        }
-
-        @keyframes pulse-correct {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translate(-50%, -60%);
-            }
-            to {
-                opacity: 1;
-                transform: translate(-50%, -50%);
-            }
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .badge-layout { 
-                flex-direction: column-reverse;
-            }
-            .welcome-it { font-size: 1.8rem; }
-            .welcome-ru { font-size: 1.3rem; }
-            .intro-text { font-size: 1.1rem; }
-            .badge-title-green { font-size: 1.3rem; }
-            .info-card p { font-size: 1rem; }
-            .answer-btn { font-size: 0.9rem; padding: 10px 12px; }
-            .nav-buttons { justify-content: center; }
-            .btn-nav { min-width: 120px; font-size: 1rem; padding: 10px 20px; }
-            
-            /* Step 4 responsive */
-            .cards-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 15px;
-            }
-            
-            .tags-container {
-                padding: 15px;
-                gap: 8px;
-            }
-
-            .draggable-tag {
-                padding: 8px 14px;
-                font-size: 0.9rem;
-            }
-
-            .label-text {
-                font-size: 0.95rem;
-            }
-
-            .label-ru {
-                font-size: 0.75rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .cards-grid {
-                grid-template-columns: 1fr;
-                gap: 12px;
-                margin-bottom: 15px;
-            }
-            
-            .motivation-card {
-                aspect-ratio: 1.2 / 1;
-            }
-
-            .draggable-tag {
-                padding: 6px 12px;
-                font-size: 0.85rem;
-            }
-        }
-        
-    </style>
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
+    }
+  </style>
 </head>
 <body>
+  <div class="page">
+    <header>
+      <h1>Unità 1 — Benvenuti!</h1>
+      <div class="subtitle-ru">Урок 1 — Добро пожаловать!</div>
+    </header>
 
-<div class="container">
-    
-    <!-- STEP 1: BENVENUTO -->
-    <div id="step-1" class="unit-step">
-        <header class="welcome-header">
-            <div class="welcome-it">Benvenuti a lezione!</div>
-            <div class="welcome-ru">Добро пожаловать на урок!</div>
-        </header>
-
+    <main>
+      
+      <section class="card unit-step" id="step-1">
+        <h2>Step 1: Presentazione</h2>
+        <div class="h2-ru">Презентация</div>
         <div class="intro-section">
-            <div class="intro-text">
-                <p>Cominciamo il nostro viaggio in Italia.</p>
-                <p>Questa è la scuola <span class="highlight-red">"Parlo Italiano"</span>.</p>
-                <p>La scuola "Parlo Italiano" è una <span class="highlight-green">scuola online</span>.</p>
-            </div>
-            <img src="img/unita1/1-scuolaonline.jpg" alt="Scuola Online" class="intro-img">
+          <div class="intro-text">
+            <p>Cominciamo il nostro viaggio in Italia.</p>
+            <p>Questa è la scuola <span class="highlight-red">"Parlo Italiano"</span>.</p>
+            <p>La scuola "Parlo Italiano" è una <span class="highlight-green">scuola online</span>.</p>
+          </div>
+          <img src="img/unita1/1-scuolaonline.jpg" alt="Scuola Online" class="intro-img">
         </div>
-
         <div class="nav-buttons">
-            <a href="index.html" class="btn-nav btn-back">⬅ Dashboard</a>
-            <button onclick="showStep(2)" class="btn-nav btn-next">Avanti ➡</button>
+          <a href="index.html" class="btn-nav btn-back">⬅ Dashboard</a>
+          <button onclick="showStep(2)" class="btn-nav btn-next">Avanti ➡</button>
         </div>
-    </div>
+      </section>
 
-    <!-- STEP 2: L'INSEGNANTE -->
-    <div id="step-2" class="unit-step">
-        <header class="welcome-header">
-            <div class="welcome-it">L'insegnante di italiano</div>
-            <div class="welcome-ru">Учитель итальянского</div>
-        </header>
-
+      <section class="card unit-step" id="step-2">
+        <h2>Step 2: L'insegnante di italiano</h2>
+        <div class="h2-ru">Учитель итальянского</div>
         <div class="intro-section">
-            <div class="intro-text">
-                <p><span class="highlight-green">Ciao!</span></p>
-                <p>Io sono <span class="highlight-red">Antonio</span>.</p>
-                <p>Io sono <span class="highlight-green">l'insegnante</span> della scuola "Parlo Italiano".</p>
-            </div>
+          <div class="intro-text">
+            <p><span class="highlight-green">Ciao!</span></p>
+            <p>Io sono <span class="highlight-red">Antonio</span>.</p>
+            <p>Io sono <span class="highlight-green">l'insegnante</span> della scuola "Parlo Italiano".</p>
+          </div>
+          <video class="intro-video" controls poster="img/unita1/Antonio1.jpg">
+            <source src="video/Vd1.mp4" type="video/mp4">
+            Il tuo browser non supporta il video.
+          </video>
+        </div>
+        <div class="nav-buttons">
+          <button onclick="showStep(1)" class="btn-nav btn-back">⬅ Indietro</button>
+          <button class="btn-nav btn-next" onclick="showStep(3)">Avanti ➡</button>
+        </div>
+      </section>
+
+      <section class="card unit-step" id="step-3">
+        <h2>Step 3: Chi è Antonio?</h2>
+        <div class="h2-ru">Кто такой Антонио?</div>
+        
+        <div class="badge-layout">
+          <div class="info-container">
+            <div class="badge-title-green">🪪 Lui è Antonio</div>
             
-            <video class="intro-video" controls poster="img/unita1/Antonio1.jpg">
-                <source src="video/Vd1.mp4" type="video/mp4">
-                Il tuo browser non supporta il video.
-            </video>
+            <div class="info-card">
+              <p>🌍 È <strong>italiano</strong>?</p>
+              <div class="answer-options">
+                <button class="answer-btn" data-original="Sì" onclick="checkAnswer(1, true, 'Sì, Antonio è italiano')">Sì</button>
+                <button class="answer-btn" data-original="No" onclick="checkAnswer(1, false, 'No, Antonio è italiano')">No</button>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <p>🌍 È <strong>kazako</strong>?</p>
+              <div class="answer-options">
+                <button class="answer-btn" data-original="Sì" onclick="checkAnswer(2, false, 'No, Antonio non è kazako. Antonio è italiano')">Sì</button>
+                <button class="answer-btn" data-original="No" onclick="checkAnswer(2, true, 'No, Antonio non è kazako. Antonio è italiano')">No</button>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <p>💼 È un <strong>insegnante</strong>?</p>
+              <div class="answer-options">
+                <button class="answer-btn" data-original="Sì" onclick="checkAnswer(3, true, 'Sì, Antonio è l\'insegnante della scuola &quot;Parlo Italiano&quot;')">Sì</button>
+                <button class="answer-btn" data-original="No" onclick="checkAnswer(3, false, 'No, Antonio è l\'insegnante della scuola &quot;Parlo Italiano&quot;')">No</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="badge-image-container">
+            <img src="img/unita1/badge.jpg" alt="Badge Antonio">
+          </div>
         </div>
 
         <div class="nav-buttons">
-            <button onclick="showStep(1)" class="btn-nav btn-back">⬅ Indietro</button>
-            <button class="btn-nav btn-next" onclick="showStep(3)">Avanti ➡</button>
+          <button onclick="showStep(2)" class="btn-nav btn-back">⬅ Indietro</button>
+          <button class="btn-nav btn-reset" onclick="resetExercise()">🔄 Ripeti l'esercizio</button>
+          <button class="btn-nav btn-next" onclick="showStep(4)">Avanti ➡</button>
         </div>
-    </div>
+      </section>
 
-    <!-- STEP 3: CHI È ANTONIO? -->
-    <div id="step-3" class="unit-step">
-        <header class="welcome-header badge-header">
-            <div class="welcome-it">Chi è Antonio?</div>
-            <div class="welcome-ru">Кто такой Антонио?</div>
-        </header>
+      <section class="card unit-step" id="step-4">
+        <h2>Step 4: Perché gli studenti vogliono imparare l'italiano?</h2>
+        <div class="h2-ru">Почему студенты хотят изучать итальянский язык?</div>
+        
+        <p class="note">
+          Trascina il tag sopra la foto corretta, oppure fai un click sul tag e poi un click sulla foto.
+          <span class="note-ru">Перетащите тег на нужную картинку или нажмите сначала на тег, а затем на картинку.</span>
+        </p>
 
-        <div class="intro-section badge-layout">
-            <div class="info-container">
-                <div class="badge-title-green">🪪 Lui è Antonio</div>
-                
-                <div class="info-card">
-                    <p>🌍 È <strong>italiano</strong>?</p>
-                    <div class="answer-options">
-                        <button class="answer-btn" data-original="Sì" onclick="checkAnswer(1, true, 'Sì, Antonio è italiano')">Sì</button>
-                        <button class="answer-btn" data-original="No" onclick="checkAnswer(1, false, 'No, Antonio è italiano')">No</button>
-                    </div>
-                </div>
-
-                <div class="info-card">
-                    <p>🌍 È <strong>kazako</strong>?</p>
-                    <div class="answer-options">
-                        <button class="answer-btn" data-original="Sì" onclick="checkAnswer(2, false, 'No, Antonio non è kazako. Antonio è italiano')">Sì</button>
-                        <button class="answer-btn" data-original="No" onclick="checkAnswer(2, true, 'No, Antonio non è kazako. Antonio è italiano')">No</button>
-                    </div>
-                </div>
-
-                <div class="info-card">
-                    <p>💼 È un <strong>insegnante</strong>?</p>
-                    <div class="answer-options">
-                        <button class="answer-btn" data-original="Sì" onclick="checkAnswer(3, true, 'Sì, Antonio è l\'insegnante della scuola &quot;Parlo Italiano&quot;')">Sì</button>
-                        <button class="answer-btn" data-original="No" onclick="checkAnswer(3, false, 'No, Antonio è l\'insegnante della scuola &quot;Parlo Italiano&quot;')">No</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="badge-image-container">
-                <img src="img/unita1/badge.jpg" alt="Badge Antonio">
-            </div>
+        <div class="tags-container" id="tagsContainer">
+          <div class="draggable-tag" draggable="true" ondragstart="dragStart(event)" onclick="selectTag(event)" data-correct-match="1" data-it="🎨 Cultura" data-ru="Культура">🎨 Cultura</div>
+          <div class="draggable-tag" draggable="true" ondragstart="dragStart(event)" onclick="selectTag(event)" data-correct-match="2" data-it="🎵 Musica" data-ru="Музыка">🎵 Musica</div>
+          <div class="draggable-tag" draggable="true" ondragstart="dragStart(event)" onclick="selectTag(event)" data-correct-match="3" data-it="🍝 Cibo" data-ru="Еда">🍝 Cibo</div>
+          <div class="draggable-tag" draggable="true" ondragstart="dragStart(event)" onclick="selectTag(event)" data-correct-match="4" data-it="🏛️ Turismo" data-ru="Туризм">🏛️ Turismo</div>
+          <div class="draggable-tag" draggable="true" ondragstart="dragStart(event)" onclick="selectTag(event)" data-correct-match="5" data-it="🎓 Studio" data-ru="Учеба">🎓 Studio</div>
+          <div class="draggable-tag" draggable="true" ondragstart="dragStart(event)" onclick="selectTag(event)" data-correct-match="6" data-it="💼 Lavoro" data-ru="Работа">💼 Lavoro</div>
+          <div class="draggable-tag" draggable="true" ondragstart="dragStart(event)" onclick="selectTag(event)" data-correct-match="7" data-it="❤️ Amore" data-ru="Любовь">❤️ Amore</div>
         </div>
 
-        <div class="nav-buttons">
-            <button onclick="showStep(2)" class="btn-nav btn-back">⬅ Indietro</button>
-            <button class="btn-nav btn-reset" onclick="resetExercise()">🔄 Ripeti l'esercizio / Повтори упражнение</button>
-            <button class="btn-nav btn-next" onclick="showStep(4)">Avanti ➡</button>
-        </div>
-    </div>
-
-    <!-- STEP 4: PERCHÉ STUDIAMO ITALIANO? - NUOVO LAYOUT COMPATTO -->
-    <div id="step-4" class="unit-step">
-        <header class="welcome-header badge-header">
-            <div class="welcome-it">Abbina le motivazioni alle immagini</div>
-            <div class="welcome-ru">Совместите мотивы с изображениями</div>
-        </header>
-
-        <!-- BOX CON I TAG DA TRASCINARE -->
-        <div class="tags-container">
-            <button class="draggable-tag" draggable="true" ondragstart="dragStart(event)" ondragend="dragEnd(event)"
-                    data-correct-match="1" data-tag-text="🎵 Musica" data-tag-ru="Музыка">
-                🎵 Musica
-            </button>
-            <button class="draggable-tag" draggable="true" ondragstart="dragStart(event)" ondragend="dragEnd(event)"
-                    data-correct-match="2" data-tag-text="🍝 Cucina" data-tag-ru="Еда">
-                🍝 Cibo
-            </button>
-            <button class="draggable-tag" draggable="true" ondragstart="dragStart(event)" ondragend="dragEnd(event)"
-                    data-correct-match="3" data-tag-text="🏛️ Turismo" data-tag-ru="Туризм">
-                🏛️ Turismo
-            </button>
-            <button class="draggable-tag" draggable="true" ondragstart="dragStart(event)" ondragend="dragEnd(event)"
-                    data-correct-match="4" data-tag-text="🎓 Studio" data-tag-ru="Учеба">
-                🎓 Studio
-            </button>
-            <button class="draggable-tag" draggable="true" ondragstart="dragStart(event)" ondragend="dragEnd(event)"
-                    data-correct-match="5" data-tag-text="💼 Lavoro" data-tag-ru="Работа">
-                💼 Lavoro
-            </button>
-            <button class="draggable-tag" draggable="true" ondragstart="dragStart(event)" ondragend="dragEnd(event)"
-                    data-correct-match="6" data-tag-text="❤️ Amore" data-tag-ru="Любовь">
-                ❤️ Amore
-            </button>
-        </div>
-
-        <!-- GRIGLIA DI CARD CON LE IMMAGINI -->
         <div class="cards-grid">
-            <div id="card-1" class="motivation-card" style="background-image: url('img/unita1/musica.jpg')" 
-                 ondrop="dropOnCard(event, '1')" ondragover="dragOver(event)"></div>
-            
-            <div id="card-2" class="motivation-card" style="background-image: url('img/unita1/cucina.jpg')" 
-                 ondrop="dropOnCard(event, '2')" ondragover="dragOver(event)"></div>
-            
-            <div id="card-3" class="motivation-card" style="background-image: url('img/unita1/turismo.jpg')" 
-                 ondrop="dropOnCard(event, '3')" ondragover="dragOver(event)"></div>
-            
-            <div id="card-4" class="motivation-card" style="background-image: url('img/unita1/studio.jpg')" 
-                 ondrop="dropOnCard(event, '4')" ondragover="dragOver(event)"></div>
-            
-            <div id="card-5" class="motivation-card" style="background-image: url('img/unita1/lavoro.jpg')" 
-                 ondrop="dropOnCard(event, '5')" ondragover="dragOver(event)"></div>
-            
-            <div id="card-6" class="motivation-card" style="background-image: url('img/unita1/famiglia.jpg')" 
-                 ondrop="dropOnCard(event, '6')" ondragover="dragOver(event)"></div>
+          <div id="card-1" class="motivation-card" style="background-image: url('img/unita1/cultura.jpg')" ondragover="allowDrop(event)" ondrop="dropOnCard(event, '1')" onclick="handleCardClick('1')"></div>
+          <div id="card-2" class="motivation-card" style="background-image: url('img/unita1/musica.jpg')" ondragover="allowDrop(event)" ondrop="dropOnCard(event, '2')" onclick="handleCardClick('2')"></div>
+          <div id="card-3" class="motivation-card" style="background-image: url('img/unita1/cucina.jpg')" ondragover="allowDrop(event)" ondrop="dropOnCard(event, '3')" onclick="handleCardClick('3')"></div>
+          <div id="card-4" class="motivation-card" style="background-image: url('img/unita1/turismo.jpg')" ondragover="allowDrop(event)" ondrop="dropOnCard(event, '4')" onclick="handleCardClick('4')"></div>
+          <div id="card-5" class="motivation-card" style="background-image: url('img/unita1/studio.jpg')" ondragover="allowDrop(event)" ondrop="dropOnCard(event, '5')" onclick="handleCardClick('5')"></div>
+          <div id="card-6" class="motivation-card" style="background-image: url('img/unita1/lavoro.jpg')" ondragover="allowDrop(event)" ondrop="dropOnCard(event, '6')" onclick="handleCardClick('6')"></div>
+          <div id="card-7" class="motivation-card" style="background-image: url('img/unita1/famiglia.jpg')" ondragover="allowDrop(event)" ondrop="dropOnCard(event, '7')" onclick="handleCardClick('7')"></div>
         </div>
 
         <div class="nav-buttons">
-            <button onclick="showStep(3)" class="btn-nav btn-back">⬅ Indietro</button>
-            <button class="btn-nav btn-reset" onclick="resetDragDropNew()">🔄 Ripeti l'esercizio / Повтори упражнение</button>
-            <button class="btn-nav btn-next" onclick="showStep(5)">Avanti ➡</button>
+          <button onclick="showStep(3)" class="btn-nav btn-back">⬅ Indietro</button>
+          <button class="btn-nav btn-reset" onclick="resetDragDropNew()">🔄 Reset Gioco</button>
+          <button class="btn-nav btn-next" disabled>Fine Unità 🏁</button>
         </div>
-    </div>
+      </section>
+    </main>
 
-</div>
+    <footer>
+      © 2026 Parlo Italiano — Scuola di Lingua Italiana Online
+    </footer>
+  </div>
 
+  <script>
+    // Controllo accesso
+    const user = localStorage.getItem('user_parloitaliano');
+    if (!user) { window.location.href = "index.html"; }
+
+    // Gestione Caricamento e ripristino Step salvato
+    window.onload = function() {
+      const lastStep = localStorage.getItem('currentStep_U1');
+      if (lastStep) { showStep(lastStep, false); } else { showStep(1, false); }
+    };
+
+    function showStep(stepNumber, scroll = true) {
+      document.querySelectorAll('.unit-step').forEach(step => step.style.display = 'none');
+      const targetStep = document.getElementById('step-' + stepNumber);
+      if (targetStep) {
+        targetStep.style.display = 'block';
+        localStorage.setItem('currentStep_U1', stepNumber);
+      }
+      if (scroll) { window.scrollTo(0,0); }
+    }
+
+    // Esercizio Step 3
+    function checkAnswer(questionId, isCorrect, fullText) {
+      const button = event.target;
+      const container = button.parentElement;
+      container.querySelectorAll('.answer-btn').forEach(btn => btn.disabled = true);
+      
+      if (isCorrect) {
+        button.classList.add('correct');
+        button.textContent = '✓ ' + fullText;
+      } else {
+        button.classList.add('incorrect');
+        button.textContent = '✗ ' + fullText;
+      }
+    }
+
+    function resetExercise() {
+      document.querySelectorAll('#step-3 .answer-btn').forEach(btn => {
+        btn.disabled = false;
+        btn.classList.remove('correct', 'incorrect');
+        btn.textContent = btn.getAttribute('data-original');
+      });
+    }
+
+    /* --- LOGICA INTEGRATA DRAG & CLICK (MOBILE FRIENDLY) STEP 4 --- */
+    let draggedElement = null;
+    let selectedTag = null;
+
+    function dragStart(e) { draggedElement = e.target; }
+    function allowDrop(e) { e.preventDefault(); }
+    function dropOnCard(e, cardId) {
+      e.preventDefault();
+      if (!draggedElement) return;
+      verificaEseguiMatch(draggedElement, cardId);
+      draggedElement = null;
+    }
+
+    function selectTag(e) {
+      if (e.target.classList.contains('tag-used')) return;
+      document.querySelectorAll('.draggable-tag').forEach(t => t.classList.remove('selected'));
+      selectedTag = e.target;
+      selectedTag.classList.add('selected');
+    }
+
+    function handleCardClick(cardId) {
+      if (!selectedTag) return;
+      verificaEseguiMatch(selectedTag, cardId);
+      selectedTag.classList.remove('selected');
+      selectedTag = null;
+    }
+
+    function verificaEseguiMatch(tagElement, cardId) {
+      const correctMatch = tagElement.getAttribute('data-correct-match');
+      const card = document.getElementById('card-' + cardId);
+
+      if (card.classList.contains('card-correct')) return;
+
+      if (correctMatch === cardId) {
+        card.classList.add('card-correct');
+        const itText = tagElement.getAttribute('data-it');
+        const ruText = tagElement.getAttribute('data-ru');
+        
+        const overlay = document.createElement('div');
+        overlay.className = 'card-overlay-label';
+        overlay.innerHTML = `<div class="label-it">${itText}</div><div class="label-ru">${ruText}</div>`;
+        card.appendChild(overlay);
+
+        tagElement.classList.add('tag-used');
+        tagElement.draggable = false;
+      } else {
+        card.style.animation = 'shake 0.4s ease';
+        setTimeout(() => { card.style.animation = ''; }, 400);
+      }
+    }
+
+    function resetDragDropNew() {
+      document.querySelectorAll('#step-4 .card-overlay-label').forEach(o => o.remove());
+      document.querySelectorAll('#step-4 .motivation-card').forEach(c => {
+        c.classList.remove('card-correct');
+        c.style.animation = '';
+      });
+      document.querySelectorAll('#step-4 .draggable-tag').forEach(t => {
+        t.classList.remove('tag-used', 'selected');
+        t.draggable = true;
+      });
+      selectedTag = null; draggedElement = null;
+    }
+  </script>
 </body>
 </html>
