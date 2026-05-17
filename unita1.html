@@ -696,12 +696,16 @@
         <!-- BOX CON I TAG DA TRASCINARE -->
         <div class="tags-container">
             <button class="draggable-tag" draggable="true" ondragstart="dragStart(event)" ondragend="dragEnd(event)"
+                    data-correct-match="1" data-tag-text="🎨 Cultura" data-tag-ru="Культура">
+                🎨 Cultura
+            </button>
+            <button class="draggable-tag" draggable="true" ondragstart="dragStart(event)" ondragend="dragEnd(event)"
                     data-correct-match="2" data-tag-text="🎵 Musica" data-tag-ru="Музыка">
                 🎵 Musica
             </button>
             <button class="draggable-tag" draggable="true" ondragstart="dragStart(event)" ondragend="dragEnd(event)"
-                    data-correct-match="3" data-tag-text="🍝 Cucina" data-tag-ru="Еда">
-                🍝 Cucina
+                    data-correct-match="3" data-tag-text="🍝 Cibo" data-tag-ru="Еда">
+                🍝 Cibo
             </button>
             <button class="draggable-tag" draggable="true" ondragstart="dragStart(event)" ondragend="dragEnd(event)"
                     data-correct-match="4" data-tag-text="🏛️ Turismo" data-tag-ru="Туризм">
@@ -716,29 +720,32 @@
                 💼 Lavoro
             </button>
             <button class="draggable-tag" draggable="true" ondragstart="dragStart(event)" ondragend="dragEnd(event)"
-                    data-correct-match="7" data-tag-text="Famiglia ❤️ Amore" data-tag-ru="Любовь">
+                    data-correct-match="7" data-tag-text="❤️ Amore" data-tag-ru="Любовь">
                 ❤️ Amore
             </button>
         </div>
 
         <!-- GRIGLIA DI CARD CON LE IMMAGINI -->
-              
-            <div id="card-2" class="motivation-card" style="background-image: url('img/unita1/musica.jpg')" 
+        <div class="cards-grid">
+            <div id="card-1" class="motivation-card" style="background-image: url('img/cultura.jpg')" 
+                 ondrop="dropOnCard(event, '1')" ondragover="dragOver(event)"></div>
+            
+            <div id="card-2" class="motivation-card" style="background-image: url('img/musica.jpg')" 
                  ondrop="dropOnCard(event, '2')" ondragover="dragOver(event)"></div>
             
-            <div id="card-3" class="motivation-card" style="background-image: url('img/unita1/cucina.jpg')" 
+            <div id="card-3" class="motivation-card" style="background-image: url('img/cibo.jpg')" 
                  ondrop="dropOnCard(event, '3')" ondragover="dragOver(event)"></div>
             
-            <div id="card-4" class="motivation-card" style="background-image: url('img/unita1/turismo.jpg')" 
+            <div id="card-4" class="motivation-card" style="background-image: url('img/turismo.jpg')" 
                  ondrop="dropOnCard(event, '4')" ondragover="dragOver(event)"></div>
             
-            <div id="card-5" class="motivation-card" style="background-image: url('img/unita1/studio.jpg')" 
+            <div id="card-5" class="motivation-card" style="background-image: url('img/universita.jpg')" 
                  ondrop="dropOnCard(event, '5')" ondragover="dragOver(event)"></div>
             
-            <div id="card-6" class="motivation-card" style="background-image: url('img/unita1/lavoro.jpg')" 
+            <div id="card-6" class="motivation-card" style="background-image: url('img/lavoro.jpg')" 
                  ondrop="dropOnCard(event, '6')" ondragover="dragOver(event)"></div>
             
-            <div id="card-7" class="motivation-card" style="background-image: url('img/unita1/famiglia.jpg')" 
+            <div id="card-7" class="motivation-card" style="background-image: url('img/famiglia.jpg')" 
                  ondrop="dropOnCard(event, '7')" ondragover="dragOver(event)"></div>
         </div>
 
