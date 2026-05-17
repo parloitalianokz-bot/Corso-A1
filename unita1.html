@@ -107,7 +107,7 @@
     .btn-reset { background-color: #0066cc; color: white; }
     .btn-reset:hover { background-color: #0052a3; }
 
-    /* Layout Layout Badge Step 3 */
+    /* Layout Badge Step 3 */
     .badge-layout {
       display: flex;
       flex-direction: row;
@@ -148,7 +148,7 @@
     .answer-btn.incorrect { background:#fff0f0; border-color:#ffb3b3; color:#8a1b1b; }
     .answer-btn:disabled { opacity:0.7; cursor:default; }
 
-    /* GRIGLIA COMPATTA STEP 4 (No Scroll su Mobile) */
+    /* GRIGLIA COMPATTA STEP 4 (Ottimizzata a 6 elementi) */
     .cards-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -257,7 +257,7 @@
         <div class="h2-ru">Презентация</div>
         <div class="intro-section">
           <div class="intro-text">
-            <p>Cominciamo il nostro viaggio in Italia.</p>
+            <p>Cominciamo il nostro viaggio in... Italia!</p>
             <p>Questa è la scuola <span class="highlight-red">"Parlo Italiano"</span>.</p>
             <p>La scuola "Parlo Italiano" è una <span class="highlight-green">scuola online</span>.</p>
           </div>
@@ -344,23 +344,21 @@
         </p>
 
         <div class="tags-container" id="tagsContainer">
-          <div class="draggable-tag" draggable="true" ondragstart="dragStart(event)" onclick="selectTag(event)" data-correct-match="1" data-it="🎨 Cultura" data-ru="Культура">🎨 Cultura</div>
-          <div class="draggable-tag" draggable="true" ondragstart="dragStart(event)" onclick="selectTag(event)" data-correct-match="2" data-it="🎵 Musica" data-ru="Музыка">🎵 Musica</div>
-          <div class="draggable-tag" draggable="true" ondragstart="dragStart(event)" onclick="selectTag(event)" data-correct-match="3" data-it="🍝 Cibo" data-ru="Еда">🍝 Cibo</div>
-          <div class="draggable-tag" draggable="true" ondragstart="dragStart(event)" onclick="selectTag(event)" data-correct-match="4" data-it="🏛️ Turismo" data-ru="Туризм">🏛️ Turismo</div>
-          <div class="draggable-tag" draggable="true" ondragstart="dragStart(event)" onclick="selectTag(event)" data-correct-match="5" data-it="🎓 Studio" data-ru="Учеба">🎓 Studio</div>
-          <div class="draggable-tag" draggable="true" ondragstart="dragStart(event)" onclick="selectTag(event)" data-correct-match="6" data-it="💼 Lavoro" data-ru="Работа">💼 Lavoro</div>
-          <div class="draggable-tag" draggable="true" ondragstart="dragStart(event)" onclick="selectTag(event)" data-correct-match="7" data-it="❤️ Amore" data-ru="Любовь">❤️ Amore</div>
+          <div class="draggable-tag" draggable="true" ondragstart="dragStart(event)" onclick="selectTag(event)" data-correct-match="1" data-it="🎵 Musica" data-ru="Музыка">🎵 Musica</div>
+          <div class="draggable-tag" draggable="true" ondragstart="dragStart(event)" onclick="selectTag(event)" data-correct-match="2" data-it="🍝 Cibo" data-ru="Еда">🍝 Cibo</div>
+          <div class="draggable-tag" draggable="true" ondragstart="dragStart(event)" onclick="selectTag(event)" data-correct-match="3" data-it="🏛️ Turismo" data-ru="Туризм">🏛️ Turismo</div>
+          <div class="draggable-tag" draggable="true" ondragstart="dragStart(event)" onclick="selectTag(event)" data-correct-match="4" data-it="🎓 Studio" data-ru="Учеба">🎓 Studio</div>
+          <div class="draggable-tag" draggable="true" ondragstart="dragStart(event)" onclick="selectTag(event)" data-correct-match="5" data-it="💼 Lavoro" data-ru="Работа">💼 Lavoro</div>
+          <div class="draggable-tag" draggable="true" ondragstart="dragStart(event)" onclick="selectTag(event)" data-correct-match="6" data-it="❤️ Amore" data-ru="Любовь">❤️ Amore</div>
         </div>
 
         <div class="cards-grid">
-          <div id="card-1" class="motivation-card" style="background-image: url('img/unita1/cultura.jpg')" ondragover="allowDrop(event)" ondrop="dropOnCard(event, '1')" onclick="handleCardClick('1')"></div>
-          <div id="card-2" class="motivation-card" style="background-image: url('img/unita1/musica.jpg')" ondragover="allowDrop(event)" ondrop="dropOnCard(event, '2')" onclick="handleCardClick('2')"></div>
-          <div id="card-3" class="motivation-card" style="background-image: url('img/unita1/cucina.jpg')" ondragover="allowDrop(event)" ondrop="dropOnCard(event, '3')" onclick="handleCardClick('3')"></div>
-          <div id="card-4" class="motivation-card" style="background-image: url('img/unita1/turismo.jpg')" ondragover="allowDrop(event)" ondrop="dropOnCard(event, '4')" onclick="handleCardClick('4')"></div>
-          <div id="card-5" class="motivation-card" style="background-image: url('img/unita1/studio.jpg')" ondragover="allowDrop(event)" ondrop="dropOnCard(event, '5')" onclick="handleCardClick('5')"></div>
-          <div id="card-6" class="motivation-card" style="background-image: url('img/unita1/lavoro.jpg')" ondragover="allowDrop(event)" ondrop="dropOnCard(event, '6')" onclick="handleCardClick('6')"></div>
-          <div id="card-7" class="motivation-card" style="background-image: url('img/unita1/famiglia.jpg')" ondragover="allowDrop(event)" ondrop="dropOnCard(event, '7')" onclick="handleCardClick('7')"></div>
+          <div id="card-1" class="motivation-card" style="background-image: url('img/unita1/musica.jpg')" ondragover="allowDrop(event)" ondrop="dropOnCard(event, '1')" onclick="handleCardClick('1')"></div>
+          <div id="card-2" class="motivation-card" style="background-image: url('img/unita1/cucina.jpg')" ondragover="allowDrop(event)" ondrop="dropOnCard(event, '2')" onclick="handleCardClick('2')"></div>
+          <div id="card-3" class="motivation-card" style="background-image: url('img/unita1/turismo.jpg')" ondragover="allowDrop(event)" ondrop="dropOnCard(event, '3')" onclick="handleCardClick('3')"></div>
+          <div id="card-4" class="motivation-card" style="background-image: url('img/unita1/studio.jpg')" ondragover="allowDrop(event)" ondrop="dropOnCard(event, '4')" onclick="handleCardClick('4')"></div>
+          <div id="card-5" class="motivation-card" style="background-image: url('img/unita1/lavoro.jpg')" ondragover="allowDrop(event)" ondrop="dropOnCard(event, '5')" onclick="handleCardClick('5')"></div>
+          <div id="card-6" class="motivation-card" style="background-image: url('img/unita1/famiglia.jpg')" ondragover="allowDrop(event)" ondrop="dropOnCard(event, '6')" onclick="handleCardClick('6')"></div>
         </div>
 
         <div class="nav-buttons">
@@ -465,9 +463,21 @@
 
         tagElement.classList.add('tag-used');
         tagElement.draggable = false;
+        
+        // Verifica se il gioco è finito per sbloccare il bottone finale
+        checkGameCompletion();
       } else {
         card.style.animation = 'shake 0.4s ease';
         setTimeout(() => { card.style.animation = ''; }, 400);
+      }
+    }
+
+    function checkGameCompletion() {
+      const totalCards = document.querySelectorAll('#step-4 .motivation-card').length;
+      const correctCards = document.querySelectorAll('#step-4 .card-correct').length;
+      if (totalCards === correctCards) {
+        const nextBtn = document.querySelector('#step-4 .btn-next');
+        if (nextBtn) nextBtn.disabled = false;
       }
     }
 
@@ -481,6 +491,8 @@
         t.classList.remove('tag-used', 'selected');
         t.draggable = true;
       });
+      const nextBtn = document.querySelector('#step-4 .btn-next');
+      if (nextBtn) nextBtn.disabled = true;
       selectedTag = null; draggedElement = null;
     }
   </script>
