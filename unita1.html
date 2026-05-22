@@ -47,6 +47,7 @@
       padding:20px;
       box-shadow:0 1px 6px rgba(20,20,30,0.04);
       margin-bottom:18px;
+      overflow: hidden;
     }
 
     h2 { margin:0 0 4px 0; font-size:1.2rem; color:#1f2937; }
@@ -56,7 +57,7 @@
     .highlight-red { font-weight: bold; color: var(--accent-red); }
     .highlight-green { font-weight: bold; color: var(--accent); }
 
-    /* Nascondi step inizialmente, controllato da JS */
+    /* Nascondi step inizialmente */
     .unit-step { display: none; }
 
     /* Layout multimediale Step 1 e 2 */
@@ -79,7 +80,7 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     }
 
-    /* Pulsanti di navigazione tra schede */
+    /* Pulsanti di navigazione */
     .nav-buttons {
       display: flex;
       justify-content: space-between;
@@ -101,11 +102,49 @@
       text-decoration: none;
     }
     .btn-next { background-color: var(--accent); color: white; }
-    .btn-next:hover { background-color: #006b35; transform: translateX(3px); }
+    .btn-next:hover:not(:disabled) { background-color: #006b35; transform: translateX(3px); }
     .btn-back { background-color: var(--accent-red); color: white; }
     .btn-back:hover { background-color: #a51a22; transform: translateX(-3px); }
     .btn-reset { background-color: #0066cc; color: white; }
     .btn-reset:hover { background-color: #0052a3; }
+    .btn-next:disabled { background-color: #cbd5e1; cursor: not-allowed; }
+
+    /* Step 5: I Nostri Studenti */
+    .red-band-header {
+      background-color: var(--accent-red);
+      color: white;
+      text-align: center;
+      padding: 15px;
+      font-weight: bold;
+      font-size: 1.3rem;
+      margin: -20px -20px 20px -20px; /* Annulla il padding della card */
+    }
+    .students-video-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .student-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .student-video-vertical {
+      width: 100%;
+      aspect-ratio: 9 / 16;
+      background: #000;
+      border-radius: 10px;
+      object-fit: cover;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .student-name {
+      margin-top: 10px;
+      font-weight: bold;
+      color: var(--accent);
+      font-size: 1.1rem;
+    }
 
     /* Layout Badge Step 3 */
     .badge-layout {
@@ -130,7 +169,7 @@
     .badge-image-container { flex: 0.8; display: flex; justify-content: center; }
     .badge-image-container img { width: 100%; max-height: 250px; object-fit: contain; border-radius: var(--radius); }
 
-    /* Pulsanti risposte Step 3 */
+    /* Answer buttons step 3 */
     .answer-options { display:flex; gap:8px; flex-wrap:wrap; }
     .answer-btn {
       background:#ffffff;
@@ -148,15 +187,13 @@
     .answer-btn.incorrect { background:#fff0f0; border-color:#ffb3b3; color:#8a1b1b; }
     .answer-btn:disabled { opacity:0.7; cursor:default; }
 
-    /* GRIGLIA COMPATTA STEP 4 (Ottimizzata a 6 elementi) */
-    /* Griglia bloccata a 3 colonne per PC */
-.cards-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); 
-  gap: var(--gap);
-  margin: 18px 0;
-}
-    
+    /* GRIGLIA COMPATTA STEP 4 */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr); 
+      gap: var(--gap);
+      margin: 18px 0;
+    }
     .motivation-card {
       position: relative;
       width: 100%;
@@ -223,22 +260,17 @@
       color: #94a3b8 !important;
       cursor: not-allowed;
       opacity: 0.5;
-      box-shadow: none;
     }
 
     .note { font-size:0.9rem; color:var(--muted); margin-bottom:12px; }
     .note-ru { font-style: italic; color: #7c8ba1; display: block; margin-top: 2px; }
 
-    /* RESPONSIVE PER SCHERMI PICCOLI */
     @media (max-width: 768px) {
-  .badge-layout { flex-direction: column-reverse; gap: 15px; }
-  
-  /* Mantiene le 3 colonne anche su mobile, riducendo i testi */
-  .cards-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
-  .draggable-tag { padding: 6px 10px; font-size: 0.8rem; }
-  .label-it { font-size: 0.85rem; }
-  .label-ru { font-size: 0.7rem; }
-}
+      .badge-layout { flex-direction: column-reverse; gap: 15px; }
+      .cards-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+      .students-video-grid { grid-template-columns: 1fr; } /* Verticali singoli su mobile per comodità */
+      .student-video-vertical { max-width: 250px; }
+    }
 
     footer { text-align:center; color:var(--muted); font-size:0.85rem; margin-top:24px; padding-top:12px; border-top:1px solid #e5e7eb; }
     
@@ -257,7 +289,6 @@
     </header>
 
     <main>
-      
       <section class="card unit-step" id="step-1">
         <h2>Passo 1: Presentazione</h2>
         <div class="h2-ru">Презентация</div>
@@ -335,7 +366,7 @@
 
         <div class="nav-buttons">
           <button onclick="showStep(2)" class="btn-nav btn-back">⬅ Indietro</button>
-          <button class="btn-nav btn-reset" onclick="resetExercise()">🔄 Ripeti l'esercizio</button>
+          <button class="btn-nav btn-reset" onclick="resetExercise()">🔄 Ripeti</button>
           <button class="btn-nav btn-next" onclick="showStep(4)">Avanti ➡</button>
         </div>
       </section>
@@ -345,35 +376,71 @@
         <div class="h2-ru">Почему студенты хотят изучать итальянский язык?</div>
         
         <p class="note">
-          Trascina il tag sopra la foto corretta, oppure fai un click sul tag e poi un click sulla foto.
+          Trascina il tag sopra la foto corretta, oppure fai click sul tag e poi sulla foto.
           <span class="note-ru">Перетащите тег на нужную картинку или нажмите сначала на тег, а затем на картинку.</span>
         </p>
 
         <div class="tags-container" id="tagsContainer">
-          
           <div class="draggable-tag" draggable="true" ondragstart="dragStart(event)" onclick="selectTag(event)" data-correct-match="2" data-it="🍝 Cucina" data-ru="Еда">🍝 Cucina</div>
           <div class="draggable-tag" draggable="true" ondragstart="dragStart(event)" onclick="selectTag(event)" data-correct-match="6" data-it="❤️ Famiglia" data-ru="Семья">❤️ Famiglia</div>
           <div class="draggable-tag" draggable="true" ondragstart="dragStart(event)" onclick="selectTag(event)" data-correct-match="3" data-it="🏛️ Turismo" data-ru="Туризм">🏛️ Turismo</div>
           <div class="draggable-tag" draggable="true" ondragstart="dragStart(event)" onclick="selectTag(event)" data-correct-match="1" data-it="🎵 Musica" data-ru="Музыка">🎵 Musica</div>
           <div class="draggable-tag" draggable="true" ondragstart="dragStart(event)" onclick="selectTag(event)" data-correct-match="4" data-it="🎓 Studio" data-ru="Учеба">🎓 Studio</div>
           <div class="draggable-tag" draggable="true" ondragstart="dragStart(event)" onclick="selectTag(event)" data-correct-match="5" data-it="💼 Lavoro" data-ru="Работа">💼 Lavoro</div>
-          
         </div>
 
         <div class="cards-grid">
           <div id="card-1" class="motivation-card" style="background-image: url('img/unita1/musica.jpg')" ondragover="allowDrop(event)" ondrop="dropOnCard(event, '1')" onclick="handleCardClick('1')"></div>
           <div id="card-2" class="motivation-card" style="background-image: url('img/unita1/cucina.jpg')" ondragover="allowDrop(event)" ondrop="dropOnCard(event, '2')" onclick="handleCardClick('2')"></div>
-          <div id="card-5" class="motivation-card" style="background-image: url('img/unita1/lavoro.jpg')" ondragover="allowDrop(event)" ondrop="dropOnCard(event, '5')" onclick="handleCardClick('5')"></div><div id="card-3" class="motivation-card" style="background-image: url('img/unita1/turismo.jpg')" ondragover="allowDrop(event)" ondrop="dropOnCard(event, '3')" onclick="handleCardClick('3')"></div>
+          <div id="card-5" class="motivation-card" style="background-image: url('img/unita1/lavoro.jpg')" ondragover="allowDrop(event)" ondrop="dropOnCard(event, '5')" onclick="handleCardClick('5')"></div>
+          <div id="card-3" class="motivation-card" style="background-image: url('img/unita1/turismo.jpg')" ondragover="allowDrop(event)" ondrop="dropOnCard(event, '3')" onclick="handleCardClick('3')"></div>
           <div id="card-4" class="motivation-card" style="background-image: url('img/unita1/studio.jpg')" ondragover="allowDrop(event)" ondrop="dropOnCard(event, '4')" onclick="handleCardClick('4')"></div>
           <div id="card-6" class="motivation-card" style="background-image: url('img/unita1/famiglia.jpg')" ondragover="allowDrop(event)" ondrop="dropOnCard(event, '6')" onclick="handleCardClick('6')"></div>
         </div>
 
         <div class="nav-buttons">
           <button onclick="showStep(3)" class="btn-nav btn-back">⬅ Indietro</button>
-          <button class="btn-nav btn-reset" onclick="resetDragDropNew()">🔄 Reset Gioco</button>
-          <button class="btn-nav btn-next" disabled>Fine Unità 🏁</button>
+          <button class="btn-nav btn-reset" onclick="resetDragDropNew()">🔄 Reset</button>
+          <button class="btn-nav btn-next" id="btn-next-4" onclick="showStep(5)" disabled>Avanti ➡</button>
         </div>
       </section>
+
+      <section class="card unit-step" id="step-5">
+        <div class="red-band-header">
+          Chi sono gli studenti della scuola?
+        </div>
+        
+        <p style="text-align: center;">Ecco alcune video testimonianze dei nostri studenti:</p>
+
+        <div class="students-video-grid">
+          <div class="student-item">
+            <video class="student-video-vertical" controls poster="img/unita1/poster_ana.jpg">
+              <source src="video/AnaPauola.mp4" type="video/mp4">
+            </video>
+            <div class="student-name">AnaPauola</div>
+          </div>
+
+          <div class="student-item">
+            <video class="student-video-vertical" controls poster="img/unita1/poster_zarina.jpg">
+              <source src="video/Zarina.mp4" type="video/mp4">
+            </video>
+            <div class="student-name">Zarina</div>
+          </div>
+
+          <div class="student-item">
+            <video class="student-video-vertical" controls poster="img/unita1/poster_andrei.jpg">
+              <source src="video/Andrei.mp4" type="video/mp4">
+            </video>
+            <div class="student-name">Andrei</div>
+          </div>
+        </div>
+
+        <div class="nav-buttons">
+          <button onclick="showStep(4)" class="btn-nav btn-back">⬅ Indietro</button>
+          <button class="btn-nav btn-next" onclick="alert('Fine della lezione dimostrativa!')">Fine Unità 🏁</button>
+        </div>
+      </section>
+
     </main>
 
     <footer>
@@ -386,7 +453,6 @@
     const user = localStorage.getItem('user_parloitaliano');
     if (!user) { window.location.href = "index.html"; }
 
-    // Gestione Caricamento e ripristino Step salvato
     window.onload = function() {
       const lastStep = localStorage.getItem('currentStep_U1');
       if (lastStep) { showStep(lastStep, false); } else { showStep(1, false); }
@@ -402,7 +468,7 @@
       if (scroll) { window.scrollTo(0,0); }
     }
 
-    // Esercizio Step 3
+    // Step 3
     function checkAnswer(questionId, isCorrect, fullText) {
       const button = event.target;
       const container = button.parentElement;
@@ -425,7 +491,7 @@
       });
     }
 
-    /* --- LOGICA INTEGRATA DRAG & CLICK (MOBILE FRIENDLY) STEP 4 --- */
+    // Step 4 Drag & Drop
     let draggedElement = null;
     let selectedTag = null;
 
@@ -471,7 +537,6 @@
         tagElement.classList.add('tag-used');
         tagElement.draggable = false;
         
-        // Verifica se il gioco è finito per sbloccare il bottone finale
         checkGameCompletion();
       } else {
         card.style.animation = 'shake 0.4s ease';
@@ -483,7 +548,7 @@
       const totalCards = document.querySelectorAll('#step-4 .motivation-card').length;
       const correctCards = document.querySelectorAll('#step-4 .card-correct').length;
       if (totalCards === correctCards) {
-        const nextBtn = document.querySelector('#step-4 .btn-next');
+        const nextBtn = document.getElementById('btn-next-4');
         if (nextBtn) nextBtn.disabled = false;
       }
     }
@@ -498,7 +563,7 @@
         t.classList.remove('tag-used', 'selected');
         t.draggable = true;
       });
-      const nextBtn = document.querySelector('#step-4 .btn-next');
+      const nextBtn = document.getElementById('btn-next-4');
       if (nextBtn) nextBtn.disabled = true;
       selectedTag = null; draggedElement = null;
     }
