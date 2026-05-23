@@ -343,9 +343,98 @@
 
         <div class="nav-buttons">
           <button onclick="showStep(7)" class="btn-nav btn-back">⬅ Indietro</button>
-          <button class="btn-nav btn-next" disabled>Avanti ➡</button>
+          <button onclick="showStep(9)" class="btn-nav btn-next">Avanti ➡</button>
         </div>
       </section>
+
+      <section class="card unit-step" id="step-9">
+        <h2>Completa le frasi</h2>
+        <div class="h2-ru">Дополните предложения</div>
+        
+        <p class="note">Usa queste parole (una è di troppo):<br>
+          <strong style="color: var(--accent);">brasiliana • cantante • io • kazaka • russo</strong>
+        </p>
+
+        <div class="cloze-exercise" style="line-height: 2.5; font-size: 1.1rem; margin: 20px 0;">
+          1. Ciao, io sono Ana Paula. Sono 
+          <input type="text" class="inline-input" id="q9-1" data-answer="brasiliana" placeholder="..." style="width: 120px;">. 
+          Sono una stilista di moda.<br>
+          
+          2. Ciao, <input type="text" class="inline-input" id="q9-2" data-answer="io" placeholder="..." style="width: 50px;"> 
+          sono Zarina. Sono kazaka. Sono una 
+          <input type="text" class="inline-input" id="q9-3" data-answer="cantante" placeholder="..." style="width: 100px;"> lirica.<br>
+          
+          3. Ciao, io sono Andrei. Sono 
+          <input type="text" class="inline-input" id="q9-4" data-answer="russo" placeholder="..." style="width: 80px;">. 
+          Sono cuoco in un ristorante italiano.
+        </div>
+
+        <div class="nav-buttons">
+          <button onclick="showStep(8)" class="btn-nav btn-back">⬅ Indietro</button>
+          <button class="btn-nav btn-reset" onclick="checkCloze(9)">✅ Verifica</button>
+          <button onclick="showStep(10)" class="btn-nav btn-next" id="btn-next-9">Avanti ➡</button>
+        </div>
+      </section>
+
+      <section class="card unit-step" id="step-10">
+        <h2>Caccia alle informazioni</h2>
+        <div class="h2-ru">Заполните таблицу</div>
+        
+        <div style="overflow-x: auto;">
+          <table class="info-table" style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+            <thead>
+              <tr style="background: var(--accent); color: white;">
+                <th style="padding: 10px; border: 1px solid #ddd;">Chi?</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Nazionalità</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Professione</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Perché studia?</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Antonio</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Italiano</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Insegnante</td>
+                <td style="padding: 10px; border: 1px solid #ddd; font-size: 0.9rem;">Perché insegna l’italiano</td>
+              </tr>
+              <tr>
+                <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Ana Paula</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Brasiliana</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">
+                  <input type="text" class="table-input" id="q10-1" data-answers="stilista|stilista di moda|designer|designer di moda" placeholder="...">
+                </td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Perché ama la moda italiana</td>
+              </tr>
+              <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;">
+                  <input type="text" class="table-input" id="q10-2" data-answers="zarina" placeholder="Chi? ...">
+                </td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Kazaka</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Cantante lirica</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Perché ama la musica italiana</td>
+              </tr>
+              <tr>
+                <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Andrei</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Russo</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Cuoco</td>
+                <td style="padding: 10px; border: 1px solid #ddd; font-size: 1.05rem;">
+                  Perché ama la <input type="text" class="table-input" id="q10-3" data-answers="cucina" placeholder="..." style="width: 100px; display: inline-block;"> italiana
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="nav-buttons" style="margin-top: 20px;">
+          <button onclick="showStep(9)" class="btn-nav btn-back">⬅ Indietro</button>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button class="btn-nav btn-reset" onclick="checkTable(10)">✅ Verifica</button>
+            <button class="btn-nav" style="background-color: #f59e0b; color: white;" onclick="provideHint(10)">💡 Suggerisci</button>
+          </div>
+          <button class="btn-nav btn-next" onclick="alert('Fine Unità 1! Ottimo lavoro!')">Fine Unità 🏁</button>
+        </div>
+      </section>
+
 
     </main>
 
@@ -473,6 +562,74 @@
       if (nextBtn) nextBtn.disabled = true;
       selectedTag = null; draggedElement = null;
     }
+
+    // Verifica Esercizio Step 9 (Cloze)
+    function checkCloze(stepId) {
+      const inputs = document.querySelectorAll(`#step-${stepId} .inline-input`);
+      let allCorrect = true;
+
+      inputs.forEach(input => {
+        const userAnswer = input.value.trim().toLowerCase();
+        const correctAnswer = input.getAttribute('data-answer').toLowerCase();
+
+        if (userAnswer === correctAnswer) {
+          input.style.border = "2px solid #22c55e"; // Verde
+          input.style.backgroundColor = "#f0fdf4";
+        } else {
+          input.style.border = "2px solid #ef4444"; // Rosso
+          input.style.backgroundColor = "#fef2f2";
+          allCorrect = false;
+        }
+      });
+    }
+
+    // Verifica Esercizio Step 10 (Con sinonimi flessibili)
+    function checkTable(stepId) {
+      const inputs = document.querySelectorAll(`#step-${stepId} .table-input`);
+      inputs.forEach(input => {
+        const userAnswer = input.value.trim().toLowerCase();
+        // Recuperiamo tutte le risposte corrette separate da "|"
+        const validAnswers = input.getAttribute('data-answers').split('|');
+
+        let isCorrect = false;
+        validAnswers.forEach(ans => {
+          if (userAnswer === ans.trim().toLowerCase()) {
+            isCorrect = true;
+          }
+        });
+
+        if (isCorrect && userAnswer.length > 0) {
+          input.style.backgroundColor = "#e6ffef";
+          input.style.borderColor = "#7be3a8";
+          input.style.borderWidth = "2px";
+        } else {
+          input.style.backgroundColor = "#fff0f0";
+          input.style.borderColor = "#ffb3b3";
+          input.style.borderWidth = "2px";
+        }
+      });
+    }
+
+    // Funzione "Suggerisci" per lo Step 10 (Aiuto progressivo)
+    function provideHint(stepId) {
+      const inputs = document.querySelectorAll(`#step-${stepId} .table-input`);
+      inputs.forEach(input => {
+        // Se il campo è già corretto o compilato non fa nulla
+        if (input.style.backgroundColor === "rgb(230, 255, 239)") return;
+
+        // Prende la prima risposta valida disponibile
+        const mainAnswer = input.getAttribute('data-answers').split('|')[0].trim();
+        const currentText = input.value;
+
+        // Inserisce progressivamente la lettera successiva
+        if (currentText.length < mainAnswer.length) {
+          input.value = mainAnswer.substring(0, currentText.length + 1);
+          input.style.backgroundColor = "#fffbeb"; // Colore giallo chiaro di suggerimento
+          input.style.borderColor = "#fef08a";
+        }
+      });
+    }
+
   </script>
 </body>
 </html>
