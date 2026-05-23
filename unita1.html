@@ -62,6 +62,19 @@
   </style>
 </head>
 <body>
+
+  <nav class="main-navbar" style="position: fixed; top: 0; left: 0; width: 100%; background: #ffffff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 9999; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; box-sizing: border-box;">
+    <div style="font-weight: bold; color: var(--primary); font-size: 1.1rem; font-family: 'Outfit', sans-serif;">
+      Parlo Italiano 🇮🇹
+    </div>
+    <div style="display: flex; gap: 10px;">
+      <a href="index.html" class="btn-nav" style="padding: 6px 12px; font-size: 0.85rem; text-decoration: none; background: #f1f5f9; color: #334155;">🏠 Home</a>
+      <a href="profilo_studente.html" class="btn-nav" style="padding: 6px 12px; font-size: 0.85rem; text-decoration: none; background: var(--accent); color: white;">🪪 Il mio profilo</a>
+    </div>
+  </nav>
+
+  <div style="margin-top: 60px;"></div>
+
   <div class="page">
     <header>
       <h1>Unità 1 — Benvenuti!</h1>
@@ -431,7 +444,179 @@
             <button class="btn-nav btn-reset" onclick="checkTable(10)">✅ Verifica</button>
             <button class="btn-nav" style="background-color: #f59e0b; color: white;" onclick="provideHint(10)">💡 Suggerisci</button>
           </div>
-          <button class="btn-nav btn-next" onclick="alert('Fine Unità 1! Ottimo lavoro!')">Fine Unità 🏁</button>
+          <button onclick="showStep(11)" class="btn-nav btn-next">Avanti ➡</button>
+        </div>
+      </section>
+
+
+      <section class="card unit-step" id="step-11">
+        <h2>Il mio profilo</h2>
+        <div class="h2-ru">Заполните свой профиль</div>
+        
+        <p class="note" style="font-size: 1.05rem; line-height: 1.4;">
+          Ответьте на вопросы, чтобы создать свою школьную карточку! При необходимости воспользуйтесь <a href="#visual-dictionary-anchor" style="color: var(--accent); text-decoration: underline; font-weight: bold;">визуальными словарями ниже ⬇</a>.
+        </p>
+
+        <div class="profile-form" style="margin: 20px 0; background: #f8fafc; padding: 25px; border-radius: 8px; border: 1px solid #e2e8f0;">
+          
+          <div style="margin-bottom: 20px;">
+            <label style="font-weight: bold; display: block; margin-bottom: 8px;">1. Come ti chiami?</label>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 1.05rem; color: #475569; font-weight: 500; white-space: nowrap;">Mi chiamo</span>
+              <input type="text" id="user-name" placeholder="..." style="flex: 1; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem;">
+            </div>
+          </div>
+          
+          <div style="margin-bottom: 20px;">
+            <label style="font-weight: bold; display: block; margin-bottom: 8px;">2. Di dove sei? (Nazionalità)</label>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 1.05rem; color: #475569; font-weight: 500; white-space: nowrap;">Sono</span>
+              <select id="user-nat" style="flex: 1; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem; background-color: white;">
+                <option value="">-- Seleziona la tua nazionalità --</option>
+                <option value="armena">armena ♀️</option>
+                <option value="armeno">armeno ♂️</option>
+                <option value="bielorussa">bielorussa ♀️</option>
+                <option value="bielorusso">bielorusso ♂️</option>
+                <option value="georgiana">georgiana ♀️</option>
+                <option value="georgiano">georgiano ♂️</option>
+                <option value="kazaka">kazaka ♀️</option>
+                <option value="kazako">kazako ♂️</option>
+                <option value="kirghisa">kirghisa ♀️</option>
+                <option value="kirghiso">kirghiso ♂️</option>
+                <option value="russa">russa ♀️</option>
+                <option value="russo">russo ♂️</option>
+                <option value="ucraina">ucraina ♀️</option>
+                <option value="ucraino">ucraino ♂️</option>
+                <option value="uzbeca">uzbeca ♀️</option>
+                <option value="uzbeco">uzbeco ♂️</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 20px;">
+            <label style="font-weight: bold; display: block; margin-bottom: 8px;">3. Che lavoro fai? (Professione)</label>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 1.05rem; color: #475569; font-weight: 500; white-space: nowrap;">Sono</span>
+              <select id="user-job" style="flex: 1; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem; background-color: white;">
+                <option value="">-- Seleziona la tua professione --</option>
+                <option value="architetto / designer">architetto / designer 👤</option>
+                <option value="cantante lirica">cantante lirica ♀️</option>
+                <option value="cantante lirico">cantante lirico ♂️</option>
+                <option value="casalinga">casalinga ♀️</option>
+                <option value="casalingo">casalingo ♂️</option>
+                <option value="contabile">contabile 👤</option>
+                <option value="cuoca">cuoca ♀️</option>
+                <option value="cuoco">cuoco ♂️</option>
+                <option value="imprenditrice">imprenditrice ♀️</option>
+                <option value="imprenditore">imprenditore ♂️</option>
+                <option value="insegnante">insegnante 👤</option>
+                <option value="manager">manager 👤</option>
+                <option value="stilista di moda">stilista di moda 👤</option>
+                <option value="studentessa">studentessa ♀️</option>
+                <option value="studente">studente ♂️</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 25px;">
+            <label style="font-weight: bold; display: block; margin-bottom: 8px;">4. Perché studi l'italiano? (Motivazione)</label>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <span style="font-size: 1.05rem; color: #475569; font-weight: 500;">Studio l'italiano</span>
+              <select id="user-mot" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem; background-color: white;">
+                <option value="">-- Seleziona la tua motivazione --</option>
+                <option value="per amore / per la mia famiglia">💍 per amore / per la mia famiglia</option>
+                <option value="per lavoro">💼 per lavoro</option>
+                <option value="per turismo / per viaggiare">🏛️ per turismo / per viaggiare</option>
+                <option value="perché amo la cucina italiana">🍝 perché amo la cucina italiana</option>
+                <option value="perché amo la moda italiana">👗 perché amo la moda italiana</option>
+                <option value="perché amo la musica / l'opera">🎵 perché amo la musica / l'opera</option>
+              </select>
+            </div>
+          </div>
+
+          <button class="btn-nav" style="background-color: var(--accent); color: white; width: 100%; padding: 12px; font-size: 1.1rem;" onclick="generateBadge()">Genera la mia tessera 🪪</button>
+        </div>
+
+        <div id="student-badge" style="display: none; margin: 25px auto; max-width: 360px; background: linear-gradient(135deg, #0a2540 0%, #0070f3 100%); color: white; padding: 25px; border-radius: 14px; box-shadow: 0 15px 30px rgba(0,0,0,0.25); text-align: left; position: relative; overflow: hidden; animation: fadeIn 0.5s ease;">
+          <div style="position: absolute; right: -15px; top: -15px; font-size: 6rem; opacity: 0.08; font-weight: bold;">IT</div>
+          <div style="border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 10px; margin-bottom: 18px;">
+            <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.8; display: block;">Scuola di Lingua Online</span>
+            <div style="font-weight: bold; font-size: 1.3rem;">Parlo Italiano 🇮🇹</div>
+          </div>
+          <div style="font-size: 1.4rem; font-weight: bold; margin-bottom: 12px; color: #ffffff;" id="badge-name">Nome</div>
+          <div style="margin-bottom: 8px; font-size: 1rem;">🌍 <span style="opacity: 0.75;">Nazionalità:</span> <strong>Sono <span id="badge-nat" style="color: #60a5fa;">...</span></strong></div>
+          <div style="margin-bottom: 8px; font-size: 1rem;">💼 <span style="opacity: 0.75;">Professione:</span> <strong>Sono <span id="badge-job" style="color: #60a5fa;">...</span></strong></div>
+          <div style="font-size: 1rem;">❤️ <span style="opacity: 0.75;">Motivazione:</span> <strong>Studio l'italiano <span id="badge-mot" style="color: #60a5fa;">...</span></strong></div>
+        </div>
+
+        <div id="visual-dictionary-anchor" class="support-dictionary" style="margin-top: 40px; border-top: 2px dashed #cbd5e1; padding-top: 25px;">
+          <h3 style="font-size: 1.2rem; color: var(--primary); margin-bottom: 15px;">💡 Dizionario Visivo di Supporto</h3>
+          
+          <div style="margin-bottom: 25px;">
+            <h4 style="font-size: 1rem; color: #334155; margin-bottom: 10px; border-left: 3px solid #22c55e; padding-left: 8px;">🌍 Nazionalità</h4>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px;">
+              <div style="background: #f8fafc; padding: 10px; border-radius: 6px; text-align: center; border: 1px solid #e2e8f0;">
+                <span style="font-size: 1.8rem; display: block; margin-bottom: 5px;">🇰🇿</span>
+                <span style="font-size: 0.9rem; font-weight: 500;">kazako / kazaka</span>
+              </div>
+              <div style="background: #f8fafc; padding: 10px; border-radius: 6px; text-align: center; border: 1px solid #e2e8f0;">
+                <span style="font-size: 1.8rem; display: block; margin-bottom: 5px;">🇷🇺</span>
+                <span style="font-size: 0.9rem; font-weight: 500;">russo / russa</span>
+              </div>
+              <div style="background: #f8fafc; padding: 10px; border-radius: 6px; text-align: center; border: 1px solid #e2e8f0;">
+                <span style="font-size: 1.8rem; display: block; margin-bottom: 5px;">🇺🇿</span>
+                <span style="font-size: 0.9rem; font-weight: 500;">uzbeco / uzbeca</span>
+              </div>
+              <div style="background: #f8fafc; padding: 10px; border-radius: 6px; text-align: center; border: 1px solid #e2e8f0;">
+                <span style="font-size: 1.8rem; display: block; margin-bottom: 5px;">🇰🇬</span>
+                <span style="font-size: 0.9rem; font-weight: 500;">kirghiso / kirghisa</span>
+              </div>
+              <div style="background: #f8fafc; padding: 10px; border-radius: 6px; text-align: center; border: 1px solid #e2e8f0;">
+                <span style="font-size: 1.8rem; display: block; margin-bottom: 5px;">🇺🇦</span>
+                <span style="font-size: 0.9rem; font-weight: 500;">ucraino / ucraina</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 25px;">
+            <h4 style="font-size: 1rem; color: #334155; margin-bottom: 10px; border-left: 3px solid #3b82f6; padding-left: 8px;">💼 Professione</h4>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px;">
+              <div style="background: #f8fafc; padding: 10px; border-radius: 6px; display: flex; align-items: center; gap: 10px; border: 1px solid #e2e8f0;">
+                <span style="font-size: 1.5rem;">📊</span>
+                <span style="font-size: 0.85rem; font-weight: 500;">manager / contabile</span>
+              </div>
+              <div style="background: #f8fafc; padding: 10px; border-radius: 6px; display: flex; align-items: center; gap: 10px; border: 1px solid #e2e8f0;">
+                <span style="font-size: 1.5rem;">🚀</span>
+                <span style="font-size: 0.85rem; font-weight: 500;">imprenditore /icatrice</span>
+              </div>
+              <div style="background: #f8fafc; padding: 10px; border-radius: 6px; display: flex; align-items: center; gap: 10px; border: 1px solid #e2e8f0;">
+                <span style="font-size: 1.5rem;">🏠</span>
+                <span style="font-size: 0.85rem; font-weight: 500;">casalinga</span>
+              </div>
+              <div style="background: #f8fafc; padding: 10px; border-radius: 6px; display: flex; align-items: center; gap: 10px; border: 1px solid #e2e8f0;">
+                <span style="font-size: 1.5rem;">🎓</span>
+                <span style="font-size: 0.85rem; font-weight: 500;">studente / studentessa</span>
+              </div>
+              <div style="background: #f8fafc; padding: 10px; border-radius: 6px; display: flex; align-items: center; gap: 10px; border: 1px solid #e2e8f0;">
+                <span style="font-size: 1.5rem;">📐</span>
+                <span style="font-size: 0.85rem; font-weight: 500;">architetto / designer</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 15px; border-radius: 8px;">
+            <p style="font-size: 0.95rem; color: #166534; margin-bottom: 12px; font-weight: 500; line-height: 1.4;">
+              🔍 Если вы не нашли то, что искали в подсказках, попробуйте найти это с помощью переводчика ниже! Найдите перевод на <strong>итальянский язык</strong> и вставьте его в форму.
+            </p>
+            <div style="width: 100%; height: 250px; border-radius: 6px; overflow: hidden; border: 1px solid #cbd5e1; background: white;">
+              <iframe src="https://translate.google.com/?sl=ru&tl=it&op=translate" style="width: 100%; height: 100%; border: none;"></iframe>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-buttons" style="margin-top: 35px;">
+          <button onclick="showStep(10)" class="btn-nav btn-back">⬅ Indietro</button>
+          <button class="btn-nav btn-next" style="background-color: #22c55e; color: white;" onclick="alert('Complimenti! Hai completato con successo l\'Unità 1 del livello A0! 🎉')">Fine Unità 🏁</button>
         </div>
       </section>
 
@@ -456,9 +641,16 @@
     function showStep(stepNumber, scroll = true) {
       document.querySelectorAll('.unit-step').forEach(step => step.style.display = 'none');
       const targetStep = document.getElementById('step-' + stepNumber);
+      
       if (targetStep) {
         targetStep.style.display = 'block';
         localStorage.setItem('currentStep_U1', stepNumber);
+        
+        // Se lo studente arriva allo Step 11, la tessera compare subito!
+        // All'inizio mostrerà solo il nome, poi si completerà premendo il bottone.
+        if (stepNumber == 11) {
+          document.getElementById('student-badge').style.display = "block";
+        }
       }
       if (scroll) { window.scrollTo({ top: 0, behavior: 'smooth' }); }
     }
@@ -629,6 +821,71 @@
         }
       });
     }
+
+
+    // Funzione per generare la tessera dello studente dello Step 11
+    function generateBadge() {
+      const name = document.getElementById('user-name').value.trim();
+      const nat = document.getElementById('user-nat').value;
+      const job = document.getElementById('user-job').value;
+      const mot = document.getElementById('user-mot').value;
+
+      // Valori finali pronti per la visualizzazione e la memoria
+      const finalName = name ? name : "Studente";
+      const finalNat = nat ? nat : "...";
+      const finalJob = job ? job : "...";
+      const finalMot = mot ? mot : "...";
+
+      // 1. Aggiorna visivamente il badge nella pagina corrente
+      document.getElementById('badge-name').innerText = finalName;
+      document.getElementById('badge-nat').innerText = finalNat;
+      document.getElementById('badge-job').innerText = finalJob;
+      document.getElementById('badge-mot').innerText = finalMot;
+
+      // 2. Salva permanentemente nel browser (localStorage)
+      localStorage.setItem('studente_nome', finalName);
+      localStorage.setItem('studente_nazionalita', finalNat);
+      localStorage.setItem('studente_professione', finalJob);
+      localStorage.setItem('studente_motivazione', finalMot);
+      localStorage.setItem('profilo_creato', 'true');
+
+      // 3. Mostra il badge
+      const badge = document.getElementById('student-badge');
+      badge.style.display = "block";
+      badge.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Al caricamento della pagina, gestisce la precompilazione e la visibilità progressiva
+document.addEventListener("DOMContentLoaded", function() {
+  const profiloCreato = localStorage.getItem('profilo_creato');
+  const salvatoNome = localStorage.getItem('studente_nome');
+
+  // Se c'è almeno il nome salvato (magari dai primi passi dell'unità)
+  if (salvatoNome) {
+    document.getElementById('user-name').value = salvatoNome;
+    document.getElementById('badge-name').innerText = salvatoNome;
+  }
+
+  if (profiloCreato === 'true') {
+    // Recupera il resto dei dati se l'utente ha già fatto lo Step 11 in passato
+    const salvatoNat = localStorage.getItem('studente_nazionalita');
+    const salvatoJob = localStorage.getItem('studente_professione');
+    const salvatoMot = localStorage.getItem('studente_motivazione');
+
+    if (salvatoNat) document.getElementById('user-nat').value = salvatoNat;
+    if (salvatoJob) document.getElementById('user-job').value = salvatoJob;
+    if (salvatoMot) document.getElementById('user-mot').value = salvatoMot;
+
+    document.getElementById('badge-nat').innerText = salvatoNat || "...";
+    document.getElementById('badge-job').innerText = salvatoJob || "...";
+    document.getElementById('badge-mot').innerText = salvatoMot || "...";
+  } else {
+    // Se è la prima volta, la tessera mostra i campi vuoti pronti da sbloccare
+    document.getElementById('badge-nat').innerText = "...";
+    document.getElementById('badge-job').innerText = "...";
+    document.getElementById('badge-mot').innerText = "...";
+  }
+});
 
   </script>
 </body>
