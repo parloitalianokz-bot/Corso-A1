@@ -4,282 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Unità 1 — Parlo Italiano</title>
-  <style>
-    :root{
-      --bg:#f7f7f9;
-      --card:#ffffff;
-      --accent:#008C45; /* Verde bandiera scuola */
-      --accent-red:#CD212A; /* Rosso bandiera */
-      --muted:#666;
-      --gap:12px;
-      --radius:12px;
-      --max-width:850px;
-    }
-
-    html,body{
-      height:100%;
-      margin:0;
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-      background:var(--bg);
-      color:#222;
-      -webkit-font-smoothing:antialiased;
-    }
-
-    .page {
-      max-width: var(--max-width);
-      margin: 18px auto;
-      padding: 18px;
-    }
-
-    header {
-      text-align: center;
-      margin-bottom: 24px;
-      border-bottom: 1px solid #e5e7eb;
-      padding-bottom: 12px;
-    }
-
-    header h1{ margin:0; font-size:1.6rem; color:var(--accent-red); }
-    .subtitle-ru { margin: 4px 0 0 0; font-size:1.1rem; color:var(--accent); font-style: italic; }
-
-    .card {
-      background:var(--card);
-      border-radius:var(--radius);
-      padding:20px;
-      box-shadow:0 1px 6px rgba(20,20,30,0.04);
-      margin-bottom:18px;
-      overflow: hidden;
-    }
-
-    h2 { margin:0 0 4px 0; font-size:1.2rem; color:#1f2937; }
-    .h2-ru { margin:0 0 12px 0; font-size:0.95rem; color:var(--muted); font-style: italic; }
-    p { margin:0 0 10px 0; color:#374151; line-height: 1.5; }
-
-    .highlight-red { font-weight: bold; color: var(--accent-red); }
-    .highlight-green { font-weight: bold; color: var(--accent); }
-
-    /* Nascondi step inizialmente */
-    .unit-step { display: none; }
-
-    /* Layout multimediale Step 1 e 2 */
-    .intro-section {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 15px;
-    }
-    .intro-text { flex: 1 1 300px; font-size: 1.1rem; }
-    .intro-img, .intro-video {
-      max-width: 450px;
-      width: 100%;
-      height: auto;
-      aspect-ratio: 16 / 9;
-      border-radius: var(--radius);
-      object-fit: cover;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    }
-
-    /* Pulsanti di navigazione */
-    .nav-buttons {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 30px;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-    .btn-nav {
-      padding: 10px 22px;
-      border-radius: 10px;
-      font-weight: bold;
-      font-size: 1rem;
-      transition: all 0.2s;
-      cursor: pointer;
-      border: none;
-      min-width: 130px;
-      text-align: center;
-      text-decoration: none;
-    }
-    .btn-next { background-color: var(--accent); color: white; }
-    .btn-next:hover:not(:disabled) { background-color: #006b35; transform: translateX(3px); }
-    .btn-back { background-color: var(--accent-red); color: white; }
-    .btn-back:hover { background-color: #a51a22; transform: translateX(-3px); }
-    .btn-reset { background-color: #0066cc; color: white; }
-    .btn-reset:hover { background-color: #0052a3; }
-    .btn-next:disabled { background-color: #cbd5e1; cursor: not-allowed; }
-
-    /* Step 5: I Nostri Studenti */
-    .red-band-header {
-      background-color: var(--accent-red);
-      color: white;
-      text-align: center;
-      padding: 15px;
-      font-weight: bold;
-      font-size: 1.3rem;
-      margin: -20px -20px 20px -20px; /* Annulla il padding della card */
-    }
-    .students-video-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
-      margin-top: 20px;
-    }
-    .student-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-    .student-video-vertical {
-      width: 100%;
-      aspect-ratio: 9 / 16;
-      background: #000;
-      border-radius: 10px;
-      object-fit: cover;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-    .student-name {
-      margin-top: 10px;
-      font-weight: bold;
-      color: var(--accent);
-      font-size: 1.1rem;
-    }
-
-    /* Layout Badge Step 3 */
-    .badge-layout {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: 20px;
-      margin-top: 15px;
-    }
-    .info-container { flex: 1.2; display: flex; flex-direction: column; gap: 10px; }
-    .badge-title-green {
-      background-color: var(--accent);
-      color: white;
-      padding: 10px;
-      border-radius: 8px;
-      text-align: center;
-      font-size: 1.3rem;
-      font-weight: bold;
-    }
-    .info-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px; }
-    .info-card p { margin: 0 0 8px 0; font-weight: 500; }
-    .badge-image-container { flex: 0.8; display: flex; justify-content: center; }
-    .badge-image-container img { width: 100%; max-height: 250px; object-fit: contain; border-radius: var(--radius); }
-
-    /* Answer buttons step 3 */
-    .answer-options { display:flex; gap:8px; flex-wrap:wrap; }
-    .answer-btn {
-      background:#ffffff;
-      border:1px solid #cbd5e1;
-      padding:8px 12px;
-      border-radius:8px;
-      cursor:pointer;
-      font-size:0.95rem;
-      font-weight: 500;
-      flex: 1;
-      min-width: 100px;
-      transition: background 0.2s;
-    }
-    .answer-btn.correct { background:#e6ffef; border-color:#7be3a8; color:#0b6b3a; font-weight: bold; }
-    .answer-btn.incorrect { background:#fff0f0; border-color:#ffb3b3; color:#8a1b1b; }
-    .answer-btn:disabled { opacity:0.7; cursor:default; }
-
-    /* GRIGLIA COMPATTA STEP 4 */
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr); 
-      gap: var(--gap);
-      margin: 18px 0;
-    }
-    .motivation-card {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      background-size: cover;
-      background-position: center;
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
-      border: 2px solid #e5e7eb;
-      cursor: pointer;
-      transition: all 0.2s;
-      filter: brightness(0.6); 
-    }
-    .motivation-card.card-correct {
-      border-color: var(--accent);
-      filter: brightness(1); 
-    }
-    .card-overlay-label {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(0, 140, 69, 0.92);
-      color: white;
-      padding: 8px 12px;
-      border-radius: 8px;
-      text-align: center;
-      width: 85%;
-      box-sizing: border-box;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    }
-    .label-it { font-weight: bold; font-size: 0.95rem; }
-    .label-ru { font-size: 0.75rem; opacity: 0.9; font-style: italic; margin-top: 2px; }
-
-    .tags-container {
-      background: #f8fafc;
-      border: 2px dashed #cbd5e1;
-      border-radius: var(--radius);
-      padding: 14px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      justify-content: center;
-      min-height: 50px;
-    }
-    .draggable-tag {
-      background: var(--card);
-      border: 2px solid var(--accent);
-      color: var(--accent);
-      padding: 8px 14px;
-      border-radius: 20px;
-      font-weight: 600;
-      font-size: 0.9rem;
-      cursor: grab;
-      user-select: none;
-      transition: all 0.2s;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    }
-    .draggable-tag.selected { background: #e6ffef; border-color: #000; color: #000; }
-    .draggable-tag.tag-used {
-      background: #e2e8f0 !important;
-      border-color: #cbd5e1 !important;
-      color: #94a3b8 !important;
-      cursor: not-allowed;
-      opacity: 0.5;
-    }
-
-    .note { font-size:0.9rem; color:var(--muted); margin-bottom:12px; }
-    .note-ru { font-style: italic; color: #7c8ba1; display: block; margin-top: 2px; }
-
-    @media (max-width: 768px) {
-      .badge-layout { flex-direction: column-reverse; gap: 15px; }
-      .cards-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
-      .students-video-grid { grid-template-columns: 1fr; } /* Verticali singoli su mobile per comodità */
-      .student-video-vertical { max-width: 250px; }
-    }
-
-    footer { text-align:center; color:var(--muted); font-size:0.85rem; margin-top:24px; padding-top:12px; border-top:1px solid #e5e7eb; }
-    
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-6px); }
-      75% { transform: translateX(6px); }
-    }
-  </style>
+  <!-- Collegamento al Design System Globale -->
+  <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
   <div class="page">
@@ -289,6 +15,7 @@
     </header>
 
     <main>
+      <!-- PASSO 1: PRESENTAZIONE -->
       <section class="card unit-step" id="step-1">
         <h2>Passo 1: Presentazione</h2>
         <div class="h2-ru">Презентация</div>
@@ -306,6 +33,7 @@
         </div>
       </section>
 
+      <!-- PASSO 2: L'INSEGNANTE DI ITALIANO -->
       <section class="card unit-step" id="step-2">
         <h2>Passo 2: L'insegnante di italiano</h2>
         <div class="h2-ru">Учитель итальянского</div>
@@ -315,10 +43,14 @@
             <p>Io sono <span class="highlight-red">Antonio</span>.</p>
             <p>Io sono <span class="highlight-green">l'insegnante</span> della scuola "Parlo Italiano".</p>
           </div>
-          <video class="intro-video" controls poster="img/unita1/Antonio1.jpg">
-            <source src="video/Vd1.mp4" type="video/mp4">
-            Il tuo browser non supporta il video.
-          </video>
+          <!-- Video YouTube Verticale dell'Insegnante (Shorts) -->
+          <div style="max-width: 280px; width: 100%;">
+            <iframe class="student-video-vertical" src="https://www.youtube.com/embed/c5k90S6hnUA?rel=0&modestbranding=1" 
+                    title="Antonio - Presentazione" 
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen></iframe>
+          </div>
         </div>
         <div class="nav-buttons">
           <button onclick="showStep(1)" class="btn-nav btn-back">⬅ Indietro</button>
@@ -326,6 +58,7 @@
         </div>
       </section>
 
+      <!-- PASSO 3: CHI È ANTONIO? -->
       <section class="card unit-step" id="step-3">
         <h2>Passo 3: Chi è Antonio?</h2>
         <div class="h2-ru">Кто такой Антонио?</div>
@@ -335,26 +68,26 @@
             <div class="badge-title-green">🪪 Lui è Antonio</div>
             
             <div class="info-card">
-              <p>🌍 È <strong>italiano</strong>?</p>
+              <p>🌍 È <strong>italiano</strong>? <span style="font-weight: normal; color: var(--text-muted); font-size: 0.9rem;">(Он итальянец?)</span></p>
               <div class="answer-options">
-                <button class="answer-btn" data-original="Sì" onclick="checkAnswer(1, true, 'Sì, Antonio è italiano')">Sì</button>
-                <button class="answer-btn" data-original="No" onclick="checkAnswer(1, false, 'No, Antonio è italiano')">No</button>
+                <button class="answer-btn" data-original="Sì" onclick="checkAnswer(this, 1, true, 'Sì, Antonio è italiano')">Sì</button>
+                <button class="answer-btn" data-original="No" onclick="checkAnswer(this, 1, false, 'No, Antonio è italiano')">No</button>
               </div>
             </div>
 
             <div class="info-card">
-              <p>🌍 È <strong>kazako</strong>?</p>
+              <p>🌍 È <strong>kazako</strong>? <span style="font-weight: normal; color: var(--text-muted); font-size: 0.9rem;">(Он казах?)</span></p>
               <div class="answer-options">
-                <button class="answer-btn" data-original="Sì" onclick="checkAnswer(2, false, 'No, Antonio non è kazako. Antonio è italiano')">Sì</button>
-                <button class="answer-btn" data-original="No" onclick="checkAnswer(2, true, 'No, Antonio non è kazako. Antonio è italiano')">No</button>
+                <button class="answer-btn" data-original="Sì" onclick="checkAnswer(this, 2, false, 'No, Antonio non è kazako. Antonio è italiano')">Sì</button>
+                <button class="answer-btn" data-original="No" onclick="checkAnswer(this, 2, true, 'No, Antonio non è kazako. Antonio è italiano')">No</button>
               </div>
             </div>
 
             <div class="info-card">
-              <p>💼 È un <strong>insegnante</strong>?</p>
+              <p>💼 È un <strong>insegnante</strong>? <span style="font-weight: normal; color: var(--text-muted); font-size: 0.9rem;">(Он учитель?)</span></p>
               <div class="answer-options">
-                <button class="answer-btn" data-original="Sì" onclick="checkAnswer(3, true, 'Sì, Antonio è l\'insegnante della scuola &quot;Parlo Italiano&quot;')">Sì</button>
-                <button class="answer-btn" data-original="No" onclick="checkAnswer(3, false, 'No, Antonio è l\'insegnante della scuola &quot;Parlo Italiano&quot;')">No</button>
+                <button class="answer-btn" data-original="Sì" onclick="checkAnswer(this, 3, true, 'Sì, Antonio è l\'insegnante della scuola &quot;Parlo Italiano&quot;')">Sì</button>
+                <button class="answer-btn" data-original="No" onclick="checkAnswer(this, 3, false, 'No, Antonio è l\'insegnante della scuola &quot;Parlo Italiano&quot;')">No</button>
               </div>
             </div>
           </div>
@@ -371,6 +104,7 @@
         </div>
       </section>
 
+      <!-- PASSO 4: PERCHÉ GLI STUDENTI VOGLIONO IMPARARE L'ITALIANO? -->
       <section class="card unit-step" id="step-4">
         <h2>Passo 4: Perché gli studenti vogliono imparare l'italiano?</h2>
         <div class="h2-ru">Почему студенты хотят изучать итальянский язык?</div>
@@ -405,39 +139,46 @@
         </div>
       </section>
 
+      <!-- PASSO 5: CHI SONO GLI STUDENTI DELLA SCUOLA? -->
       <section class="card unit-step" id="step-5">
         <div class="red-band-header">
           Chi sono gli studenti della scuola?
         </div>
         
-        <p style="text-align: center;">Ecco alcune video testimonianze dei nostri studenti:</p>
+        <p style="text-align: center; margin-bottom: 20px;">Ecco alcune video testimonianze dei nostri studenti:<br><span style="font-style: italic; font-size: 0.9rem; color: var(--text-muted);">Вот видеоотзывы некоторых наших студентов:</span></p>
 
         <div class="students-video-grid">
           <div class="student-item">
-            <video class="student-video-vertical" controls poster="img/unita1/poster_ana.jpg">
-              <source src="video/AnaPaola.mp4" type="video/mp4">
-            </video>
+            <iframe class="student-video-vertical" src="https://www.youtube.com/embed/uhATUG6SNj0?rel=0&modestbranding=1" 
+                    title="AnaPaola - Testimonianza" 
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen></iframe>
             <div class="student-name">AnaPaola</div>
           </div>
 
           <div class="student-item">
-            <video class="student-video-vertical" controls poster="img/unita1/poster_zarina.jpg">
-              <source src="video/Zarina.mp4" type="video/mp4">
-            </video>
+            <iframe class="student-video-vertical" src="https://www.youtube.com/embed/3Wqt4Ver6vc?rel=0&modestbranding=1" 
+                    title="Zarina - Testimonianza" 
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen></iframe>
             <div class="student-name">Zarina</div>
           </div>
 
           <div class="student-item">
-            <video class="student-video-vertical" controls poster="img/unita1/poster_andrei.jpg">
-              <source src="video/Andrei.mp4" type="video/mp4">
-            </video>
+            <iframe class="student-video-vertical" src="https://www.youtube.com/embed/qymOqL1ivWA?rel=0&modestbranding=1" 
+                    title="Andrei - Testimonianza" 
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen></iframe>
             <div class="student-name">Andrei</div>
           </div>
         </div>
 
         <div class="nav-buttons">
           <button onclick="showStep(4)" class="btn-nav btn-back">⬅ Indietro</button>
-          <button class="btn-nav btn-next" onclick="alert('Fine della lezione dimostrativa!')">Fine Unità 🏁</button>
+          <button class="btn-nav btn-next" onclick="alert('Fine della lezione dimostrativa! Отличная работа!')">Fine Unità 🏁</button>
         </div>
       </section>
 
@@ -449,7 +190,7 @@
   </div>
 
   <script>
-    // Controllo accesso
+    // Controllo accesso dello studente
     const user = localStorage.getItem('user_parloitaliano');
     if (!user) { window.location.href = "index.html"; }
 
@@ -465,13 +206,13 @@
         targetStep.style.display = 'block';
         localStorage.setItem('currentStep_U1', stepNumber);
       }
-      if (scroll) { window.scrollTo(0,0); }
+      if (scroll) { window.scrollTo({ top: 0, behavior: 'smooth' }); }
     }
 
-    // Step 3
-    function checkAnswer(questionId, isCorrect, fullText) {
-      const button = event.target;
+    // ESERCIZIO PASSO 3 (Chi è Antonio)
+    function checkAnswer(button, questionId, isCorrect, fullText) {
       const container = button.parentElement;
+      // Disabilita tutti i bottoni del gruppo domanda corrente per evitare click ripetuti
       container.querySelectorAll('.answer-btn').forEach(btn => btn.disabled = true);
       
       if (isCorrect) {
@@ -491,12 +232,13 @@
       });
     }
 
-    // Step 4 Drag & Drop
+    // ESERCIZIO PASSO 4 (Drag & Drop)
     let draggedElement = null;
     let selectedTag = null;
 
     function dragStart(e) { draggedElement = e.target; }
     function allowDrop(e) { e.preventDefault(); }
+    
     function dropOnCard(e, cardId) {
       e.preventDefault();
       if (!draggedElement) return;
