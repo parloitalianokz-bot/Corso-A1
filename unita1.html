@@ -634,8 +634,15 @@
     if (!user) { window.location.href = "index.html"; }
 
     window.onload = function() {
-      const lastStep = localStorage.getItem('currentStep_U1');
-      if (lastStep) { showStep(lastStep, false); } else { showStep(1, false); }
+      // Recuperiamo l'utente corrente per capire da dove era rimasto LUI
+      const userKey = localStorage.getItem('utente_corrente') || 'ospite';
+      const lastStep = localStorage.getItem(userKey + '_currentStep_U1');
+      
+      if (lastStep) { 
+        showStep(lastStep, false); 
+      } else { 
+        showStep(1, false); // Se è la prima volta per questo utente, parte dal Passo 1
+      }
     };
 
     function showStep(stepNumber, scroll = true) {
@@ -644,10 +651,12 @@
       
       if (targetStep) {
         targetStep.style.display = 'block';
-        localStorage.setItem('currentStep_U1', stepNumber);
+        
+        // Recuperiamo l'utente corrente per isolare il salvataggio dei passi
+        const userKey = localStorage.getItem('utente_corrente') || 'ospite';
+        localStorage.setItem(userKey + '_currentStep_U1', stepNumber);
         
         // Se lo studente arriva allo Step 11, la tessera compare subito!
-        // All'inizio mostrerà solo il nome, poi si completerà premendo il bottone.
         if (stepNumber == 11) {
           document.getElementById('student-badge').style.display = "block";
         }
@@ -823,6 +832,9 @@
     }
 
 
+    // Recuperiamo subito l'identificativo dell'utente connesso
+    const userKey = localStorage.getItem('utente_corrente') || 'ospite';
+
     // Funzione per generare la tessera dello studente dello Step 11
     function generateBadge() {
       const name = document.getElementById('user-name').value.trim();
@@ -830,24 +842,23 @@
       const job = document.getElementById('user-job').value;
       const mot = document.getElementById('user-mot').value;
 
-      // Valori finali pronti per la visualizzazione e la memoria
       const finalName = name ? name : "Studente";
       const finalNat = nat ? nat : "...";
       const finalJob = job ? job : "...";
       const finalMot = mot ? mot : "...";
 
-      // 1. Aggiorna visivamente il badge nella pagina corrente
+      // 1. Aggiorna visivamente il badge
       document.getElementById('badge-name').innerText = finalName;
       document.getElementById('badge-nat').innerText = finalNat;
       document.getElementById('badge-job').innerText = finalJob;
       document.getElementById('badge-mot').innerText = finalMot;
 
-      // 2. Salva permanentemente nel browser (localStorage)
-      localStorage.setItem('studente_nome', finalName);
-      localStorage.setItem('studente_nazionalita', finalNat);
-      localStorage.setItem('studente_professione', finalJob);
-      localStorage.setItem('studente_motivazione', finalMot);
-      localStorage.setItem('profilo_creato', 'true');
+      // 2. Salva associando il nome utente alla chiave (es. camilla_studente_nome)
+      localStorage.setItem(userKey + '_studente_nome', finalName);
+      localStorage.setItem(userKey + '_studente_nazionalita', finalNat);
+      localStorage.setItem(userKey + '_studente_professione', finalJob);
+      localStorage.setItem(userKey + '_studente_motivazione', finalMot);
+      localStorage.setItem(userKey + '_profilo_creato', 'true');
 
       // 3. Mostra il badge
       const badge = document.getElementById('student-badge');
@@ -855,37 +866,43 @@
       badge.scrollIntoView({ behavior: 'smooth' });
     }
 
-    // Al caricamento della pagina, gestisce la precompilazione e la visibilità progressiva
-document.addEventListener("DOMContentLoaded", function() {
-  const profiloCreato = localStorage.getItem('profilo_creato');
-  const salvatoNome = localStorage.getItem('studente_nome');
+    // Al caricamento della pagina, recupera i dati dell'utente specifico
+    document.addEventListener("DOMContentLoaded", function() {
+      // CONTROLLO DI SICUREZZA
+      if (localStorage.getItem('utente_autorizzato') !== 'true') {
+        alert("Accesso negato. Fai prima il login!");
+        window.location.href = "index.html";
+        return; 
+      }
 
-  // Se c'è almeno il nome salvato (magari dai primi passi dell'unità)
-  if (salvatoNome) {
-    document.getElementById('user-name').value = salvatoNome;
-    document.getElementById('badge-name').innerText = salvatoNome;
-  }
+      const userKey = localStorage.getItem('utente_corrente') || 'ospite';
+      const profiloCreato = localStorage.getItem(userKey + '_profilo_creato');
+      const salvatoNome = localStorage.getItem(userKey + '_studente_nome');
 
-  if (profiloCreato === 'true') {
-    // Recupera il resto dei dati se l'utente ha già fatto lo Step 11 in passato
-    const salvatoNat = localStorage.getItem('studente_nazionalita');
-    const salvatoJob = localStorage.getItem('studente_professione');
-    const salvatoMot = localStorage.getItem('studente_motivazione');
+      // Precompila il nome specifico
+      if (salvatoNome) {
+        document.getElementById('user-name').value = salvatoNome;
+        document.getElementById('badge-name').innerText = salvatoNome;
+      }
 
-    if (salvatoNat) document.getElementById('user-nat').value = salvatoNat;
-    if (salvatoJob) document.getElementById('user-job').value = salvatoJob;
-    if (salvatoMot) document.getElementById('user-mot').value = salvatoMot;
+      if (profiloCreato === 'true') {
+        const salvatoNat = localStorage.getItem(userKey + '_studente_nazionalita');
+        const salvatoJob = localStorage.getItem(userKey + '_studente_professione');
+        const salvatoMot = localStorage.getItem(userKey + '_studente_motivazione');
 
-    document.getElementById('badge-nat').innerText = salvatoNat || "...";
-    document.getElementById('badge-job').innerText = salvatoJob || "...";
-    document.getElementById('badge-mot').innerText = salvatoMot || "...";
-  } else {
-    // Se è la prima volta, la tessera mostra i campi vuoti pronti da sbloccare
-    document.getElementById('badge-nat').innerText = "...";
-    document.getElementById('badge-job').innerText = "...";
-    document.getElementById('badge-mot').innerText = "...";
-  }
-});
+        if (salvatoNat) document.getElementById('user-nat').value = salvatoNat;
+        if (salvatoJob) document.getElementById('user-job').value = salvatoJob;
+        if (salvatoMot) document.getElementById('user-mot').value = salvatoMot;
+
+        document.getElementById('badge-nat').innerText = salvatoNat || "...";
+        document.getElementById('badge-job').innerText = salvatoJob || "...";
+        document.getElementById('badge-mot').innerText = salvatoMot || "...";
+      } else {
+        document.getElementById('badge-nat').innerText = "...";
+        document.getElementById('badge-job').innerText = "...";
+        document.getElementById('badge-mot').innerText = "...";
+      }
+    });
 
   </script>
 </body>

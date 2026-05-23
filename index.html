@@ -63,7 +63,7 @@
 
     <!-- Scheda di Accesso Studenti -->
     <div id="login-section" class="card login-card">
-        <h2>Accesso Studenti</h2>
+        <h2>Accesso Studenti belli</h2>
         <p class="h2-ru" style="margin-bottom: 24px;">Вход для студентов</p>
         
         <input type="text" id="user" placeholder="Nome Utente (Имя пользователя)" oninput="nascondiErrore()" autocomplete="username">
@@ -85,18 +85,16 @@
     </div>
 
     <script>
-        // Database codificato in Base64 (Costi zero, configurazione statica su GitHub Pages)
-        // anna: roma24 -> cm9tYTI0
-        // yulia: roma24 -> cm9tYTI0
-        // marat: milano24 -> bWlsYW5vMjQ=
-        // assel: milano24 -> bWlsYW5vMjQ=
-        // antonio: amnesia -> YW1uZXNpYQ==
+      // Database codificato in Base64 (Configurazione statica su GitHub Pages)
+        // antonio: amnesia -> YW1uZXNpYQ== (Accesso totale)
+        // assel: amore -> YW1vcmU= (Accesso totale)
+        // camilla: sakharoka -> c2FraGFyb2th (Solo Unità 1)
+        // sara: sarochka -> c2Fyb2Noa2E= (Solo Unità 1)
         const database = {
-            "anna":    { pass: "cm9tYTI0",   maxUnit: 3 },
-            "yulia":   { pass: "cm9tYTI0",   maxUnit: 3 },
-            "marat":   { pass: "bWlsYW5vMjQ=", maxUnit: 1 },
-            "assel":   { pass: "bWlsYW5vMjQ=", maxUnit: 1 },
-            "antonio": { pass: "YW1uZXNpYQ==",    maxUnit: 10 }
+            "antonio": { pass: "YW1uZXNpYQ==",    maxUnit: 10 },
+            "assel":   { pass: "YW1vcmU=",        maxUnit: 10 },
+            "camilla": { pass: "c2FraGFyb2th",   maxUnit: 1 },
+            "sara":    { pass: "c2Fyb2Noa2E=",   maxUnit: 1 }
         };
 
         // Elenco ufficiale delle unità disponibili
@@ -119,25 +117,39 @@
         };
 
         function login() {
-            const u = document.getElementById('user').value.toLowerCase().trim();
-            const p = document.getElementById('pass').value.trim();
-            
-            if (!u || !p) {
-                document.getElementById('error').style.display = 'block';
-                return;
-            }
+    // Trasforma l'input in minuscolo e toglie gli spazi
+    const u = document.getElementById('user').value.toLowerCase().trim();
+    const p = document.getElementById('pass').value.trim();
+    
+    if (!u || !p) {
+        document.getElementById('error').style.display = 'block';
+        return;
+    }
 
-            // Codifica in Base64 per il confronto con il database statico
-            const passwordCodificata = btoa(p);
-            
-            if (database[u] && database[u].pass === passwordCodificata) {
-                localStorage.setItem('user_parloitaliano', u);
-                localStorage.setItem('pass_parloitaliano', passwordCodificata);
-                mostraDashboard(u);
-            } else {
-                document.getElementById('error').style.display = 'block';
-            }
-        }
+    // Cripta la password inserita dall'utente
+    const passwordCodificata = btoa(p);
+    
+    // Controlla se l'utente esiste nel database e se la password coincide
+    if (database[u] && database[u].pass === passwordCodificata) {
+        localStorage.setItem('user_parloitaliano', u);
+        localStorage.setItem('pass_parloitaliano', passwordCodificata);
+        
+        // Importante per separare i profili
+        localStorage.setItem('utente_corrente', u);
+        
+        // Salva il nome con la prima lettera maiuscola per la tessera (Antonio)
+        const nomeFormattato = u.charAt(0).toUpperCase() + u.slice(1);
+        localStorage.setItem(u + '_studente_nome', nomeFormattato);
+        
+        localStorage.setItem('utente_autorizzato', 'true');
+        
+        // Mostra la dashboard
+        mostraDashboard(u);
+    } else {
+        // Se non coincide, mostra l'errore
+        document.getElementById('error').style.display = 'block';
+    }
+}
 
         function logout() {
             localStorage.removeItem('user_parloitaliano');
