@@ -4,185 +4,88 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Corso A1 - Parlo Italiano</title>
+    <!-- Collegamento al Design System Globale -->
+    <link rel="stylesheet" href="css/main.css">
     <style>
-        /* Palette colori aggiornata: Sfondo chiaro, testo scuro e dettagli Blu Navy/Tricolore */
-        :root {
-            --primary-blue: #002F6C; /* Elegante Blu Navy per i titoli principali */
-            --italian-green: #008C45;
-            --italian-red: #CD212A;
-            --bg-color: #F8F9FA;
-            --text-dark: #2C3E50;
+        /* Regole aggiuntive per la pagina index specifiche */
+        .school-logo-container {
+            text-align: center;
+            margin-bottom: 24px;
+            animation: fadeIn 0.8s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
         }
-
-        body { 
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif; 
-            background: var(--bg-color); 
-            display: flex; 
-            flex-direction: column;
-            justify-content: center; 
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px; 
-            margin: 0; 
+        .logo-text {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: -0.5px;
+        }
+        .logo-accent {
+            color: var(--italian-green);
+        }
+        .logo-sub {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            margin-top: 6px;
+        }
+        .login-card {
+            width: 100%;
+            max-width: 460px;
             box-sizing: border-box;
         }
-        
-        /* Linea tricolore decorativa sopra la card */
-        .tricolore-bar {
-            display: flex;
+        #login-section {
+            text-align: center;
+        }
+        #dashboard {
+            display: none;
             width: 100%;
             max-width: 480px;
-            height: 6px;
-            border-radius: 6px 6px 0 0;
-            overflow: hidden;
-            margin-bottom: -6px;
-            z-index: 2;
-        }
-        .bar-green { background: var(--italian-green); flex: 1; }
-        .bar-white { background: #ffffff; flex: 1; }
-        .bar-red { background: var(--italian-red); flex: 1; }
-
-        .card { 
-            background: white; 
-            padding: 35px 30px; 
-            border-radius: 0 0 20px 20px; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.06); 
-            width: 100%; 
-            max-width: 480px; 
-            box-sizing: border-box;
-            text-align: left;
-        }
-
-        #login-section { text-align: center; } 
-        
-        h2 {
-            margin-top: 0;
-            font-weight: 700;
-        }
-
-        /* Input stilizzati e ottimizzati per mobile */
-        input { 
-            width: 100%; 
-            padding: 14px; 
-            margin: 10px 0; 
-            border-radius: 10px; 
-            border: 1px solid #E2E8F0; 
-            font-size: 1rem;
-            box-sizing: border-box;
-            transition: all 0.3s ease;
-        }
-        
-        input:focus {
-            outline: none;
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 3px rgba(0, 47, 108, 0.1);
-        }
-        
-        /* Bottoni moderni con transizione fluida */
-        button { 
-            background: var(--primary-blue); 
-            color: white; 
-            border: none; 
-            padding: 14px 30px; 
-            border-radius: 10px; 
-            cursor: pointer; 
-            font-weight: bold;
-            font-size: 1rem;
-            letter-spacing: 0.5px;
-            width: 100%;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0, 47, 108, 0.15);
-        }
-        
-        button:hover { 
-            opacity: 0.9;
-            transform: translateY(-1px);
-            box-shadow: 0 6px 15px rgba(0, 47, 108, 0.2);
-        }
-
-        /* I Link delle Unità stilizzati */
-        .unit-link { 
-            display: block; 
-            padding: 16px 20px; 
-            margin: 14px 0; 
-            background: #ffffff; 
-            border-radius: 12px; 
-            text-decoration: none; 
-            color: var(--text-dark); 
-            border-left: 6px solid var(--italian-green); 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03); 
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 
-            text-align: left; 
-        }
-
-        .unit-link:hover {
-            transform: translateX(8px);
-            background: #F8FAFC;
-            border-left-color: var(--italian-red);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.06);
-        }
-
-        #welcome-msg {
-            text-align: center; 
-            color: var(--primary-blue);
-        }
-
-        .dashboard-text {
-            text-align: center; 
-            color: #64748B;
-            font-size: 1.05rem;
-            margin-bottom: 25px;
-        }
-
-        #dashboard { display: none; }
-        
-        #error { 
-            color: var(--italian-red); 
-            display: none; 
-            text-align: center; 
-            font-weight: 600; 
-            margin-top: 15px;
-            font-size: 0.95rem;
-        }
-
-        .logout-btn {
-            background: #64748B;
-            box-shadow: none;
-            margin-top: 10px;
-        }
-        .logout-btn:hover {
-            background: #475569;
-            box-shadow: none;
         }
     </style>
 </head>
-<body>
+<body class="centered-layout">
 
+    <!-- Logo scolastico premium ed emozionale -->
+    <div class="school-logo-container">
+        <div class="logo-text">Parlo <span class="logo-accent">Italiano</span></div>
+        <div class="logo-sub">Scuola Online di Lingua Italiana</div>
+    </div>
+
+    <!-- Barra tricolore sopra la scheda di login -->
     <div class="tricolore-bar">
         <div class="bar-green"></div>
         <div class="bar-white"></div>
         <div class="bar-red"></div>
     </div>
 
-    <div id="login-section" class="card">
-        <h2 style="color: var(--primary-blue);">Login Studenti</h2>
-        <input type="text" id="user" placeholder="Nome Utente" oninput="nascondiErrore()" autocomplete="username">
-        <input type="password" id="pass" placeholder="Password" oninput="nascondiErrore()" onkeypress="controllaInvio(event)" autocomplete="current-password">
+    <!-- Scheda di Accesso Studenti -->
+    <div id="login-section" class="card login-card">
+        <h2>Accesso Studenti</h2>
+        <p class="h2-ru" style="margin-bottom: 24px;">Вход для студентов</p>
+        
+        <input type="text" id="user" placeholder="Nome Utente (Имя пользователя)" oninput="nascondiErrore()" autocomplete="username">
+        <input type="password" id="pass" placeholder="Password (Пароль)" oninput="nascondiErrore()" onkeypress="controllaInvio(event)" autocomplete="current-password">
         <br><br>
-        <button onclick="login()">ENTRA</button>
-        <p id="error">⚠️ Nome utente o password errati!</p>
+        <button onclick="login()" style="width: 100%;">ENTRA ➡</button>
+        <p id="error">⚠️ Nome utente o password errati! <br><span style="font-size: 0.8rem; font-weight: normal; opacity: 0.9;">Неверное имя пользователя или пароль!</span></p>
     </div>
 
+    <!-- Scheda Dashboard Studente -->
     <div id="dashboard" class="card">
         <h2 id="welcome-msg">Benvenuto!</h2>
-        <p class="dashboard-text">Le tue lezioni disponibili:</p>
+        <p class="dashboard-text">Le tue lezioni disponibili:<br><span style="font-style: italic; font-size: 0.9rem; color: var(--text-muted);">Доступные вам уроки:</span></p>
+        
         <div id="units-list"></div>
+        
         <br>
-        <button onclick="logout()" class="logout-btn">Esci (Logout)</button>
+        <button onclick="logout()" class="logout-btn">Esci (Выйти) ⬅</button>
     </div>
 
     <script>
-        // Le password sono codificate in Base64 per non lasciarle in chiaro nella pagina.
+        // Database codificato in Base64 (Costi zero, configurazione statica su GitHub Pages)
         // anna: roma24 -> cm9tYTI0
         // yulia: roma24 -> cm9tYTI0
         // marat: milano24 -> bWlsYW5vMjQ=
@@ -219,7 +122,12 @@
             const u = document.getElementById('user').value.toLowerCase().trim();
             const p = document.getElementById('pass').value.trim();
             
-            // Codifichiamo la password inserita in Base64 per fare il confronto con il database
+            if (!u || !p) {
+                document.getElementById('error').style.display = 'block';
+                return;
+            }
+
+            // Codifica in Base64 per il confronto con il database statico
             const passwordCodificata = btoa(p);
             
             if (database[u] && database[u].pass === passwordCodificata) {
@@ -239,35 +147,33 @@
 
         function mostraDashboard(userName) {
             document.getElementById('login-section').style.display = 'none';
-            document.getElementById('dashboard').style.display = 'block';
             
-            document.getElementById('welcome-msg').innerText = "Ciao, " + userName.charAt(0).toUpperCase() + userName.slice(1) + "!";
+            const dashboard = document.getElementById('dashboard');
+            dashboard.style.display = 'block';
+            
+            document.getElementById('welcome-msg').innerHTML = "Ciao, " + userName.charAt(0).toUpperCase() + userName.slice(1) + "!";
             
             const max = database[userName].maxUnit;
             const container = document.getElementById('units-list');
             container.innerHTML = ""; 
             
             for (let i = 1; i <= max; i++) {
-                // Controllo di sicurezza: se l'unità è definita nel nostro elenco 'nomiUnita' la mostriamo, 
-                // altrimenti evitiamo di mostrare link vuoti o non pronti.
                 if (nomiUnita[i]) {
                     const link = document.createElement('a');
                     link.href = "unita" + i + ".html";
                     link.className = "unit-link";
-                    link.innerHTML = `<strong>Unità ${i}</strong> - ${nomiUnita[i]}`;
+                    link.innerHTML = `<span><strong>Unità ${i}</strong> - ${nomiUnita[i]}</span><span style="font-weight: bold; color: var(--italian-green);">➡</span>`;
                     container.appendChild(link);
                 }
             }
         }
 
-        // Funzione per inviare il modulo premendo il tasto "Invio"
         function controllaInvio(event) {
             if (event.key === "Enter") {
                 login();
             }
         }
 
-        // Nasconde l'errore non appena lo studente ricomincia a scrivere
         function nascondiErrore() {
             document.getElementById('error').style.display = 'none';
         }
