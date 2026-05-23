@@ -4,8 +4,62 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Unità 1 — Parlo Italiano</title>
-  <!-- Collegamento al Design System Globale -->
   <link rel="stylesheet" href="css/main.css">
+  <style>
+    /* Stili CSS di supporto per il layout affiancato e reattività ottimizzata */
+    .profile-wrapper {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 25px;
+      max-width: 750px;
+      margin: 0 auto;
+    }
+    .profile-text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .profile-image-container {
+      flex: 0 0 180px;
+      text-align: center;
+    }
+    .profile-img-styled {
+      width: 100%;
+      max-width: 180px;
+      aspect-ratio: 9 / 16;
+      object-fit: cover;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-md);
+      border: 1.5px solid rgba(10, 37, 64, 0.08);
+      transition: transform 0.2s;
+    }
+    
+    /* Media query per dispositivi mobili: rimpicciolisce la foto e impila in verticale */
+    @media (max-width: 600px) {
+      .profile-wrapper {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+      }
+      .profile-image-container {
+        flex: 0 0 auto;
+        order: -1; /* Sposta l'immagine sopra il testo su mobile */
+      }
+      .profile-img-styled {
+        max-width: 110px; /* Riduzione drastica per evitare lo scroll eccessivo */
+      }
+      .profile-text .info-card {
+        display: flex;
+        flex-direction: row;
+        text-align: left;
+        align-items: center;
+        gap: 12px;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="page">
@@ -15,13 +69,12 @@
     </header>
 
     <main>
-      <!-- PASSO 1: PRESENTAZIONE -->
       <section class="card unit-step" id="step-1">
-        <h2>Passo 1: Presentazione</h2>
+        <h2>Presentazione</h2>
         <div class="h2-ru">Презентация</div>
         <div class="intro-section">
           <div class="intro-text">
-            <p>Cominciamo il nostro viaggio in... Italia!</p>
+            <p>Cominciami il nostro viaggio in... Italia!</p>
             <p>Questa è la scuola <span class="highlight-red">"Parlo Italiano"</span>.</p>
             <p>La scuola "Parlo Italiano" è una <span class="highlight-green">scuola online</span>.</p>
           </div>
@@ -33,9 +86,8 @@
         </div>
       </section>
 
-      <!-- PASSO 2: L'INSEGNANTE DI ITALIANO -->
       <section class="card unit-step" id="step-2">
-        <h2>Passo 2: L'insegnante di italiano</h2>
+        <h2>L'insegnante di italiano</h2>
         <div class="h2-ru">Учитель итальянского</div>
         <div class="intro-section">
           <div class="intro-text">
@@ -43,7 +95,6 @@
             <p>Io sono <span class="highlight-red">Antonio</span>.</p>
             <p>Io sono <span class="highlight-green">l'insegnante</span> della scuola "Parlo Italiano".</p>
           </div>
-          <!-- Video YouTube Verticale dell'Insegnante (Shorts) -->
           <div style="max-width: 280px; width: 100%;">
             <iframe class="student-video-vertical" src="https://www.youtube.com/embed/c5k90S6hnUA?rel=0&modestbranding=1" 
                     title="Antonio - Presentazione" 
@@ -58,9 +109,8 @@
         </div>
       </section>
 
-      <!-- PASSO 3: CHI È ANTONIO? -->
       <section class="card unit-step" id="step-3">
-        <h2>Passo 3: Chi è Antonio?</h2>
+        <h2>Chi è Antonio?</h2>
         <div class="h2-ru">Кто такой Антонио?</div>
         
         <div class="badge-layout">
@@ -104,9 +154,8 @@
         </div>
       </section>
 
-      <!-- PASSO 4: PERCHÉ GLI STUDENTI VOGLIONO IMPARARE L'ITALIANO? -->
       <section class="card unit-step" id="step-4">
-        <h2>Passo 4: Perché gli studenti vogliono imparare l'italiano?</h2>
+        <h2>Perché gli studenti vogliono imparare l'italiano?</h2>
         <div class="h2-ru">Почему студенты хотят изучать итальянский язык?</div>
         
         <p class="note">
@@ -139,7 +188,6 @@
         </div>
       </section>
 
-      <!-- PASSO 5: CHI SONO GLI STUDENTI DELLA SCUOLA? -->
       <section class="card unit-step" id="step-5">
         <div class="red-band-header">
           Chi sono gli studenti della scuola?
@@ -178,7 +226,124 @@
 
         <div class="nav-buttons">
           <button onclick="showStep(4)" class="btn-nav btn-back">⬅ Indietro</button>
-          <button class="btn-nav btn-next" onclick="alert('Fine della lezione dimostrativa! Отличная работа!')">Fine Unità 🏁</button>
+          <button onclick="showStep(6)" class="btn-nav btn-next">Avanti ➡</button>
+        </div>
+      </section>
+
+      <section class="card unit-step" id="step-6">
+        <h2 style="text-align: center; margin-bottom: 20px;">Ana Paula</h2>
+        
+        <div class="profile-wrapper">
+          <div class="profile-text">
+            <div class="info-card" style="display: flex; align-items: center; gap: 15px;">
+              <span style="font-size: 2rem; min-width: 40px; text-align: center;">🌍</span>
+              <div>
+                <strong style="color: var(--primary); display: block; font-size: 1.1rem; font-family: 'Outfit', sans-serif;">Provenienza</strong>
+                <span style="font-size: 1.05rem;">Ana Paula è brasiliana, di Rio de Janeiro.</span>
+              </div>
+            </div>
+            <div class="info-card" style="display: flex; align-items: center; gap: 15px;">
+              <span style="font-size: 2rem; min-width: 40px; text-align: center;">💼</span>
+              <div>
+                <strong style="color: var(--primary); display: block; font-size: 1.1rem; font-family: 'Outfit', sans-serif;">Professione</strong>
+                <span style="font-size: 1.05rem;">È una stilista di moda.</span>
+              </div>
+            </div>
+            <div class="info-card" style="display: flex; align-items: center; gap: 15px;">
+              <span style="font-size: 2rem; min-width: 40px; text-align: center;">❤️</span>
+              <div>
+                <strong style="color: var(--primary); display: block; font-size: 1.1rem; font-family: 'Outfit', sans-serif;">Motivazione</strong>
+                <span style="font-size: 1.05rem;">Studia l’italiano perché ama la moda italiana.</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="profile-image-container">
+            <img src="img/unita1/poster_ana.jpg" alt="Ana Paula" class="profile-img-styled">
+          </div>
+        </div>
+
+        <div class="nav-buttons">
+          <button onclick="showStep(5)" class="btn-nav btn-back">⬅ Indietro</button>
+          <button onclick="showStep(7)" class="btn-nav btn-next">Avanti ➡</button>
+        </div>
+      </section>
+
+      <section class="card unit-step" id="step-7">
+        <h2 style="text-align: center; margin-bottom: 20px;">Zarina</h2>
+        
+        <div class="profile-wrapper">
+          <div class="profile-text">
+            <div class="info-card" style="display: flex; align-items: center; gap: 15px;">
+              <span style="font-size: 2rem; min-width: 40px; text-align: center;">🌍</span>
+              <div>
+                <strong style="color: var(--primary); display: block; font-size: 1.1rem; font-family: 'Outfit', sans-serif;">Provenienza</strong>
+                <span style="font-size: 1.05rem;">Zarina è kazaka, di Almaty.</span>
+              </div>
+            </div>
+            <div class="info-card" style="display: flex; align-items: center; gap: 15px;">
+              <span style="font-size: 2rem; min-width: 40px; text-align: center;">💼</span>
+              <div>
+                <strong style="color: var(--primary); display: block; font-size: 1.1rem; font-family: 'Outfit', sans-serif;">Professione</strong>
+                <span style="font-size: 1.05rem;">È una cantante lirica.</span>
+              </div>
+            </div>
+            <div class="info-card" style="display: flex; align-items: center; gap: 15px;">
+              <span style="font-size: 2rem; min-width: 40px; text-align: center;">❤️</span>
+              <div>
+                <strong style="color: var(--primary); display: block; font-size: 1.1rem; font-family: 'Outfit', sans-serif;">Motivazione</strong>
+                <span style="font-size: 1.05rem;">Studia l’italiano perché ama la musica italiana.</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="profile-image-container">
+            <img src="img/unita1/poster_zarina.jpg" alt="Zarina" class="profile-img-styled">
+          </div>
+        </div>
+
+        <div class="nav-buttons">
+          <button onclick="showStep(6)" class="btn-nav btn-back">⬅ Indietro</button>
+          <button onclick="showStep(8)" class="btn-nav btn-next">Avanti ➡</button>
+        </div>
+      </section>
+
+      <section class="card unit-step" id="step-8">
+        <h2 style="text-align: center; margin-bottom: 20px;">Andrei</h2>
+        
+        <div class="profile-wrapper">
+          <div class="profile-text">
+            <div class="info-card" style="display: flex; align-items: center; gap: 15px;">
+              <span style="font-size: 2rem; min-width: 40px; text-align: center;">🌍</span>
+              <div>
+                <strong style="color: var(--primary); display: block; font-size: 1.1rem; font-family: 'Outfit', sans-serif;">Provenienza</strong>
+                <span style="font-size: 1.05rem;">Andrei è russo, di Mosca.</span>
+              </div>
+            </div>
+            <div class="info-card" style="display: flex; align-items: center; gap: 15px;">
+              <span style="font-size: 2rem; min-width: 40px; text-align: center;">💼</span>
+              <div>
+                <strong style="color: var(--primary); display: block; font-size: 1.1rem; font-family: 'Outfit', sans-serif;">Professione</strong>
+                <span style="font-size: 1.05rem;">È un cuoco in un ristorante italiano.</span>
+              </div>
+            </div>
+            <div class="info-card" style="display: flex; align-items: center; gap: 15px;">
+              <span style="font-size: 2rem; min-width: 40px; text-align: center;">❤️</span>
+              <div>
+                <strong style="color: var(--primary); display: block; font-size: 1.1rem; font-family: 'Outfit', sans-serif;">Motivazione</strong>
+                <span style="font-size: 1.05rem;">Studia l’italiano perché ama la cucina italiana.</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="profile-image-container">
+            <img src="img/unita1/poster_andrei.jpg" alt="Andrei" class="profile-img-styled">
+          </div>
+        </div>
+
+        <div class="nav-buttons">
+          <button onclick="showStep(7)" class="btn-nav btn-back">⬅ Indietro</button>
+          <button class="btn-nav btn-next" disabled>Avanti ➡</button>
         </div>
       </section>
 
@@ -212,7 +377,6 @@
     // ESERCIZIO PASSO 3 (Chi è Antonio)
     function checkAnswer(button, questionId, isCorrect, fullText) {
       const container = button.parentElement;
-      // Disabilita tutti i bottoni del gruppo domanda corrente per evitare click ripetuti
       container.querySelectorAll('.answer-btn').forEach(btn => btn.disabled = true);
       
       if (isCorrect) {
