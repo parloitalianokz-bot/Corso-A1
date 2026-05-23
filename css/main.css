@@ -1,0 +1,806 @@
+/* ==========================================================================
+   DESIGN SYSTEM - PARLO ITALIANO
+   Sistema di Stili Globale e Reattivo per Corsi Online Bilingui (IT/RU)
+   Incentrato sul Metodo Umanistico-Affettivo e Grammatica dell'Aspettativa
+   ========================================================================== */
+
+/* Importazione Font Google: Outfit (Titoli moderni) e Inter (Leggibilità testi) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
+
+:root {
+    /* Palette Colori HSL (Armoniosa, calibrata per ridurre lo stress visivo) */
+    --primary: hsl(215, 60%, 18%);         /* Navy Profondo (Stabilità, eleganza) */
+    --primary-light: hsl(215, 60%, 25%);
+    --primary-soft: rgba(10, 37, 64, 0.05);
+    
+    --italian-green: hsl(145, 55%, 38%);    /* Verde Bandiera (Ottimismo, relax) */
+    --italian-green-light: hsl(145, 60%, 94%);
+    --italian-green-border: hsl(145, 50%, 75%);
+    
+    --italian-red: hsl(354, 70%, 50%);      /* Rosso Bandiera (Passione, accento controllato) */
+    --italian-red-light: hsl(354, 80%, 96%);
+    --italian-red-border: hsl(354, 65%, 80%);
+
+    --accent-blue: hsl(205, 90%, 45%);      /* Blu per Reset/Informazioni */
+    --accent-blue-light: hsl(205, 90%, 95%);
+    
+    --bg-color: hsl(210, 40%, 98%);         /* Sfondo chiaro, riposante */
+    --bg-gradient: linear-gradient(135deg, hsl(210, 45%, 98%) 0%, hsl(214, 32%, 91%) 100%);
+    
+    --text-main: hsl(215, 30%, 18%);        /* Testo scuro ad alta leggibilità */
+    --text-muted: hsl(215, 16%, 47%);       /* Testo secondario inattivo */
+    
+    /* Variabili Strutturali */
+    --radius-lg: 20px;
+    --radius-md: 12px;
+    --radius-sm: 8px;
+    --gap: 16px;
+    --max-width: 850px;
+    
+    /* Ombre Premium (Morbide, non sature) */
+    --shadow-sm: 0 2px 8px rgba(10, 37, 64, 0.04);
+    --shadow-md: 0 10px 25px -5px rgba(10, 37, 64, 0.05), 0 8px 16px -8px rgba(10, 37, 64, 0.05);
+    --shadow-lg: 0 20px 40px -10px rgba(10, 37, 64, 0.08);
+    
+    /* Transizioni */
+    --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* ==========================================================================
+   RESET & IMPOSTAZIONI BASE
+   ========================================================================== */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg-color);
+    background-image: var(--bg-gradient);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Layout Centrato per Login e Dashboard principale */
+body.centered-layout {
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Container principale della lezione */
+.page {
+    max-width: var(--max-width);
+    width: 100%;
+    margin: 30px auto;
+    padding: 0 20px;
+    flex: 1;
+}
+
+/* ==========================================================================
+   ELEMENTI TIPOGRAFICI (IT / RU)
+   ========================================================================== */
+h1, h2, h3, h4 {
+    font-family: 'Outfit', sans-serif;
+    color: var(--primary);
+    margin-top: 0;
+    font-weight: 700;
+}
+
+p {
+    line-height: 1.6;
+    margin: 0 0 12px 0;
+    font-size: 1.05rem;
+}
+
+/* Stili specifici per la gestione bilingue (Metodo Umanistico-Affettivo) */
+.subtitle-ru {
+    margin: 6px 0 0 0;
+    font-size: 1.15rem;
+    color: var(--italian-green);
+    font-style: italic;
+    font-weight: 500;
+}
+
+.h2-ru {
+    margin: -4px 0 18px 0;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    font-style: italic;
+    font-weight: 400;
+}
+
+.note {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    background: var(--primary-soft);
+    padding: 12px 16px;
+    border-left: 4px solid var(--primary-light);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.note-ru {
+    font-style: italic;
+    color: var(--text-muted);
+    display: block;
+    margin-top: 4px;
+    font-size: 0.85rem;
+}
+
+.highlight-red {
+    font-weight: 700;
+    color: var(--italian-red);
+}
+
+.highlight-green {
+    font-weight: 700;
+    color: var(--italian-green);
+}
+
+/* ==========================================================================
+   COMPONENTI COMUNI: CARD & INTERFACCE
+   ========================================================================== */
+.card {
+    background: #ffffff;
+    border-radius: var(--radius-lg);
+    padding: 35px 30px;
+    box-shadow: var(--shadow-md);
+    margin-bottom: 24px;
+    border: 1px solid rgba(10, 37, 64, 0.04);
+    transition: var(--transition-smooth);
+}
+
+.card:hover {
+    box-shadow: var(--shadow-lg);
+}
+
+/* Barra Decorativa Tricolore */
+.tricolore-bar {
+    display: flex;
+    width: 100%;
+    max-width: 480px;
+    height: 6px;
+    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+    overflow: hidden;
+    margin-bottom: -6px;
+    z-index: 2;
+}
+
+.bar-green { background: var(--italian-green); flex: 1; }
+.bar-white { background: #ffffff; flex: 1; }
+.bar-red { background: var(--italian-red); flex: 1; }
+
+/* Ingressi animati per i passi delle unità */
+.unit-step {
+    display: none;
+    animation: fadeIn 0.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   BOTTONI E COMPONENTI INTERATTIVI
+   ========================================================================== */
+button, .btn-nav {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary);
+    color: #ffffff;
+    border: none;
+    padding: 12px 28px;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    font-family: 'Outfit', sans-serif;
+    letter-spacing: 0.3px;
+    transition: var(--transition-bounce);
+    box-shadow: 0 4px 12px rgba(10, 37, 64, 0.12);
+    text-decoration: none;
+}
+
+button:hover, .btn-nav:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(10, 37, 64, 0.2);
+    opacity: 0.95;
+}
+
+button:active, .btn-nav:active {
+    transform: translateY(0);
+}
+
+/* Variazioni Bottoni Navigazione */
+.btn-next {
+    background-color: var(--italian-green);
+    box-shadow: 0 4px 12px rgba(0, 140, 69, 0.15);
+}
+
+.btn-next:hover:not(:disabled) {
+    background-color: hsl(145, 55%, 32%);
+    box-shadow: 0 6px 18px rgba(0, 140, 69, 0.25);
+}
+
+.btn-back {
+    background-color: var(--italian-red);
+    box-shadow: 0 4px 12px rgba(205, 33, 42, 0.15);
+}
+
+.btn-back:hover {
+    background-color: hsl(354, 70%, 42%);
+    box-shadow: 0 6px 18px rgba(205, 33, 42, 0.25);
+}
+
+.btn-reset {
+    background-color: var(--accent-blue);
+    box-shadow: 0 4px 12px rgba(0, 102, 204, 0.15);
+}
+
+.btn-reset:hover {
+    background-color: hsl(205, 90%, 38%);
+    box-shadow: 0 6px 18px rgba(0, 102, 204, 0.25);
+}
+
+button:disabled, .btn-next:disabled {
+    background-color: hsl(210, 20%, 88%) !important;
+    color: hsl(210, 10%, 60%) !important;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+    opacity: 0.7;
+}
+
+.nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 35px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(10, 37, 64, 0.08);
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+/* ==========================================================================
+   INPUT E COMPONENTI DI FORM
+   ========================================================================== */
+input {
+    width: 100%;
+    padding: 14px 16px;
+    margin: 10px 0;
+    border-radius: var(--radius-md);
+    border: 2px solid hsl(210, 20%, 90%);
+    font-size: 1rem;
+    font-family: inherit;
+    box-sizing: border-box;
+    transition: var(--transition-smooth);
+    background-color: hsl(210, 30%, 99%);
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--primary);
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(10, 37, 64, 0.08);
+}
+
+/* Errore Login / Messaggi */
+#error {
+    color: var(--italian-red);
+    background: var(--italian-red-light);
+    border: 1px solid var(--italian-red-border);
+    border-radius: var(--radius-md);
+    padding: 12px;
+    text-align: center;
+    font-weight: 600;
+    margin-top: 18px;
+    font-size: 0.95rem;
+    display: none;
+    animation: shake 0.4s ease-in-out;
+}
+
+/* ==========================================================================
+   MULTIMEDIA & YOUTUBE RESPONSIVO
+   ========================================================================== */
+.intro-section {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.intro-text {
+    flex: 1 1 300px;
+}
+
+/* Immagini decorative */
+.intro-img {
+    max-width: 420px;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+    object-fit: cover;
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(10, 37, 64, 0.05);
+}
+
+/* Wrapper Video responsivo generico (per Iframe YouTube) */
+.video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* Rapporto 16:9 */
+    height: 0;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(10, 37, 64, 0.05);
+    background-color: #000;
+    flex: 1 1 350px;
+    max-width: 450px;
+    width: 100%;
+}
+
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+/* Supporto per video HTML5 classici */
+.intro-video {
+    max-width: 450px;
+    width: 100%;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    background-color: #000;
+}
+
+/* ==========================================================================
+   ESERCIZIO 1: COSTRUTTORE RISPOSTE (STEP 3)
+   ========================================================================== */
+.badge-layout {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 24px;
+    margin-top: 20px;
+}
+
+.info-container {
+    flex: 1.3;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.badge-title-green {
+    background: linear-gradient(135deg, var(--italian-green) 0%, hsl(145, 55%, 30%) 100%);
+    color: #ffffff;
+    padding: 14px;
+    border-radius: var(--radius-md);
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: 700;
+    font-family: 'Outfit', sans-serif;
+    box-shadow: 0 4px 10px rgba(0, 140, 69, 0.15);
+}
+
+.info-card {
+    background: #ffffff;
+    border: 1.5px solid hsl(210, 20%, 90%);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    transition: var(--transition-smooth);
+}
+
+.info-card:hover {
+    border-color: var(--primary-light);
+    box-shadow: var(--shadow-sm);
+}
+
+.info-card p {
+    margin: 0 0 12px 0;
+    font-weight: 600;
+    color: var(--primary);
+    font-size: 1.05rem;
+}
+
+.badge-image-container {
+    flex: 0.7;
+    display: flex;
+    justify-content: center;
+}
+
+.badge-image-container img {
+    width: 100%;
+    max-height: 280px;
+    object-fit: contain;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+}
+
+/* Bottoni Risposta Esercizio */
+.answer-options {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.answer-btn {
+    background: #ffffff;
+    border: 2px solid hsl(210, 20%, 88%);
+    color: var(--text-main);
+    padding: 10px 16px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    font-family: inherit;
+    flex: 1;
+    min-width: 90px;
+    transition: var(--transition-smooth);
+    box-shadow: none;
+}
+
+.answer-btn:hover {
+    border-color: var(--primary);
+    background: var(--primary-soft);
+    transform: none;
+    box-shadow: none;
+    opacity: 1;
+}
+
+/* Stati Didattici Umanistici */
+.answer-btn.correct {
+    background: var(--italian-green-light);
+    border-color: var(--italian-green-border);
+    color: var(--italian-green);
+    font-weight: 700;
+    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.answer-btn.incorrect {
+    background: var(--italian-red-light);
+    border-color: var(--italian-red-border);
+    color: var(--italian-red);
+    font-weight: 700;
+    animation: shake 0.4s ease-in-out;
+}
+
+.answer-btn:disabled {
+    opacity: 0.75;
+    cursor: default;
+}
+
+/* ==========================================================================
+   ESERCIZIO 2: DRAG & DROP MULTIMEDIALE (STEP 4)
+   ========================================================================== */
+.tags-container {
+    background: hsl(210, 30%, 97%);
+    border: 2.5px dashed hsl(210, 20%, 82%);
+    border-radius: var(--radius-md);
+    padding: 18px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    min-height: 60px;
+    margin-bottom: 20px;
+    transition: var(--transition-smooth);
+}
+
+.draggable-tag {
+    background: #ffffff;
+    border: 2px solid var(--italian-green);
+    color: var(--italian-green);
+    padding: 9px 16px;
+    border-radius: 25px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: grab;
+    user-select: none;
+    transition: var(--transition-smooth);
+    box-shadow: var(--shadow-sm);
+    font-family: 'Outfit', sans-serif;
+}
+
+.draggable-tag:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 140, 69, 0.15);
+    background: var(--italian-green-light);
+}
+
+.draggable-tag:active {
+    cursor: grabbing;
+}
+
+.draggable-tag.selected {
+    background: var(--italian-green-light);
+    border-color: var(--primary);
+    color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(10, 37, 64, 0.12);
+}
+
+.draggable-tag.tag-used {
+    background: hsl(210, 15%, 90%) !important;
+    border-color: hsl(210, 10%, 82%) !important;
+    color: hsl(210, 10%, 65%) !important;
+    cursor: not-allowed;
+    opacity: 0.5;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* Griglia per le Carte */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--gap);
+    margin: 24px 0;
+}
+
+.motivation-card {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background-size: cover;
+    background-position: center;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    border: 3px solid hsl(210, 20%, 88%);
+    cursor: pointer;
+    transition: var(--transition-bounce);
+    filter: brightness(0.65) grayscale(20%);
+}
+
+.motivation-card:hover {
+    transform: scale(1.03);
+    border-color: var(--primary-light);
+    filter: brightness(0.85);
+}
+
+.motivation-card.card-correct {
+    border-color: var(--italian-green);
+    filter: brightness(1) grayscale(0%);
+    box-shadow: 0 8px 20px rgba(0, 140, 69, 0.2);
+    transform: scale(1.02);
+}
+
+/* Overlay etichetta su carta indovinata */
+.card-overlay-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 140, 69, 0.94);
+    backdrop-filter: blur(4px);
+    color: #ffffff;
+    padding: 10px 14px;
+    border-radius: var(--radius-md);
+    text-align: center;
+    width: 88%;
+    box-sizing: border-box;
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.label-it {
+    font-weight: 800;
+    font-size: 1rem;
+    font-family: 'Outfit', sans-serif;
+}
+
+.label-ru {
+    font-size: 0.8rem;
+    opacity: 0.95;
+    font-style: italic;
+    margin-top: 3px;
+    font-weight: 400;
+}
+
+/* ==========================================================================
+   VIDEO TESTIMONIANZE VERTICALI (STEP 5)
+   ========================================================================== */
+.red-band-header {
+    background: linear-gradient(135deg, var(--italian-red) 0%, hsl(354, 70%, 42%) 100%);
+    color: #ffffff;
+    text-align: center;
+    padding: 18px 20px;
+    font-weight: 700;
+    font-size: 1.35rem;
+    font-family: 'Outfit', sans-serif;
+    margin: -35px -30px 25px -30px; /* Azzeramento del padding card */
+    box-shadow: 0 4px 10px rgba(205, 33, 42, 0.15);
+}
+
+.students-video-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 25px;
+}
+
+.student-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: hsl(210, 30%, 98%);
+    padding: 14px;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(10, 37, 64, 0.03);
+    transition: var(--transition-smooth);
+}
+
+.student-item:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+    background: #ffffff;
+}
+
+.student-video-vertical {
+    width: 100%;
+    aspect-ratio: 9 / 16;
+    background: #000;
+    border-radius: var(--radius-sm);
+    object-fit: cover;
+    box-shadow: var(--shadow-sm);
+}
+
+.student-name {
+    margin-top: 12px;
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 1.1rem;
+    font-family: 'Outfit', sans-serif;
+}
+
+/* ==========================================================================
+   DASHBOARD / HOME PAGE
+   ========================================================================== */
+.dashboard-text {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+}
+
+/* Link Unità nel Dashboard */
+.unit-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+    margin: 16px 0;
+    background: #ffffff;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: var(--text-main);
+    border-left: 6px solid var(--italian-green);
+    box-shadow: var(--shadow-sm);
+    border-top: 1px solid rgba(10, 37, 64, 0.02);
+    border-right: 1px solid rgba(10, 37, 64, 0.02);
+    border-bottom: 1px solid rgba(10, 37, 64, 0.02);
+    transition: var(--transition-bounce);
+}
+
+.unit-link strong {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.1rem;
+    color: var(--primary);
+}
+
+.unit-link:hover {
+    transform: translateX(8px);
+    background: hsl(210, 30%, 99%);
+    border-left-color: var(--italian-red);
+    box-shadow: var(--shadow-md);
+}
+
+/* Pulsante Uscita */
+.logout-btn {
+    background: var(--text-muted);
+    box-shadow: none;
+    margin-top: 15px;
+    width: 100%;
+}
+
+.logout-btn:hover {
+    background: hsl(215, 16%, 35%);
+    box-shadow: none;
+}
+
+/* ==========================================================================
+   FOOTER & ANIMAZIONI GLOBALI
+   ========================================================================== */
+footer {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    padding: 25px 0;
+    margin-top: 40px;
+    border-top: 1px solid rgba(10, 37, 64, 0.08);
+}
+
+/* Shake per risposte errate */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-6px); }
+    40%, 80% { transform: translateX(6px); }
+}
+
+/* Pop In per risposte corrette */
+@keyframes popIn {
+    0% { transform: scale(0.9); opacity: 0; }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* ==========================================================================
+   RESPONSIVITÀ (MOBILE FIRST / ADATTIVO)
+   ========================================================================== */
+@media (max-width: 768px) {
+    .page {
+        margin: 15px auto;
+    }
+    
+    .card {
+        padding: 25px 20px;
+        border-radius: var(--radius-md);
+    }
+    
+    .badge-layout {
+        flex-direction: column-reverse;
+        gap: 20px;
+    }
+    
+    .badge-image-container img {
+        max-height: 200px;
+    }
+    
+    .cards-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 colonne su mobile invece di 3 per usabilità drag&drop */
+        gap: 10px;
+    }
+    
+    .students-video-grid {
+        grid-template-columns: 1fr; /* Una colonna per video verticali */
+        gap: 15px;
+    }
+    
+    .student-video-vertical {
+        max-width: 280px;
+    }
+    
+    .red-band-header {
+        margin: -25px -20px 20px -20px;
+        font-size: 1.2rem;
+        padding: 14px;
+    }
+    
+    .btn-nav, button {
+        width: 100%; /* Bottoni a tutta larghezza per una pressione più comoda */
+        padding: 14px;
+    }
+    
+    .nav-buttons {
+        flex-direction: column-reverse; /* Il bottone "Avanti" va sopra per usabilità naturale */
+    }
+}
