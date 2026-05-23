@@ -2,26 +2,195 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Area Docente - Parlo Italiano</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Area Docente — Parlo Italiano</title>
+    <!-- Collegamento al Design System Globale -->
+    <link rel="stylesheet" href="css/main.css">
     <style>
-        body { font-family: sans-serif; padding: 20px; background: #f4f4f9; }
-        .link-box { background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 5px solid #008C45; }
-        code { background: #eee; padding: 2px 5px; }
+        .admin-page {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        .admin-header {
+            border-bottom: 2px solid rgba(10, 37, 64, 0.08);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        .instructions-box {
+            background-color: var(--accent-blue-light);
+            border-left: 5px solid var(--accent-blue);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        .instructions-box ol {
+            margin: 10px 0 0 0;
+            padding-left: 20px;
+            line-height: 1.6;
+        }
+        .instructions-box li {
+            margin-bottom: 8px;
+        }
+        .db-code-block {
+            background: #2d3748;
+            color: #f7fafc;
+            padding: 15px;
+            border-radius: var(--radius-sm);
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 12px 0;
+        }
+        .link-box {
+            border-left: 5px solid var(--italian-green);
+            transition: var(--transition-smooth);
+        }
+        .link-box:hover {
+            border-left-color: var(--italian-red);
+        }
+        .badge-pass {
+            background: var(--primary-soft);
+            color: var(--primary);
+            padding: 4px 8px;
+            border-radius: var(--radius-sm);
+            font-family: monospace;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+        .generator-card {
+            background: hsl(145, 60%, 98%);
+            border: 1px dashed var(--italian-green-border);
+            padding: 25px;
+            border-radius: var(--radius-lg);
+            margin-top: 35px;
+        }
+        .tool-flex {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        .tool-flex input {
+            flex: 2;
+            margin: 0;
+            min-width: 200px;
+        }
+        .tool-flex button {
+            flex: 1;
+            min-width: 150px;
+        }
+        .result-box {
+            margin-top: 15px;
+            background: #ffffff;
+            border: 1.5px solid var(--italian-green-border);
+            border-radius: var(--radius-md);
+            padding: 15px;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            animation: fadeIn 0.4s ease;
+        }
     </style>
 </head>
 <body>
-    <h1>I miei link per gli studenti</h1>
-    
-    <div class="link-box">
-        <h3>Unità 1</h3>
-        <p>Invia questo link: <code>https://tuo-username.github.io/Corso_A1/unita1_login.html</code></p>
-        <p>Password: <b>roma2024</b></p>
+    <div class="admin-page">
+        <!-- Intestazione Area Docente -->
+        <div class="admin-header">
+            <h1 style="color: var(--primary); margin: 0; font-size: 2.2rem;">Panel Amministratore — Parlo Italiano</h1>
+            <p style="color: var(--text-muted); margin: 5px 0 0 0; font-size: 1.05rem;">Gestione studenti, accessi e password del sito statico.</p>
+        </div>
+
+        <!-- Blocco Istruzioni su GitHub Pages -->
+        <div class="instructions-box">
+            <h3 style="margin: 0; color: var(--accent-blue); font-size: 1.25rem;">🛠️ Come Aggiungere o Modificare gli Studenti?</h3>
+            <p style="margin: 8px 0 0 0; font-size: 0.95rem; color: var(--text-main);">
+                Poiché il sito è ospitato gratuitamente su <strong>GitHub Pages</strong>, il "database" si trova all'interno del file <code>index.html</code> (linee 191-197). Per iscrivere un nuovo studente o sbloccare livelli:
+            </p>
+            <ol>
+                <li>Apri il file <code>index.html</code> sul tuo computer o direttamente su GitHub.</li>
+                <li>Trova l'oggetto <code>database</code> all'inizio dello script.</li>
+                <li>Aggiungi una nuova riga con il nome utente in minuscolo, la password convertita in <strong>Base64</strong> (usa lo strumento qui sotto) e il numero massimo di unità accessibili (<code>maxUnit</code>).</li>
+                <li>Salva il file e fai il commit/push su GitHub per rendere le modifiche attive!</li>
+            </ol>
+            <div class="db-code-block">
+// Esempio nel codice di index.html:
+"nomeutente": { pass: "codice_base64", maxUnit: 3 }
+            </div>
+        </div>
+
+        <!-- Sezione Link delle Unità -->
+        <h2 style="margin-top: 40px; margin-bottom: 20px;">🔗 I Link da Inviare agli Studenti</h2>
+        
+        <div class="card link-box">
+            <h3 style="margin-bottom: 8px; color: var(--primary);">Unità 1 — Benvenuti!</h3>
+            <p style="margin-bottom: 12px;">Link principale del corso: <code>https://tuo-username.github.io/Corso-A1-main/index.html</code></p>
+            <p style="margin: 0;">Fornisci allo studente le credenziali registrate. Esempi attivi:</p>
+            <ul style="margin: 8px 0 0 0; padding-left: 20px; line-height: 1.6;">
+                <li>Studente: <span class="badge-pass">anna</span> — Password: <span class="badge-pass">roma24</span> (Accesso fino all'Unità 3)</li>
+                <li>Studente: <span class="badge-pass">marat</span> — Password: <span class="badge-pass">milano24</span> (Accesso fino all'Unità 1)</li>
+            </ul>
+        </div>
+
+        <div class="card link-box">
+            <h3 style="margin-bottom: 8px; color: var(--primary);">Unità 2 — In Città</h3>
+            <p style="margin-bottom: 12px;">Disponibile in <code>unita2.html</code> per gli studenti abilitati.</p>
+            <p style="margin: 0;">Lo studente può accedere direttamente tramite il Dashboard personale dopo il login.</p>
+        </div>
+
+        <!-- Strumento integrato: Generatore di credenziali Base64 -->
+        <div class="generator-card">
+            <h3 style="margin: 0; color: var(--italian-green); font-size: 1.25rem;">🔐 Generatore Password in Base64</h3>
+            <p style="margin: 6px 0 0 0; font-size: 0.95rem; color: var(--text-muted);">
+                Inserisci una password in chiaro (es. <code>roma2026</code>) per ottenere il codice codificato da inserire in <code>index.html</code>.
+            </p>
+            
+            <div class="tool-flex">
+                <input type="text" id="plainPassword" placeholder="Inserisci password in chiaro... (es. roma24)" onkeypress="controllaInvioGeneratore(event)">
+                <button onclick="generaBase64()" class="btn-next">Codifica ⚙️</button>
+            </div>
+
+            <div id="generatorResult" class="result-box">
+                <div>
+                    <span style="font-size: 0.85rem; color: var(--text-muted); display: block; font-weight: 600;">CODICE DA INSERIRE IN INDEX.HTML:</span>
+                    <strong id="base64Result" style="font-family: monospace; font-size: 1.2rem; color: var(--italian-green);"></strong>
+                </div>
+                <button onclick="copiaCodice()" style="padding: 8px 16px; font-size: 0.9rem;" class="btn-reset">Copia 📋</button>
+            </div>
+        </div>
+
+        <footer style="margin-top: 60px;">
+            © 2026 Parlo Italiano — Area Riservata Docenti
+        </footer>
     </div>
 
-    <div class="link-box">
-        <h3>Unità 2</h3>
-        <p>Invia questo link: <code>https://tuo-username.github.io/Corso_A1/unita2_login.html</code></p>
-        <p>Password: <b>milano2024</b></p>
-    </div>
+    <script>
+        function generaBase64() {
+            const input = document.getElementById('plainPassword').value.trim();
+            if (!input) {
+                alert("Inserisci una password valida!");
+                return;
+            }
+            const encoded = btoa(input);
+            document.getElementById('base64Result').innerText = encoded;
+            document.getElementById('generatorResult').style.display = 'flex';
+        }
+
+        function copiaCodice() {
+            const codice = document.getElementById('base64Result').innerText;
+            navigator.clipboard.writeText(codice).then(() => {
+                alert("Codice copiato negli appunti! Ora puoi incollarlo nel database in index.html.");
+            }).catch(err => {
+                alert("Impossibile copiare automaticamente, seleziona il codice e copialo manualmente.");
+            });
+        }
+
+        function controllaInvioGeneratore(event) {
+            if (event.key === "Enter") {
+                generaBase64();
+            }
+        }
+    </script>
 </body>
 </html>
