@@ -58,7 +58,7 @@
 
     <div id="registro-lezioni" class="tab-content active">
         <h2>Stato delle Lezioni in Tempo Reale</h2>
-        <p>Seleziona un gruppo da gestire.</p>
+        <p>Seleziona un gruppo per vedere chi è iscritto e attivare l'unità didattica del giorno.</p>
         
         <div class="form-group" style="max-width: 300px;">
             <label for="lezione-gruppo-select">Seleziona Gruppo:</label>
@@ -174,7 +174,6 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getDatabase, ref, set, update, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-    // Usa l'URL del tuo database Realtime specifico
     const firebaseConfig = {
         databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app/"
     };
@@ -193,14 +192,14 @@
         event.currentTarget.classList.add('active');
     };
 
-    // --- ASCOLTO DATI REALTIME ---
-    onValue(ref(db, 'gruppi'), (snapshot) => {
+    // --- ASCOLTO DATI REALTIME (SOTTO IL NUOVO RAMO DEDICATO) ---
+    onValue(ref(db, 'scuola_anagrafica/gruppi'), (snapshot) => {
         const gruppi = snapshot.val() || {};
         setupSelettoriGruppi(gruppi);
         renderTabellaGruppi(gruppi);
     });
 
-    onValue(ref(db, 'studenti'), (snapshot) => {
+    onValue(ref(db, 'scuola_anagrafica/studenti'), (snapshot) => {
         const studenti = snapshot.val() || {};
         renderTabellaGenerale(studenti);
         caricaLezioneLive();
@@ -254,7 +253,7 @@
             datiGruppo.unitaAttiva = 1; 
         }
 
-        update(ref(db, `gruppi/${id}`), datiGruppo).then(() => {
+        update(ref(db, `scuola_anagrafica/gruppi/${id}`), datiGruppo).then(() => {
             alert(modalitaModificaGruppo ? "Gruppo aggiornato! ✨" : "Gruppo creato! 🚀");
             annullaModificaGruppo();
         });
@@ -281,8 +280,8 @@
     };
 
     window.eliminaGruppo = function(id) {
-        if(confirm(`Attenzione: cancellando il gruppo "${id}", gli studenti associati a questo codice non vedranno più nessuna lezione finché non li sposterai. Vuoi procedere?`)) {
-            remove(ref(db, `gruppi/${id}`));
+        if(confirm(`Attenzione: cancellando il gruppo "${id}", gli studenti associati a questo codice non vedranno più nessuna lezioni finché non li sposterai. Vuoi procedere?`)) {
+            remove(ref(db, `scuola_anagrafica/gruppi/${id}`));
         }
     };
 
@@ -295,7 +294,7 @@
 
         if(!pin || !nome || !gruppo) return alert("Compila tutti i dati dello studente");
 
-        set(ref(db, `studenti/${pin}`), {
+        set(ref(db, `scuola_anagrafica/studenti/${pin}`), {
             nome: nome,
             gruppo: gruppo,
             ultimaUnitaPagata: pagato
@@ -331,7 +330,7 @@
 
     window.eliminaStudente = function(pin) {
         if(confirm(`Vuoi rimuovere definitivamente lo studente con PIN ${pin}?`)) {
-            remove(ref(db, `studenti/${pin}`));
+            remove(ref(db, `scuola_anagrafica/studenti/${pin}`));
         }
     };
 
@@ -364,11 +363,11 @@
         }
         document.getElementById('pannello-attivazione').style.display = 'block';
 
-        onValue(ref(db, `gruppi/${gruppoId}/unitaAttiva`), (snap) => {
+        onValue(ref(db, `scuola_anagrafica/gruppi/${gruppoId}/unitaAttiva`), (snap) => {
             if(snap.exists()) document.getElementById('unita-attiva-select').value = snap.val();
         }, { onlyOnce: true });
 
-        onValue(ref(db, 'studenti'), (snap) => {
+        onValue(ref(db, 'scuola_anagrafica/studenti'), (snap) => {
             const tbody = document.getElementById('lista-studenti-lezione');
             tbody.innerHTML = '';
             const unitaClasse = parseInt(document.getElementById('unita-attiva-select').value) || 1;
@@ -401,7 +400,7 @@
         const gruppoId = document.getElementById('lezione-gruppo-select').value;
         const nuovaUnita = parseInt(document.getElementById('unita-attiva-select').value);
         
-        update(ref(db, `gruppi/${gruppoId}`), {
+        update(ref(db, `scuola_anagrafica/gruppi/${gruppoId}`), {
             unitaAttiva: nuovaUnita
         }).then(() => {
             alert("Lezione di gruppo aggiornata in tempo reale! 🌟");
