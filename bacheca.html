@@ -20,19 +20,16 @@
         .welcome-msg { font-size: 16px; color: #555; }
         .btn-logout { background: var(--danger); color: white; padding: 8px 15px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
         
-        /* Griglia Macro Corsi Livello */
-        .corsi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; margin-bottom: 30px; }
+        .corsi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-bottom: 30px; }
         .corso-btn { background: white; border: 2px solid #ddd; padding: 20px; border-radius: 10px; text-align: center; font-size: 18px; font-weight: bold; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
         .corso-btn.attivo { border-color: var(--primary); color: var(--primary); background: #f1f7fe; }
         .corso-btn.selezionato { background: var(--primary); color: white; border-color: var(--primary); }
         .corso-btn.bloccato { background: #e0e0e0; color: #888; border-color: #ccc; cursor: not-allowed; }
 
-        /* Area Unità */
         .unita-sezione { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         .unita-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 15px; }
-        .unita-card { background: var(--light); padding: 15px 20px; border-radius: 8px; border: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; background: #fdfdfd; }
+        .unita-card { background: white; padding: 15px 20px; border-radius: 8px; border: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
         .unita-info h4 { margin: 0 0 4px 0; color: #222; font-size: 16px; }
-        .unita-info p { margin: 0; color: #666; font-size: 13px; }
         
         .status-badge { padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: bold; margin-right: 15px; display: inline-block; }
         .status-active { background: #e3faf2; color: #20c997; }
@@ -47,28 +44,21 @@
 <body>
 
 <div class="container">
-    <!-- Intestazione -->
     <div class="header-bar">
         <div>
             <h2>Scuola di Italiano Parlo Italiano 🇮🇹</h2>
-            <div class="welcome-msg" id="saluto-utente">Caricamento...</div>
+            <div class="welcome-msg" id="saluto-utente">Caricamento dati...</div>
         </div>
         <button class="btn-logout" onclick="logout()">Esci 🚪</button>
     </div>
 
-    <!-- 1. SELEZIONE LIVELLO / CORSO -->
     <h3>Scegli il tuo Livello</h3>
-    <div class="corsi-grid" id="griglia-macro-corsi">
-        <!-- Generato dinamicamente (A1.1, A1.2, ecc.) -->
-    </div>
+    <div class="corsi-grid" id="griglia-macro-corsi"></div>
 
-    <!-- 2. AREA DETTAGLIO UNITA' -->
     <div class="unita-sezione" id="area-unita" style="display:none;">
         <button class="btn-back" onclick="chiudiUnita()">&larr; Torna ai Livelli</button>
         <h3 id="titolo-livello-selezionato">Unità del Livello</h3>
-        <div class="unita-grid" id="lista-unita">
-            <!-- Elenco unità filtrate -->
-        </div>
+        <div class="unita-grid" id="lista-unita"></div>
     </div>
 </div>
 
@@ -76,10 +66,7 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-    const firebaseConfig = {
-        databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app/"
-    };
-
+    const firebaseConfig = { databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app/" };
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
@@ -92,161 +79,74 @@
 
     document.getElementById('saluto-utente').innerHTML = `Benvenuto, <strong>${nome}</strong> ` + (ruolo === 'admin' ? `(Docente 👑)` : `[PIN: ${pin}]`);
 
-    // 📚 ASSOCIAZIONE COMPLETA LIVELLI E UNITA' DAL TUO DATABASE DEL CORSO
-    const databaseUnita = [
-        { id: 0, file: "unita0.html", titolo: "Unità 0 - Alfabeto", corso: "A1.1" },
-        { id: 11, file: "unita11.html", titolo: "Unità 11 - Un albergo in centro", corso: "A1.1" },
-        { id: 12, file: "unita12.html", titolo: "Unità 12 - Un bravo ragazzo", corso: "A1.1" },
-        { id: 13, file: "unita13.html", titolo: "Unità 13 - Un genovese ad Almaty", corso: "A1.1" },
-        { id: 14, file: "unita14.html", titolo: "Unità 14 - L'indirizzo", corso: "A1.1" },
-        { id: 15, file: "unita15.html", titolo: "Unità 15 - Un appartamento per Alikhan", corso: "A1.1" },
-        { id: 16, file: "unita16.html", titolo: "Unità 16 - Il mio migliore amico", corso: "A1.1" },
-        { id: 17, file: "unita17.html", titolo: "Unità 17 - La macchina", corso: "A1.1" },
-        { id: 18, file: "unita18.html", titolo: "Unità 18 - Un bravo impiegato", corso: "A1.1" },
-        { id: 19, file: "unita19.html", titolo: "Unità 19 - Che disordine!", corso: "A1.1" },
-        { id: 10, file: "unita10.html", titolo: "Unità 10 - La borsa rossa", corso: "A1.1" },
-        { id: 11, file: "unita11_bis.html", titolo: "Unità 11 - La casalinga", corso: "A1.1" },
-        { id: 12, file: "unita12_bis.html", titolo: "Unità 12 - I fratelli gemelli", corso: "A1.1" },
-        { id: 13, file: "unita13_bis.html", titolo: "Unità 13 - Il grande scrittore", corso: "A1.1" },
-        { id: 14, file: "unita14_bis.html", titolo: "Unità 14 - Il nuovo direttore", corso: "A1.1" },
-        { id: 15, file: "unita15_bis.html", titolo: "Unità 15 - Il topo di campagna e il topo di città", corso: "A1.1" },
-        { id: 16, file: "unita16_ter.html", titolo: "Unità 16 - Il portafoglio", corso: "A1.2" },
-        { id: 17, file: "unita17_bis.html", titolo: "Unità 17 - Dove sei?", corso: "A1.2" },
-        { id: 18, file: "unita18_bis.html", titolo: "Unità 18 - In albergo", corso: "A1.2" },
-        { id: 19, file: "unita19_bis.html", titolo: "Unità 19 - Il compleanno di Michele", corso: "A1.2" },
-        { id: 20, file: "unita20.html", titolo: "Unità 20 - La forza dell'abitudine", corso: "A1.2" },
-        { id: 21, file: "unita21.html", titolo: "Unità 21 - Una gita al mare", corso: "A1.2" },
-        { id: 22, file: "unita22.html", titolo: "Unità 22 - Le vacanze dello zio Pino e della zia Pina", corso: "A1.2" },
-        { id: 23, file: "unita23.html", titolo: "Unità 23 - Il testamento", corso: "A1.2" },
-        { id: 24, file: "unita24.html", titolo: "Unità 24 - L'investigatore privato", corso: "A1.2" },
-        { id: 25, file: "unita25.html", titolo: "Unità 25 - Tutto in comune", corso: "A1.2" },
-        { id: 26, file: "unita26.html", titolo: "Unità 26 - La mia famiglia", corso: "A1.2" },
-        { id: 27, file: "unita27.html", titolo: "Unità 27 - Vietato tutto", corso: "A1.2" },
-        { id: 28, file: "unita28.html", titolo: "Unità 28 - I pensionati", corso: "A1.2" },
-        { id: 29, file: "unita29.html", titolo: "Unità 29 - La settimana bianca", corso: "A1.2" },
-        { id: 30, file: "unita30.html", titolo: "Unità 30 - Il pranzo del turista tedesco", corso: "A1.2" },
-        { id: 31, file: "unita31.html", titolo: "Unità 31 - Al ristorante", corso: "A1.2" },
-        { id: 32, file: "unita32.html", titolo: "Unità 32 - Un picnic con la pioggia", corso: "A1.2" },
-        { id: 33, file: "unita33.html", titolo: "Unità 33 - La fine del mondo", corso: "A2.1" },
-        { id: 34, file: "unita34.html", titolo: "Unità 34 - La seduta di condominio", corso: "A2.1" },
-        { id: 35, file: "unita35.html", titolo: "Unità 35 - Gonna o pantaloni", corso: "A2.1" },
-        { id: 36, file: "unita36.html", titolo: "Unità 36 - Bianchini contro Bianchini", corso: "A2.1" },
-        { id: 37, file: "unita37.html", titolo: "Unità 37 - Il dormiglione", corso: "A2.1" },
-        { id: 38, file: "unita38.html", titolo: "Unità 38 - Tenersi in forma", corso: "A2.1" },
-        { id: 39, file: "unita39.html", titolo: "Unità 39 - L'amore non è eterno", corso: "A2.1" },
-        { id: 40, file: "unita40.html", titolo: "Unità 40 - Lo psicanalista", corso: "A2.1" },
-        { id: 41, file: "unita41.html", titolo: "Unità 41 - Avremo un bambino", corso: "A2.1" },
-        { id: 42, file: "unita42.html", titolo: "Unità 42 - Il marito bugiardo", corso: "A2.1" },
-        { id: 43, file: "unita43.html", titolo: "Unità 43 - Al supermercato", corso: "A2.1" },
-        { id: 44, file: "unita44.html", titolo: "Unità 44 - Il viaggio di studio", corso: "A2.1" },
-        { id: 45, file: "unita45.html", titolo: "Unità 45 - Il mistero della bomba scomparsa", corso: "A2.1" },
-        { id: 46, file: "unita46.html", titolo: "Unità 46 - Il funerale dello zio Augusto", corso: "A2.1" },
-        { id: 47, file: "unita47.html", titolo: "Unità 47 - I mostri", corso: "A2.1" },
-        { id: 48, file: "unita48.html", titolo: "Unità 48 - Gli animali del signor Rossi", corso: "A2.1" },
-        { id: 49, file: "unita49.html", titolo: "Unità 49 - Aspettando l'autobus", corso: "A2.1" },
-        { id: 50, file: "unita50.html", titolo: "Unità 50 - La seduta spiritica", corso: "A2.2" },
-        { id: 51, file: "unita51.html", titolo: "Unità 51 - L'aumento", corso: "A2.2" },
-        { id: 52, file: "unita52.html", titolo: "Unità 52 - Un'occasionemancata", corso: "A2.2" }, // [ Livello di Laila ]
-        { id: 54, file: "unita54.html", titolo: "Unità 54 - Il viale del tramonto", corso: "A2.2" },
-        { id: 55, file: "unita55.html", titolo: "Unità 55 - Ricchi e poveri", corso: "A2.2" },
-        { id: 56, file: "unita56.html", titolo: "Unità 56 - Punti di vista", corso: "A2.2" },
-        { id: 57, file: "unita57.html", titolo: "Unità 57 - La campagna d'Italia", corso: "A2.2" },
-        { id: 58, file: "unita58.html", titolo: "Unità 58 - Regali di Natale", corso: "A2.2" },
-        { id: 59, file: "unita59.html", titolo: "Unità 59 - A spasso con Bobi", corso: "A2.2" },
-        { id: 60, file: "unita60.html", titolo: "Unità 60 - L'客 (L'ospite)", corso: "A2.2" },
-        { id: 61, file: "unita61.html", titolo: "Unità 61 - Lettera al figlio", corso: "A2.2" },
-        { id: 62, file: "unita62.html", titolo: "Unità 62 - L'orsacchiotto", corso: "A2.2" },
-        { id: 63, file: "unita63.html", titolo: "Unità 63 - Un medico fuori del comune", corso: "A2.2" },
-        { id: 64, file: "unita64.html", titolo: "Unità 64 - Il vaso rotto", corso: "A2.2" },
-        { id: 65, file: "unita65.html", titolo: "Unità 65 - Una burocrazia infernale", corso: "A2.2" },
-        { id: 66, file: "unita66.html", titolo: "Unità 66 - Il giustiziere", corso: "B1.1" },
-        { id: 67, file: "unita67.html", titolo: "Unità 67 - La rivoluzione", corso: "B1.1" },
-        { id: 68, file: "unita68.html", titolo: "Unità 68 - Il matrimonio", corso: "B1.1" },
-        { id: 69, file: "unita69.html", titolo: "Unità 69 - Il nuovo fidanzato", corso: "B1.1" },
-        { id: 70, file: "unita70.html", titolo: "Unità 70 - L'isola deserta", corso: "B1.1" },
-        { id: 71, file: "unita71.html", titolo: "Unità 71 - L'oroscopo", corso: "B1.1" },
-        { id: 72, file: "unita72.html", titolo: "Unità 72 - La macchia", corso: "B1.1" },
-        { id: 73, file: "unita73.html", titolo: "Unità 73 - Albino, il robot di famiglia", corso: "B1.1" },
-        { id: 74, file: "unita74.html", titolo: "Unità 74 - Vestiti su misura", corso: "B1.1" },
-        { id: 75, file: "unita75.html", titolo: "Unità 75 - La storia siamo noi", corso: "B1.2" },
-        { id: 76, file: "unita76.html", titolo: "Unità 76 - Il pianeta e noi", corso: "B1.2" }
-    ];
-
     const elencoMacroCorsi = ["A1.1", "A1.2", "A2.1", "A2.2", "B1.1", "B1.2", "B1.3", "B1.4", "B2.1", "B2.2"];
+    let databaseUnita = []; 
 
-    let maxPagatoStudente = 1;
-    let unitaAttivaGruppo = 1;
+    // 🌟 LEGGE ESCLUSIVAMENTE DA FIREBASE (NIENTE ELENCHI FISSI COPIATI)
+    onValue(ref(db, `scuola_materiale/unita`), (catalogSnap) => {
+        databaseUnita = catalogSnap.exists() ? Object.values(catalogSnap.val()) : [];
+        
+        if (ruolo === 'admin') {
+            renderMacroCorsi(elencoMacroCorsi, "B2.2", true);
+        } else {
+            // Carica info studente loggato
+            onValue(ref(db, `scuola_anagrafica/studenti/${pin}`), (studSnap) => {
+                if (!studSnap.exists()) { logout(); return; }
+                const maxPagatoStudente = studSnap.val().ultimaUnitaPagata || 1;
 
-    if (ruolo === 'admin') {
-        renderMacroCorsi(elencoMacroCorsi, "B2.2", true); // Admin vede tutto attivo fino in fondo
-    } else {
-        // Leggiamo i limiti dello studente in tempo reale
-        onValue(ref(db, `scuola_anagrafica/studenti/${pin}`), (studSnap) => {
-            if (!studSnap.exists()) { logout(); return; }
-            maxPagatoStudente = studSnap.val().ultimaUnitaPagata || 1;
+                onValue(ref(db, `scuola_anagrafica/gruppi/${gruppo}`), (gruppoSnap) => {
+                    const unitaAttivaGruppo = gruppoSnap.exists() ? (gruppoSnap.val().unitaAttiva || 1) : 1;
+                    
+                    let corsoMassimoRaggiunto = "A1.1";
+                    const unitaTrovata = databaseUnita.find(u => u.id === maxPagatoStudente);
+                    if (unitaTrovata) corsoMassimoRaggiunto = unitaTrovata.corso;
 
-            onValue(ref(db, `scuola_anagrafica/gruppi/${gruppo}`), (gruppoSnap) => {
-                unitaAttivaGruppo = gruppoSnap.exists() ? (gruppoSnap.val().unitaAttiva || 1) : 1;
-                
-                // Troviamo a quale macro-corso corrisponde la massima unità pagata dello studente
-                let corsoMassimoRaggiunto = "A1.1";
-                const unitaTrovata = databaseUnita.find(u => u.id === maxPagatoStudente);
-                if (unitaTrovata) corsoMassimoRaggiunto = unitaTrovata.corso;
-
-                renderMacroCorsi(elencoMacroCorsi, corsoMassimoRaggiunto, false);
+                    renderMacroCorsi(elencoMacroCorsi, corsoMassimoRaggiunto, false, maxPagatoStudente, unitaAttivaGruppo);
+                });
             });
-        });
-    }
+        }
+    });
 
-    function renderMacroCorsi(listaCorsi, corsoMassimoRaggiunto, isAdmin) {
+    function renderMacroCorsi(listaCorsi, corsoMassimoRaggiunto, isAdmin, maxPagato, attivaGruppo) {
         const grid = document.getElementById('griglia-macro-corsi');
         grid.innerHTML = '';
-
-        // Indice del corso massimo a cui lo studente ha diritto di accedere
         const indexMax = listaCorsi.indexOf(corsoMassimoRaggiunto);
 
         listaCorsi.forEach(corso => {
             let btn = document.createElement('button');
             btn.className = 'corso-btn';
             btn.innerText = corso;
-
             const indexCorrente = listaCorsi.indexOf(corso);
 
             if (isAdmin || indexCorrente <= indexMax) {
-                // Il corso è attivo e accessibile (uguale o inferiore al suo livello attuale)
                 btn.classList.add('attivo');
-                btn.onclick = () => mostraUnitaLivello(corso);
+                btn.onclick = () => mostraUnitaLivello(corso, isAdmin, maxPagato, attivaGruppo);
             } else {
-                // Il corso appartiene a un livello successivo non pagato o non raggiunto
                 btn.classList.add('bloccato');
             }
             grid.appendChild(btn);
         });
     }
 
-    window.mostraUnitaLivello = function(nomeCorso) {
+    window.mostraUnitaLivello = function(nomeCorso, isAdmin, maxPagato, attivaGruppo) {
         document.getElementById('area-unita').style.display = 'block';
         document.getElementById('titolo-livello-selezionato').innerText = `Unità sbloccate per il livello: ${nomeCorso}`;
-        
         const listaUl = document.getElementById('lista-unita');
         listaUl.innerHTML = '';
 
-        // Filtriamo le unità appartenenti solo al corso selezionato
-        const unitaFiltrate = databaseUnita.filter(u => u.corso === nomeCorso);
+        const unitaFiltrate = databaseUnita.filter(u => u.corso === nomeCorso).sort((a,b) => a.id - b.id);
 
         unitaFiltrate.forEach(unita => {
             let card = document.createElement('div');
             card.className = 'unita-card';
-
             let info = `<div class="unita-info"><h4>${unita.titolo}</h4></div>`;
             let azione = '';
 
-            if (ruolo === 'admin') {
+            if (isAdmin) {
                 azione = `<span class="status-badge status-active">Docente</span><a href="${unita.file}" class="btn-entra">Apri 👁️</a>`;
             } else {
-                // Verifichiamo se l'unità specifica è stata abilitata dal docente e pagata
-                const sbloccataDocente = unita.id <= unitaAttivaGruppo;
-                const pagataStudente = unita.id <= maxPagatoStudente;
+                const sbloccataDocente = unita.id <= attivaGruppo;
+                const pagataStudente = unita.id <= maxPagato;
 
                 if (sbloccataDocente && pagataStudente) {
                     azione = `<span class="status-badge status-active">Disponibile ✅</span><a href="${unita.file}" class="btn-entra">Inizia 🚀</a>`;
@@ -256,12 +156,10 @@
                     azione = `<span class="status-badge status-locked">Bloccata ⛔</span><button class="btn-entra disabled">Bloccata</button>`;
                 }
             }
-
             card.innerHTML = info + `<div style="display:flex; align-items:center;">${azione}</div>`;
             listaUl.appendChild(card);
         });
         
-        // Evidenzia visivamente il bottone del corso cliccato
         document.querySelectorAll('.corso-btn').forEach(b => b.classList.remove('selezionato'));
         event.currentTarget.classList.add('selezionato');
     };
@@ -271,10 +169,7 @@
         document.querySelectorAll('.corso-btn').forEach(b => b.classList.remove('selezionato'));
     };
 
-    window.logout = function() {
-        localStorage.clear();
-        window.location.href = "index.html";
-    }
+    window.logout = function() { localStorage.clear(); window.location.href = "index.html"; }
 </script>
 </body>
 </html>
