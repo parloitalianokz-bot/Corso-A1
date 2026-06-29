@@ -3,74 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pannello Admin - Scuola di Italiano</title>
+    <title>Dashboard Admin - Scuola di Italiano</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f7f6; color: #333; }
-        h1, h2 { color: #0056b3; }
-        .container { max-width: 900px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .section { margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #ddd; }
-        select, input, button { padding: 8px; margin: 5px 0; font-size: 14px; border-radius: 4px; border: 1px solid #ccc; }
-        button { background-color: #28a745; color: white; cursor: pointer; border: none; }
-        button:hover { background-color: #218838; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-        th { background-color: #f2f2f2; }
+        :root {
+            --primary: #0056b3;
+            --success: #28a745;
+            --danger: #dc3545;
+            --dark: #333;
+            --light: #f8f9fa;
+        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; background-color: #eef2f5; color: var(--dark); }
+        .dashboard { max-width: 1100px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        h1, h2 { margin-top: 0; color: var(--primary); }
+        
+        /* Tabs Nav */
+        .tabs { display: flex; border-bottom: 2px solid #ddd; margin-bottom: 20px; }
+        .tab-btn { padding: 12px 24px; border: none; background: none; font-size: 16px; font-weight: bold; cursor: pointer; color: #666; }
+        .tab-btn.active { color: var(--primary); border-bottom: 3px solid var(--primary); margin-bottom: -2px; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* Form e Griglie */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 20px; }
+        .card { background: var(--light); padding: 20px; border-radius: 8px; border: 1px solid #e0e0e0; }
+        .form-group { margin-bottom: 15px; display: flex; flex-direction: column; }
+        label { font-weight: 600; margin-bottom: 5px; font-size: 14px; }
+        input, select { padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+        
+        /* Bottoni */
+        .btn { padding: 10px 15px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; transition: background 0.2s; font-size: 14px; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: #004085; }
+        .btn-success { background: var(--success); color: white; }
+        .btn-success:hover { background: #1e7e34; }
+        .btn-danger { background: var(--danger); color: white; }
+        
+        /* Tabelle */
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; background: white; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background: #f1f3f5; font-weight: 600; }
+        .badge { padding: 4px 8px; border-radius: 12px; font-size: 12px; font-weight: bold; background: #e3faf2; color: #20c997; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Pannello di Controllo Docente 👨‍🏫</h1>
+<div class="dashboard">
+    <h1>Scuola di Italiano - Pannello di Controllo 👨‍🏫</h1>
     
-    <!-- SELEZIONE GRUPPO -->
-    <div class="section">
-        <h2>1. Gestione Gruppo</h2>
-        <label for="select-gruppo">Scegli il gruppo da gestire:</label>
-        <select id="select-gruppo" onchange="caricaDatiGruppo()">
-            <option value="">-- Seleziona Gruppo --</option>
-            <option value="gruppo_A">Gruppo A</option>
-            <option value="gruppo_B">Gruppo B</option>
-        </select>
+    <!-- Navigazione Pannello -->
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('registro-lezioni')">🔴 Controllo Lezioni Live</button>
+        <button class="tab-btn" onclick="switchTab('gestione-anagrafica')">👥 Gestione Gruppi & Studenti</button>
     </div>
 
-    <!-- CONTROLLO UNITÀ LIVE -->
-    <div class="section" id="controllo-lezione" style="display:none;">
-        <h2>2. Lezione del Giorno</h2>
-        <p>Imposta quale unità è attualmente attiva per la lezione live di questo gruppo:</p>
-        <label for="unita-attiva">Unità Attiva:</label>
-        <select id="unita-attiva">
-            <option value="unita1">Unità 1 - Presentarsi</option>
-            <option value="unita2">Unità 2 - Al bar</option>
-            <option value="unita3">Unità 3 - Tempo libero</option>
-        </select>
-        <button onclick="aggiornaUnitaGruppo()">Attiva per il Gruppo</button>
+    <!-- TAB 1: CONTROLLO LEZIONI LIVE -->
+    <div id="registro-lezioni" class="tab-content active">
+        <h2>Stato delle Lezioni in Tempo Reale</h2>
+        <p>Seleziona un gruppo per vedere chi è iscritto e attivare l'unità didattica del giorno.</p>
+        
+        <div class="form-group" style="max-width: 300px;">
+            <label for="lezione-gruppo-select">Seleziona Gruppo:</label>
+            <select id="lezione-gruppo-select" onchange="caricaLezioneLive()">
+                <option value="">-- Scegli Gruppo --</option>
+            </select>
+        </div>
+
+        <div id="pannello-attivazione" style="display: none;" class="card">
+            <h3>Attivazione Unità per la Classe</h3>
+            <div style="display: flex; gap: 15px; align-items: flex-end;">
+                <div class="form-group" style="margin: 0; flex-grow: 1;">
+                    <label for="unita-attiva-select">Unità Attiva Ora:</label>
+                    <select id="unita-attiva-select">
+                        <option value="1">Unità 1 - Presentarsi</option>
+                        <option value="2">Unità 2 - Al bar</option>
+                        <option value="3">Unità 3 - In città</option>
+                        <option value="4">Unità 4 - Tempo libero</option>
+                    </select>
+                </div>
+                <button class="btn btn-success" onclick="salvaUnitaGruppo()">Aggiorna per la Classe</button>
+            </div>
+            
+            <h3 style="margin-top: 25px;">Studenti attualmente in questo gruppo</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>PIN d'Accesso</th>
+                        <th>Ultima Unità Pagata</th>
+                        <th>Stato Accesso Attuale</th>
+                    </tr>
+                </thead>
+                <tbody id="lista-studenti-lezione">
+                    <!-- Dinamico -->
+                </tbody>
+            </table>
+        </div>
     </div>
 
-    <!-- ELENCO STUDENTI E PAGAMENTI -->
-    <div class="section" id="sezione-studenti" style="display:none;">
-        <h2>3. Studenti del Gruppo e Limiti di Accesso</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Nome Studente</th>
-                    <th>PIN / ID</th>
-                    <th>Ultima Unità Pagata (Limite Accesso)</th>
-                    <th>Salva</th>
-                </tr>
-            </thead>
-            <tbody id="tabella-studenti">
-                <!-- I dati degli studenti verranno inseriti qui dinamicamente -->
-            </tbody>
-        </table>
+    <!-- TAB 2: GESTIONE ANAGRAFICA -->
+    <div id="gestione-anagrafica" class="tab-content">
+        <div class="grid">
+            <!-- CREA GRUPPO -->
+            <div class="card">
+                <h2>Crea Nuovo Gruppo</h2>
+                <div class="form-group">
+                    <label for="nuovo-gruppo-id">Codice Gruppo (es: gruppo_A, serale_B):</label>
+                    <input type="text" id="nuovo-gruppo-id" placeholder="Inminuscolo_con_underscore">
+                </div>
+                <div class="form-group">
+                    <label for="nuovo-gruppo-nome">Nome Visibile (es: Gruppo A - Mattina):</label>
+                    <input type="text" id="nuovo-gruppo-nome" placeholder="Nome del gruppo">
+                </div>
+                <button class="btn btn-primary" onclick="creaGruppo()">Salva Gruppo</button>
+            </div>
+
+            <!-- AGGIUNGI STUDENTE -->
+            <div class="card">
+                <h2>Aggiungi / Sposta Studente</h2>
+                <div class="form-group">
+                    <label for="studente-pin">PIN di Accesso unico (es: MR26):</label>
+                    <input type="text" id="studente-pin" placeholder="4 caratteri o cifre">
+                </div>
+                <div class="form-group">
+                    <label for="studente-nome">Nome e Cognome Studente:</label>
+                    <input type="text" id="studente-nome" placeholder="Es: Maria Rossi">
+                </div>
+                <div class="form-group">
+                    <label for="studente-gruppo-select">Assegna a Gruppo:</label>
+                    <select id="studente-gruppo-select">
+                        <!-- Caricato dinamicamente -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="studente-pagato">Ultima Unità Pagata (Limite):</label>
+                    <input type="number" id="studente-pagato" value="1" min="1" max="20">
+                </div>
+                <button class="btn btn-primary" onclick="salvaStudente()">Salva / Aggiorna Studente</button>
+            </div>
+        </div>
+
+        <!-- TABELLA DI RIEPILOGO TOTALE -->
+        <div class="card">
+            <h2>Anagrafica Generale Studenti</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>PIN</th>
+                        <th>Nome</th>
+                        <th>Gruppo Corrente</th>
+                        <th>Max Unità Pagata</th>
+                        <th>Azioni</th>
+                    </tr>
+                </thead>
+                <tbody id="tabella-completa-studenti">
+                    <!-- Dinamico -->
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
-<!-- SDK Firebase (Modulari) -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getDatabase, ref, set, get, update, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+    import { getDatabase, ref, set, update, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-    // Inserisci qui la configurazione del tuo progetto Firebase
+    // Configurazione Firebase
     const firebaseConfig = {
         apiKey: "YOUR_API_KEY",
         authDomain: "YOUR_AUTH_DOMAIN",
@@ -84,72 +181,172 @@
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    // Funzione per caricare i dati del gruppo selezionato
-    window.caricaDatiGruppo = function() {
-        const gruppo = document.getElementById('select-gruppo').value;
-        if (!gruppo) {
-            document.getElementById('controllo-lezione').style.display = 'none';
-            document.getElementById('sezione-studenti').style.display = 'none';
-            return;
+    // Gestione Tab Switcher
+    window.switchTab = function(tabId) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        event.currentTarget.classList.add('active');
+    };
+
+    // --- CARICAMENTO DATI INIZIALI (REALTIME) ---
+    onValue(ref(db, 'gruppi'), (snapshot) => {
+        const gruppi = snapshot.val() || {};
+        setupSelettoriGruppi(gruppi);
+    });
+
+    onValue(ref(db, 'studenti'), (snapshot) => {
+        const studenti = snapshot.val() || {};
+        renderTabellaGenerale(studenti);
+        // Se c'è un gruppo attivo nel tab lezioni, aggiorna anche la lista live
+        caricaLezioneLive();
+    });
+
+    function setupSelettoriGruppi(gruppi) {
+        const selLezione = document.getElementById('lezione-gruppo-select');
+        const selAnagrafica = document.getElementById('studente-gruppo-select');
+        
+        const valCorrenteLezione = selLezione.value;
+        const valCorrenteAnagrafica = selAnagrafica.value;
+
+        selLezione.innerHTML = '<option value="">-- Scegli Gruppo --</option>';
+        selAnagrafica.innerHTML = '<option value="">-- Scegli Gruppo --</option>';
+
+        for(let id in gruppi) {
+            let op = `<option value="${id}">${gruppi[id].nome}</option>`;
+            selLezione.innerHTML += op;
+            selAnagrafica.innerHTML += op;
         }
 
-        document.getElementById('controllo-lezione').style.display = 'block';
-        document.getElementById('sezione-studenti').style.display = 'block';
+        selLezione.value = valCorrenteLezione;
+        selAnagrafica.value = valCorrenteAnagrafica;
+    }
 
-        // 1. Leggi l'unità attiva del gruppo
-        onValue(ref(db, `gruppi/${gruppo}/unitaAttiva`), (snapshot) => {
-            if (snapshot.exists()) {
-                document.getElementById('unita-attiva').value = snapshot.val();
-            }
+    // --- GESTIONE GRUPPI ---
+    window.creaGruppo = function() {
+        const id = document.getElementById('nuovo-gruppo-id').value.trim();
+        const nome = document.getElementById('nuovo-gruppo-nome').value.trim();
+        if(!id || !nome) return alert("Compila tutti i campi del gruppo");
+
+        set(ref(db, `gruppi/${id}`), {
+            nome: nome,
+            unitaAttiva: 1
+        }).then(() => {
+            alert("Gruppo creato!");
+            document.getElementById('nuovo-gruppo-id').value = '';
+            document.getElementById('nuovo-gruppo-nome').value = '';
         });
+    };
 
-        // 2. Leggi gli studenti di quel gruppo
-        onValue(ref(db, `studenti`), (snapshot) => {
-            const tabella = document.getElementById('tabella-studenti');
-            tabella.innerHTML = '';
+    // --- GESTIONE STUDENTI ---
+    window.salvaStudente = function() {
+        const pin = document.getElementById('studente-pin').value.trim().toUpperCase();
+        const nome = document.getElementById('studente-nome').value.trim();
+        const gruppo = document.getElementById('studente-gruppo-select').value;
+        const pagato = parseInt(document.getElementById('studente-pagato').value);
+
+        if(!pin || !nome || !gruppo) return alert("Compila tutti i dati dello studente");
+
+        set(ref(db, `studenti/${pin}`), {
+            nome: nome,
+            gruppo: gruppo,
+            ultimaUnitaPagata: pagato
+        }).then(() => {
+            alert("Studente salvato/aggiornato con successo!");
+            document.getElementById('studente-pin').value = '';
+            document.getElementById('studente-nome').value = '';
+        });
+    };
+
+    window.eliminaStudente = function(pin) {
+        if(confirm(`Vuoi rimuovere definitivamente lo studente con PIN ${pin}?`)) {
+            remove(ref(db, `studenti/${pin}`));
+        }
+    };
+
+    window.caricaInForm = function(pin, nome, gruppo, pagato) {
+        switchTab('gestione-anagrafica');
+        document.getElementById('studente-pin').value = pin;
+        document.getElementById('studente-nome').value = nome;
+        document.getElementById('studente-gruppo-select').value = gruppo;
+        document.getElementById('studente-pagato').value = pagato;
+    };
+
+    function renderTabellaGenerale(studenti) {
+        const tbody = document.getElementById('tabella-completa-studenti');
+        tbody.innerHTML = '';
+        for(let pin in studenti) {
+            let s = studenti[pin];
+            tbody.innerHTML += `
+                <tr>
+                    <td><code>${pin}</code></td>
+                    <td><strong>${s.nome}</strong></td>
+                    <td>${s.gruppo}</td>
+                    <td>Unità ${s.ultimaUnitaPagata}</td>
+                    <td>
+                        <button class="btn btn-primary" style="padding:4px 8px;" onclick="caricaInForm('${pin}', '${s.nome}', '${s.gruppo}', ${s.ultimaUnitaPagata})">Modifica/Sposta</button>
+                        <button class="btn btn-danger" style="padding:4px 8px;" onclick="eliminaStudente('${pin}')">Elimina</button>
+                    </td>
+                </tr>
+            `;
+        }
+    }
+
+    // --- LOGICA LEZIONE LIVE (TAB 1) ---
+    window.caricaLezioneLive = function() {
+        const gruppoId = document.getElementById('lezione-gruppo-select').value;
+        if(!gruppoId) {
+            document.getElementById('pannello-attivazione').style.display = 'none';
+            return;
+        }
+        document.getElementById('pannello-attivazione').style.display = 'block';
+
+        // Prendi l'unità attualmente attiva del gruppo
+        onValue(ref(db, `gruppi/${gruppoId}/unitaAttiva`), (snap) => {
+            if(snap.exists()) document.getElementById('unita-attiva-select').value = snap.val();
+        }, { onlyOnce: true });
+
+        // Calcola l'elenco studenti specifico di questo gruppo
+        onValue(ref(db, 'studenti'), (snap) => {
+            const tbody = document.getElementById('lista-studenti-lezione');
+            tbody.innerHTML = '';
+            const unitaClasse = parseInt(document.getElementById('unita-attiva-select').value) || 1;
             
-            if (snapshot.exists()) {
-                const studenti = snapshot.val();
-                for (let id in studenti) {
-                    if (studenti[id].gruppo === gruppo) {
-                        const studente = studenti[id];
-                        const riga = `
+            if(snap.exists()) {
+                const tutti = snap.val();
+                for(let pin in tutti) {
+                    if(tutti[pin].gruppo === gruppoId) {
+                        let s = tutti[pin];
+                        let haAccesso = s.ultimaUnitaPagata >= unitaClasse;
+                        let statusBadge = haAccesso 
+                            ? '<span class="badge">✅ Abilitato (Sta seguendo)</span>' 
+                            : '<span class="badge" style="background:#ffe3e3; color:#e03131;">⛔ Bloccato (Fermo a Unità ' + s.ultimaUnitaPagata + ')</span>';
+                        
+                        tbody.innerHTML += `
                             <tr>
-                                <td><strong>${studente.nome}</strong></td>
-                                <td><code>${id}</code></td>
-                                <td>
-                                    <input type="number" id="limite-${id}" value="${studente.ultimaUnitaPagata || 1}" min="1" max="10" style="width: 60px;">
-                                </td>
-                                <td>
-                                    <button onclick="aggiornaLimiteStudente('${id}')" style="background-color: #007bff;">Salva</button>
-                                </td>
+                                <td>${s.nome}</td>
+                                <td><code>${pin}</code></td>
+                                <td>Unità ${s.ultimaUnitaPagata}</td>
+                                <td>${statusBadge}</td>
                             </tr>
                         `;
-                        tabella.innerHTML += riga;
                     }
                 }
             }
         });
     }
 
-    // Funzione per aggiornare l'unità attiva del gruppo
-    window.aggiornaUnitaGruppo = function() {
-        const gruppo = document.getElementById('select-gruppo').value;
-        const nuovaUnita = document.getElementById('unita-attiva').value;
+    window.salvaUnitaGruppo = function() {
+        const gruppoId = document.getElementById('lezione-gruppo-select').value;
+        const nuovaUnita = parseInt(document.getElementById('unita-attiva-select').value);
         
-        update(ref(db, `gruppi/${gruppo}`), {
+        update(ref(db, `gruppi/${gruppoId}`), {
             unitaAttiva: nuovaUnita
-        }).then(() => alert('Unità del gruppo aggiornata con successo! 🚀'));
-    }
-
-    // Funzione per aggiornare l'ultima unità pagata del singolo studente
-    window.aggiornaLimiteStudente = function(studenteId) {
-        const limiteInviato = parseInt(document.getElementById(`limite-${studenteId}`).value);
-        
-        update(ref(db, `studenti/${studenteId}`), {
-            ultimaUnitaPagata: limiteInviato
-        }).then(() => alert('Limite dello studente aggiornato! 👍'));
-    }
+        }).then(() => {
+            alert("Lezione aggiornata! Chi ha pagato vedrà la nuova unità, chi è rimasto indietro sarà reindirizzato.");
+            caricaLezioneLive();
+        });
+    };
 </script>
 </body>
 </html>
