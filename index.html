@@ -3,192 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Corso A1 - Parlo Italiano</title>
-    <!-- Collegamento al Design System Globale -->
-    <link rel="stylesheet" href="css/main.css">
+    <title>Login - Corso di Italiano</title>
     <style>
-        /* Regole aggiuntive per la pagina index specifiche */
-        .school-logo-container {
-            text-align: center;
-            margin-bottom: 24px;
-            animation: fadeIn 0.8s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+        :root {
+            --primary: #0056b3;
+            --bg: #eef2f5;
+            --dark: #333;
         }
-        .logo-text {
-            font-family: 'Outfit', sans-serif;
-            font-size: 2.2rem;
-            font-weight: 800;
-            color: var(--primary);
-            letter-spacing: -0.5px;
-        }
-        .logo-accent {
-            color: var(--italian-green);
-        }
-        .logo-sub {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 2.5px;
-            margin-top: 6px;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            color: var(--dark);
         }
         .login-card {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             width: 100%;
-            max-width: 460px;
+            max-width: 400px;
             box-sizing: border-box;
-        }
-        #login-section {
             text-align: center;
         }
-        #dashboard {
-            display: none;
+        h1 { margin-top: 0; color: var(--primary); font-size: 24px; }
+        p { color: #666; font-size: 14px; margin-bottom: 30px; }
+        
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+        label { font-weight: 600; margin-bottom: 5px; font-size: 14px; }
+        input {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+            text-transform: uppercase;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+        input:focus { outline: none; border-color: var(--primary); }
+        
+        .btn {
             width: 100%;
-            max-width: 480px;
+            padding: 12px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn:hover { background: #004085; }
+        
+        .error-message {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 15px;
+            font-weight: bold;
+            min-height: 20px;
         }
     </style>
 </head>
-<body class="centered-layout">
+<body>
 
-    <!-- Logo scolastico premium ed emozionale -->
-    <div class="school-logo-container">
-        <div class="logo-text">Parlo <span class="logo-accent">Italiano</span></div>
-        <div class="logo-sub">Scuola Online di Lingua Italiana</div>
-    </div>
-
-    <!-- Barra tricolore sopra la scheda di login -->
-    <div class="tricolore-bar">
-        <div class="bar-green"></div>
-        <div class="bar-white"></div>
-        <div class="bar-red"></div>
-    </div>
-
-    <!-- Scheda di Accesso Studenti -->
-    <div id="login-section" class="card login-card">
-        <h2>Accesso Studenti belli</h2>
-        <p class="h2-ru" style="margin-bottom: 24px;">Вход для студентов</p>
-        
-        <input type="text" id="user" placeholder="Nome Utente (Имя пользователя)" oninput="nascondiErrore()" autocomplete="username">
-        <input type="password" id="pass" placeholder="Password (Пароль)" oninput="nascondiErrore()" onkeypress="controllaInvio(event)" autocomplete="current-password">
-        <br><br>
-        <button onclick="login()" style="width: 100%;">ENTRA ➡</button>
-        <p id="error">⚠️ Nome utente o password errati! <br><span style="font-size: 0.8rem; font-weight: normal; opacity: 0.9;">Неверное имя пользователя или пароль!</span></p>
-    </div>
-
-    <!-- Scheda Dashboard Studente -->
-    <div id="dashboard" class="card">
-        <h2 id="welcome-msg">Benvenuto!</h2>
-        <p class="dashboard-text">Le tue lezioni disponibili:<br><span style="font-style: italic; font-size: 0.9rem; color: var(--text-muted);">Доступные вам уроки:</span></p>
-        
-        <div id="units-list"></div>
-        
-        <br>
-        <button onclick="logout()" class="logout-btn">Esci (Выйти) ⬅</button>
-    </div>
-
-    <script>
-      // Database codificato in Base64 (Configurazione statica su GitHub Pages)
-        // antonio: amnesia -> YW1uZXNpYQ== (Accesso totale)
-        // assel: amore -> YW1vcmU= (Accesso totale)
-        // camilla: sakharoka -> c2FraGFyb2th (Solo Unità 1)
-        // sara: sarochka -> c2Fyb2Noa2E= (Solo Unità 1)
-        const database = {
-            "antonio": { pass: "YW1uZXNpYQ==",    maxUnit: 10 },
-            "assel":   { pass: "YW1vcmU=",        maxUnit: 10 },
-            "camilla": { pass: "c2FraGFyb2th",   maxUnit: 1 },
-            "sara":    { pass: "c2Fyb2Noa2E=",   maxUnit: 1 }
-        };
-
-        // Elenco ufficiale delle unità disponibili
-        const nomiUnita = {
-            1: "Benvenuti! (Добро пожаловать)",
-            2: "In Città (В городе)",
-            3: "La Famiglia (Моя семья)",
-            4: "Al Ristorante (В ресторане)"
-        };
-
-        window.onload = function() {
-            const savedUser = localStorage.getItem('user_parloitaliano');
-            const savedPass = localStorage.getItem('pass_parloitaliano');
-
-            if (savedUser && savedPass) {
-                if (database[savedUser] && database[savedUser].pass === savedPass) {
-                    mostraDashboard(savedUser);
-                }
-            }
-        };
-
-        function login() {
-    // Trasforma l'input in minuscolo e toglie gli spazi
-    const u = document.getElementById('user').value.toLowerCase().trim();
-    const p = document.getElementById('pass').value.trim();
+<div class="login-card">
+    <h1>Scuola di Italiano 🇮🇹</h1>
+    <p>Inserisci il tuo PIN personale per accedere alle lezioni del tuo corso.</p>
     
-    if (!u || !p) {
-        document.getElementById('error').style.display = 'block';
-        return;
+    <div class="form-group">
+        <label for="pin-input">Il tuo PIN d'Accesso:</label>
+        <input type="text" id="pin-input" placeholder="ES: MR26" maxlength="10">
+    </div>
+    
+    <button class="btn" onclick="gestisciLogin()">Entra nella Scuola 🚀</button>
+    
+    <div id="errore-login" class="error-message"></div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+    const firebaseConfig = {
+        databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app/"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    window.gestisciLogin = function() {
+        const pinInserito = document.getElementById('pin-input').value.trim().toUpperCase();
+        const erroreDiv = document.getElementById('errore-login');
+        erroreDiv.innerText = "";
+
+        if (!pinInserito) {
+            erroreDiv.innerText = "Per favore, inserisci un PIN.";
+            return;
+        }
+
+        // 🔐 COMANDO ADMIN: ACCESSO TOTALE
+        if (pinInserito === "ADMIN") {
+            // Salviamo i parametri speciali per garantire i superpoteri anche all'interno delle altre pagine
+            localStorage.setItem('studente_pin', 'ADMIN');
+            localStorage.setItem('studente_nome', 'Insegnante (Admin)');
+            localStorage.setItem('studente_gruppo', 'admin_global');
+            localStorage.setItem('ruolo', 'admin');
+
+            // Veniamo indirizzati direttamente alla dashboard principale del docente
+            window.location.href = "admin.html";
+            return;
+        }
+
+        // ACCESSO STUDENTE STANDALONE
+        const studenteRef = ref(db, `scuola_anagrafica/studenti/${pinInserito}`);
+        
+        get(studenteRef).then((snapshot) => {
+            if (snapshot.exists()) {
+                const datiStudente = snapshot.val();
+                
+                // Salviamo le informazioni dello studente
+                localStorage.setItem('studente_pin', pinInserito);
+                localStorage.setItem('studente_nome', datiStudente.nome);
+                localStorage.setItem('studente_gruppo', datiStudente.gruppo);
+                localStorage.removeItem('ruolo'); // Assicuriamoci che non sia rimasto memorizzato un ruolo admin precedente
+                
+                window.location.href = "profilo_studente.html";
+            } else {
+                erroreDiv.innerText = "PIN non trovato. Controlla il codice o chiedi all'insegnante.";
+            }
+        }).catch((error) => {
+            console.error(error);
+            erroreDiv.innerText = "Errore di connessione. Riprova più tardi.";
+        });
     }
 
-    // Cripta la password inserita dall'utente
-    const passwordCodificata = btoa(p);
-    
-    // Controlla se l'utente esiste nel database e se la password coincide
-    if (database[u] && database[u].pass === passwordCodificata) {
-        localStorage.setItem('user_parloitaliano', u);
-        localStorage.setItem('pass_parloitaliano', passwordCodificata);
-        
-        // Importante per separare i profili
-        localStorage.setItem('utente_corrente', u);
-        
-        // Salva il nome con la prima lettera maiuscola per la tessera (Antonio)
-        const nomeFormattato = u.charAt(0).toUpperCase() + u.slice(1);
-        localStorage.setItem(u + '_studente_nome', nomeFormattato);
-        
-        localStorage.setItem('utente_autorizzato', 'true');
-        
-        // Mostra la dashboard
-        mostraDashboard(u);
-    } else {
-        // Se non coincide, mostra l'errore
-        document.getElementById('error').style.display = 'block';
-    }
-}
-
-        function logout() {
-            localStorage.removeItem('user_parloitaliano');
-            localStorage.removeItem('pass_parloitaliano');
-            location.reload(); 
+    document.getElementById('pin-input').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            gestisciLogin();
         }
-
-        function mostraDashboard(userName) {
-            document.getElementById('login-section').style.display = 'none';
-            
-            const dashboard = document.getElementById('dashboard');
-            dashboard.style.display = 'block';
-            
-            document.getElementById('welcome-msg').innerHTML = "Ciao, " + userName.charAt(0).toUpperCase() + userName.slice(1) + "!";
-            
-            const max = database[userName].maxUnit;
-            const container = document.getElementById('units-list');
-            container.innerHTML = ""; 
-            
-            for (let i = 1; i <= max; i++) {
-                if (nomiUnita[i]) {
-                    const link = document.createElement('a');
-                    link.href = "unita" + i + ".html";
-                    link.className = "unit-link";
-                    link.innerHTML = `<span><strong>Unità ${i}</strong> - ${nomiUnita[i]}</span><span style="font-weight: bold; color: var(--italian-green);">➡</span>`;
-                    container.appendChild(link);
-                }
-            }
-        }
-
-        function controllaInvio(event) {
-            if (event.key === "Enter") {
-                login();
-            }
-        }
-
-        function nascondiErrore() {
-            document.getElementById('error').style.display = 'none';
-        }
-    </script>
+    });
+</script>
 </body>
 </html>
