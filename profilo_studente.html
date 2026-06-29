@@ -1,165 +1,280 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Il Mio Profilo — Parlo Italiano</title>
-  <link rel="stylesheet" href="css/main.css">
-  <style>
-    /* Stili specifici per la barra di progresso e elementi grafici */
-    .progress-container {
-      background-color: #e2e8f0;
-      border-radius: 20px;
-      position: relative;
-      margin: 15px auto;
-      height: 24px;
-      width: 100%;
-      max-width: 400px;
-      overflow: hidden;
-      box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
-    }
-    .progress-bar {
-      background: linear-gradient(90deg, #22c55e 0%, #16a34a 100%);
-      height: 100%;
-      width: 10%; /* Valore iniziale dinamico */
-      transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
-      border-radius: 20px;
-    }
-    .progress-text {
-      position: absolute;
-      width: 100%;
-      top: 0;
-      left: 0;
-      text-align: center;
-      font-size: 0.85rem;
-      line-height: 24px;
-      font-weight: 700;
-      color: #1e293b;
-    }
-    .status-badge {
-      display: inline-block;
-      padding: 6px 16px;
-      border-radius: 50px;
-      font-weight: bold;
-      font-size: 0.9rem;
-      margin-top: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .status-beginner { background-color: #fef3c7; color: #d97706; border: 1px solid #fde68a; }
-    .status-completed { background-color: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bacheca Corsi - Scuola di Italiano</title>
+    <style>
+        :root {
+            --primary: #0056b3;
+            --success: #28a745;
+            --danger: #dc3545;
+            --bg: #eef2f5;
+            --dark: #333;
+        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); margin: 0; padding: 20px; color: var(--dark); }
+        .container { max-width: 900px; margin: 0 auto; }
+        
+        .header-bar { display: flex; justify-content: space-between; align-items: center; background: white; padding: 20px 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 25px; }
+        .header-bar h2 { margin: 0; color: var(--primary); }
+        .welcome-msg { font-size: 16px; color: #555; }
+        .btn-logout { background: var(--danger); color: white; padding: 8px 15px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
+        
+        /* Griglia Macro Corsi Livello */
+        .corsi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; margin-bottom: 30px; }
+        .corso-btn { background: white; border: 2px solid #ddd; padding: 20px; border-radius: 10px; text-align: center; font-size: 18px; font-weight: bold; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .corso-btn.attivo { border-color: var(--primary); color: var(--primary); background: #f1f7fe; }
+        .corso-btn.selezionato { background: var(--primary); color: white; border-color: var(--primary); }
+        .corso-btn.bloccato { background: #e0e0e0; color: #888; border-color: #ccc; cursor: not-allowed; }
+
+        /* Area Unità */
+        .unita-sezione { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .unita-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 15px; }
+        .unita-card { background: var(--light); padding: 15px 20px; border-radius: 8px; border: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; background: #fdfdfd; }
+        .unita-info h4 { margin: 0 0 4px 0; color: #222; font-size: 16px; }
+        .unita-info p { margin: 0; color: #666; font-size: 13px; }
+        
+        .status-badge { padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: bold; margin-right: 15px; display: inline-block; }
+        .status-active { background: #e3faf2; color: #20c997; }
+        .status-waiting { background: #fff3cd; color: #856404; }
+        .status-locked { background: #ffe3e3; color: #e03131; }
+        
+        .btn-entra { background: var(--primary); color: white; padding: 8px 16px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; text-decoration: none; font-size: 13px; }
+        .btn-entra.disabled { background: #ccc; color: #666; cursor: not-allowed; pointer-events: none; }
+        .btn-back { background: #6c757d; color: white; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; margin-bottom: 15px; font-weight: bold; }
+    </style>
 </head>
 <body>
-  
-  <nav class="main-navbar" style="position: fixed; top: 0; left: 0; width: 100%; background: #ffffff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 9999; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; box-sizing: border-box;">
-    <div style="font-weight: bold; color: var(--primary); font-size: 1.1rem; font-family: 'Outfit', sans-serif;">
-      Parlo Italiano 🇮🇹
+
+<div class="container">
+    <!-- Intestazione -->
+    <div class="header-bar">
+        <div>
+            <h2>Scuola di Italiano Parlo Italiano 🇮🇹</h2>
+            <div class="welcome-msg" id="saluto-utente">Caricamento...</div>
+        </div>
+        <button class="btn-logout" onclick="logout()">Esci 🚪</button>
     </div>
-    <div>
-      <a href="index.html" class="btn-nav" style="padding: 6px 12px; font-size: 0.85rem; text-decoration: none; background: #f1f5f9; color: #334155;">🏠 Home</a>
+
+    <!-- 1. SELEZIONE LIVELLO / CORSO -->
+    <h3>Scegli il tuo Livello</h3>
+    <div class="corsi-grid" id="griglia-macro-corsi">
+        <!-- Generato dinamicamente (A1.1, A1.2, ecc.) -->
     </div>
-  </nav>
-  
-  <div style="margin-top: 80px;"></div>
 
-  <div class="page">
-    <header style="text-align: center; margin-bottom: 30px;">
-      <h1>Il mio profilo</h1>
-      <div class="subtitle-ru">Мой профиль studente</div>
-    </header>
-
-    <main>
-      <section class="card" style="text-align: center; padding: 30px 20px;">
-        
-        <h2>Bentornato, <span id="welcome-name" style="color: var(--accent);">Studente</span>!</h2>
-        <p class="note" style="margin-bottom: 25px;">Рады снова видеть вас на курсе!</p>
-
-        <div style="margin: 25px 0; background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0;">
-          <h3 style="margin-bottom: 5px; font-size: 1.1rem;">Livello attuale • Текущий уровень:</h3>
-          
-          <div id="level-badge" class="status-badge status-beginner">Principiante Assoluto</div>
-          <div id="level-badge-ru" class="note" style="margin-top: 5px; font-weight: 600; color: #64748b;">Абсолютный новичок</div>
-          
-          <div class="progress-container">
-            <div id="my-bar" class="progress-bar"></div>
-            <div id="my-bar-text" class="progress-text">10%</div>
-          </div>
-          
-          <p id="progress-tip" style="font-size: 0.9rem; color: #475569; margin-top: 10px; line-height: 1.4;">
-            Completa l'Unità 1 per sbloccare i dati della tua tessera! <br>
-            <span style="font-size: 0.8rem; color: #64748b;">Завершите Урок 1, чтобы разблокировать данные вашей карты!</span>
-          </p>
+    <!-- 2. AREA DETTAGLIO UNITA' -->
+    <div class="unita-sezione" id="area-unita" style="display:none;">
+        <button class="btn-back" onclick="chiudiUnita()">&larr; Torna ai Livelli</button>
+        <h3 id="titolo-livello-selezionato">Unità del Livello</h3>
+        <div class="unita-grid" id="lista-unita">
+            <!-- Elenco unità filtrate -->
         </div>
+    </div>
+</div>
 
-        <div style="margin: 25px auto; max-width: 360px; background: linear-gradient(135deg, #0a2540 0%, #0070f3 100%); color: white; padding: 25px; border-radius: 14px; box-shadow: 0 15px 30px rgba(0,0,0,0.15); text-align: left; position: relative; overflow: hidden;">
-          <div style="position: absolute; right: -15px; top: -15px; font-size: 6rem; opacity: 0.08; font-weight: bold;">IT</div>
-          <div style="border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 10px; margin-bottom: 18px;">
-            <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.8; display: block;">Scuola di Lingua Online</span>
-            <div style="font-weight: bold; font-size: 1.3rem;">Parlo Italiano 🇮🇹</div>
-          </div>
-          
-          <div style="font-size: 1.4rem; font-weight: bold; margin-bottom: 12px; color: #ffffff;" id="stored-name">...</div>
-          <div style="margin-bottom: 8px; font-size: 1rem;">🌍 <span style="opacity: 0.75;">Nazionalità:</span> <strong><span id="stored-nat" style="color: #60a5fa;">🔒 Bloccato</span></strong></div>
-          <div style="margin-bottom: 8px; font-size: 1rem;">💼 <span style="opacity: 0.75;">Professione:</span> <strong><span id="stored-job" style="color: #60a5fa;">🔒 Bloccato</span></strong></div>
-          <div style="font-size: 1rem;">❤️ <span style="opacity: 0.75;">Motivazione:</span> <strong><span id="stored-mot" style="color: #60a5fa;">🔒 Bloccato</span></strong></div>
-        </div>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        <div style="margin-top: 30px;">
-          <button onclick="tornareAllUnita()" class="btn-nav" style="background-color: #22c55e; color: white; padding: 12px 25px; font-size: 1rem; border: none; cursor: pointer;">📖 Torna alla lezione (Назад к уроку)</button>
-        </div>
-      </section>
-    </main>
-  </div>
+    const firebaseConfig = {
+        databaseURL: "https://esercizi-parlo-italiano-default-rtdb.europe-west1.firebasedatabase.app/"
+    };
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      // CONTROLLO DI SICUREZZA
-      if (localStorage.getItem('utente_autorizzato') !== 'true') {
-        window.location.href = "index.html";
-        return;
-      }
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
 
-      // Recupera l'utente connesso e i suoi dati
-      const userKey = localStorage.getItem('utente_corrente') || 'ospite';
-      const profiloCreato = localStorage.getItem(userKey + '_profilo_creato');
-      const nomeSalvato = localStorage.getItem(userKey + '_studente_nome');
+    const pin = localStorage.getItem('studente_pin');
+    const nome = localStorage.getItem('studente_nome');
+    const gruppo = localStorage.getItem('studente_gruppo');
+    const ruolo = localStorage.getItem('ruolo');
 
-      // Imposta il nome (se non c'è, usa una capitalizzazione di backup)
-      const nomeVisualizzato = nomeSalvato || (userKey.charAt(0).toUpperCase() + userKey.slice(1));
-      document.getElementById('welcome-name').innerText = nomeVisualizzato;
-      document.getElementById('stored-name').innerText = nomeVisualizzato;
+    if (!pin || !nome) { window.location.href = "index.html"; }
 
-      // GESTIONE EVOLUTIVA DEL PROFILO (Se l'Unità 1 è completata)
-      if (profiloCreato === 'true') {
-        // 1. Aggiorna la barra al 100%
-        document.getElementById('my-bar').style.width = "100%";
-        document.getElementById('my-bar-text').innerText = "100%";
-        document.getElementById('my-bar-text').style.color = "#ffffff";
+    document.getElementById('saluto-utente').innerHTML = `Benvenuto, <strong>${nome}</strong> ` + (ruolo === 'admin' ? `(Docente 👑)` : `[PIN: ${pin}]`);
 
-        // 2. Modifica i testi del livello
-        const badge = document.getElementById('level-badge');
-        badge.innerText = "A0 Completato";
-        badge.className = "status-badge status-completed";
-        document.getElementById('level-badge-ru').innerText = "Уровень А0 завершен (Уверенный новичок)";
-        
-        // 3. Modifica la nota di suggerimento
-        document.getElementById('progress-tip').innerHTML = "Ottimo lavoro! Hai sbloccato la tua tessera studente! 🎉<br><span style='font-size: 0.8rem; color: #64748b;'>Отличная работа! Вы разблокировали карту студента!</span>";
+    // 📚 ASSOCIAZIONE COMPLETA LIVELLI E UNITA' DAL TUO DATABASE DEL CORSO
+    const databaseUnita = [
+        { id: 0, file: "unita0.html", titolo: "Unità 0 - Alfabeto", corso: "A1.1" },
+        { id: 11, file: "unita11.html", titolo: "Unità 11 - Un albergo in centro", corso: "A1.1" },
+        { id: 12, file: "unita12.html", titolo: "Unità 12 - Un bravo ragazzo", corso: "A1.1" },
+        { id: 13, file: "unita13.html", titolo: "Unità 13 - Un genovese ad Almaty", corso: "A1.1" },
+        { id: 14, file: "unita14.html", titolo: "Unità 14 - L'indirizzo", corso: "A1.1" },
+        { id: 15, file: "unita15.html", titolo: "Unità 15 - Un appartamento per Alikhan", corso: "A1.1" },
+        { id: 16, file: "unita16.html", titolo: "Unità 16 - Il mio migliore amico", corso: "A1.1" },
+        { id: 17, file: "unita17.html", titolo: "Unità 17 - La macchina", corso: "A1.1" },
+        { id: 18, file: "unita18.html", titolo: "Unità 18 - Un bravo impiegato", corso: "A1.1" },
+        { id: 19, file: "unita19.html", titolo: "Unità 19 - Che disordine!", corso: "A1.1" },
+        { id: 10, file: "unita10.html", titolo: "Unità 10 - La borsa rossa", corso: "A1.1" },
+        { id: 11, file: "unita11_bis.html", titolo: "Unità 11 - La casalinga", corso: "A1.1" },
+        { id: 12, file: "unita12_bis.html", titolo: "Unità 12 - I fratelli gemelli", corso: "A1.1" },
+        { id: 13, file: "unita13_bis.html", titolo: "Unità 13 - Il grande scrittore", corso: "A1.1" },
+        { id: 14, file: "unita14_bis.html", titolo: "Unità 14 - Il nuovo direttore", corso: "A1.1" },
+        { id: 15, file: "unita15_bis.html", titolo: "Unità 15 - Il topo di campagna e il topo di città", corso: "A1.1" },
+        { id: 16, file: "unita16_ter.html", titolo: "Unità 16 - Il portafoglio", corso: "A1.2" },
+        { id: 17, file: "unita17_bis.html", titolo: "Unità 17 - Dove sei?", corso: "A1.2" },
+        { id: 18, file: "unita18_bis.html", titolo: "Unità 18 - In albergo", corso: "A1.2" },
+        { id: 19, file: "unita19_bis.html", titolo: "Unità 19 - Il compleanno di Michele", corso: "A1.2" },
+        { id: 20, file: "unita20.html", titolo: "Unità 20 - La forza dell'abitudine", corso: "A1.2" },
+        { id: 21, file: "unita21.html", titolo: "Unità 21 - Una gita al mare", corso: "A1.2" },
+        { id: 22, file: "unita22.html", titolo: "Unità 22 - Le vacanze dello zio Pino e della zia Pina", corso: "A1.2" },
+        { id: 23, file: "unita23.html", titolo: "Unità 23 - Il testamento", corso: "A1.2" },
+        { id: 24, file: "unita24.html", titolo: "Unità 24 - L'investigatore privato", corso: "A1.2" },
+        { id: 25, file: "unita25.html", titolo: "Unità 25 - Tutto in comune", corso: "A1.2" },
+        { id: 26, file: "unita26.html", titolo: "Unità 26 - La mia famiglia", corso: "A1.2" },
+        { id: 27, file: "unita27.html", titolo: "Unità 27 - Vietato tutto", corso: "A1.2" },
+        { id: 28, file: "unita28.html", titolo: "Unità 28 - I pensionati", corso: "A1.2" },
+        { id: 29, file: "unita29.html", titolo: "Unità 29 - La settimana bianca", corso: "A1.2" },
+        { id: 30, file: "unita30.html", titolo: "Unità 30 - Il pranzo del turista tedesco", corso: "A1.2" },
+        { id: 31, file: "unita31.html", titolo: "Unità 31 - Al ristorante", corso: "A1.2" },
+        { id: 32, file: "unita32.html", titolo: "Unità 32 - Un picnic con la pioggia", corso: "A1.2" },
+        { id: 33, file: "unita33.html", titolo: "Unità 33 - La fine del mondo", corso: "A2.1" },
+        { id: 34, file: "unita34.html", titolo: "Unità 34 - La seduta di condominio", corso: "A2.1" },
+        { id: 35, file: "unita35.html", titolo: "Unità 35 - Gonna o pantaloni", corso: "A2.1" },
+        { id: 36, file: "unita36.html", titolo: "Unità 36 - Bianchini contro Bianchini", corso: "A2.1" },
+        { id: 37, file: "unita37.html", titolo: "Unità 37 - Il dormiglione", corso: "A2.1" },
+        { id: 38, file: "unita38.html", titolo: "Unità 38 - Tenersi in forma", corso: "A2.1" },
+        { id: 39, file: "unita39.html", titolo: "Unità 39 - L'amore non è eterno", corso: "A2.1" },
+        { id: 40, file: "unita40.html", titolo: "Unità 40 - Lo psicanalista", corso: "A2.1" },
+        { id: 41, file: "unita41.html", titolo: "Unità 41 - Avremo un bambino", corso: "A2.1" },
+        { id: 42, file: "unita42.html", titolo: "Unità 42 - Il marito bugiardo", corso: "A2.1" },
+        { id: 43, file: "unita43.html", titolo: "Unità 43 - Al supermercato", corso: "A2.1" },
+        { id: 44, file: "unita44.html", titolo: "Unità 44 - Il viaggio di studio", corso: "A2.1" },
+        { id: 45, file: "unita45.html", titolo: "Unità 45 - Il mistero della bomba scomparsa", corso: "A2.1" },
+        { id: 46, file: "unita46.html", titolo: "Unità 46 - Il funerale dello zio Augusto", corso: "A2.1" },
+        { id: 47, file: "unita47.html", titolo: "Unità 47 - I mostri", corso: "A2.1" },
+        { id: 48, file: "unita48.html", titolo: "Unità 48 - Gli animali del signor Rossi", corso: "A2.1" },
+        { id: 49, file: "unita49.html", titolo: "Unità 49 - Aspettando l'autobus", corso: "A2.1" },
+        { id: 50, file: "unita50.html", titolo: "Unità 50 - La seduta spiritica", corso: "A2.2" },
+        { id: 51, file: "unita51.html", titolo: "Unità 51 - L'aumento", corso: "A2.2" },
+        { id: 52, file: "unita52.html", titolo: "Unità 52 - Un'occasionemancata", corso: "A2.2" }, // [ Livello di Laila ]
+        { id: 54, file: "unita54.html", titolo: "Unità 54 - Il viale del tramonto", corso: "A2.2" },
+        { id: 55, file: "unita55.html", titolo: "Unità 55 - Ricchi e poveri", corso: "A2.2" },
+        { id: 56, file: "unita56.html", titolo: "Unità 56 - Punti di vista", corso: "A2.2" },
+        { id: 57, file: "unita57.html", titolo: "Unità 57 - La campagna d'Italia", corso: "A2.2" },
+        { id: 58, file: "unita58.html", titolo: "Unità 58 - Regali di Natale", corso: "A2.2" },
+        { id: 59, file: "unita59.html", titolo: "Unità 59 - A spasso con Bobi", corso: "A2.2" },
+        { id: 60, file: "unita60.html", titolo: "Unità 60 - L'客 (L'ospite)", corso: "A2.2" },
+        { id: 61, file: "unita61.html", titolo: "Unità 61 - Lettera al figlio", corso: "A2.2" },
+        { id: 62, file: "unita62.html", titolo: "Unità 62 - L'orsacchiotto", corso: "A2.2" },
+        { id: 63, file: "unita63.html", titolo: "Unità 63 - Un medico fuori del comune", corso: "A2.2" },
+        { id: 64, file: "unita64.html", titolo: "Unità 64 - Il vaso rotto", corso: "A2.2" },
+        { id: 65, file: "unita65.html", titolo: "Unità 65 - Una burocrazia infernale", corso: "A2.2" },
+        { id: 66, file: "unita66.html", titolo: "Unità 66 - Il giustiziere", corso: "B1.1" },
+        { id: 67, file: "unita67.html", titolo: "Unità 67 - La rivoluzione", corso: "B1.1" },
+        { id: 68, file: "unita68.html", titolo: "Unità 68 - Il matrimonio", corso: "B1.1" },
+        { id: 69, file: "unita69.html", titolo: "Unità 69 - Il nuovo fidanzato", corso: "B1.1" },
+        { id: 70, file: "unita70.html", titolo: "Unità 70 - L'isola deserta", corso: "B1.1" },
+        { id: 71, file: "unita71.html", titolo: "Unità 71 - L'oroscopo", corso: "B1.1" },
+        { id: 72, file: "unita72.html", titolo: "Unità 72 - La macchia", corso: "B1.1" },
+        { id: 73, file: "unita73.html", titolo: "Unità 73 - Albino, il robot di famiglia", corso: "B1.1" },
+        { id: 74, file: "unita74.html", titolo: "Unità 74 - Vestiti su misura", corso: "B1.1" },
+        { id: 75, file: "unita75.html", titolo: "Unità 75 - La storia siamo noi", corso: "B1.2" },
+        { id: 76, file: "unita76.html", titolo: "Unità 76 - Il pianeta e noi", corso: "B1.2" }
+    ];
 
-        // 4. Mostra i dati reali sulla tessera
-        document.getElementById('stored-nat').innerText = "Sono " + localStorage.getItem(userKey + '_studente_nazionalita');
-        document.getElementById('stored-job').innerText = "Sono " + localStorage.getItem(userKey + '_studente_professione');
-        document.getElementById('stored-mot').innerText = "Studio l'italiano " + localStorage.getItem(userKey + '_studente_motivazione');
-      } else {
-        // Se l'utente ha solo effettuato l'accesso ma non ha ancora finito l'Unità 1
-        document.getElementById('my-bar').style.width = "15px"; // Piccola frazione iniziale visibile
-        document.getElementById('my-bar-text').innerText = "10%";
-      }
-    });
+    const elencoMacroCorsi = ["A1.1", "A1.2", "A2.1", "A2.2", "B1.1", "B1.2", "B1.3", "B1.4", "B2.1", "B2.2"];
 
-    function tornareAllUnita() {
-      window.location.href = "unita1.html";
+    let maxPagatoStudente = 1;
+    let unitaAttivaGruppo = 1;
+
+    if (ruolo === 'admin') {
+        renderMacroCorsi(elencoMacroCorsi, "B2.2", true); // Admin vede tutto attivo fino in fondo
+    } else {
+        // Leggiamo i limiti dello studente in tempo reale
+        onValue(ref(db, `scuola_anagrafica/studenti/${pin}`), (studSnap) => {
+            if (!studSnap.exists()) { logout(); return; }
+            maxPagatoStudente = studSnap.val().ultimaUnitaPagata || 1;
+
+            onValue(ref(db, `scuola_anagrafica/gruppi/${gruppo}`), (gruppoSnap) => {
+                unitaAttivaGruppo = gruppoSnap.exists() ? (gruppoSnap.val().unitaAttiva || 1) : 1;
+                
+                // Troviamo a quale macro-corso corrisponde la massima unità pagata dello studente
+                let corsoMassimoRaggiunto = "A1.1";
+                const unitaTrovata = databaseUnita.find(u => u.id === maxPagatoStudente);
+                if (unitaTrovata) corsoMassimoRaggiunto = unitaTrovata.corso;
+
+                renderMacroCorsi(elencoMacroCorsi, corsoMassimoRaggiunto, false);
+            });
+        });
     }
-  </script>
+
+    function renderMacroCorsi(listaCorsi, corsoMassimoRaggiunto, isAdmin) {
+        const grid = document.getElementById('griglia-macro-corsi');
+        grid.innerHTML = '';
+
+        // Indice del corso massimo a cui lo studente ha diritto di accedere
+        const indexMax = listaCorsi.indexOf(corsoMassimoRaggiunto);
+
+        listaCorsi.forEach(corso => {
+            let btn = document.createElement('button');
+            btn.className = 'corso-btn';
+            btn.innerText = corso;
+
+            const indexCorrente = listaCorsi.indexOf(corso);
+
+            if (isAdmin || indexCorrente <= indexMax) {
+                // Il corso è attivo e accessibile (uguale o inferiore al suo livello attuale)
+                btn.classList.add('attivo');
+                btn.onclick = () => mostraUnitaLivello(corso);
+            } else {
+                // Il corso appartiene a un livello successivo non pagato o non raggiunto
+                btn.classList.add('bloccato');
+            }
+            grid.appendChild(btn);
+        });
+    }
+
+    window.mostraUnitaLivello = function(nomeCorso) {
+        document.getElementById('area-unita').style.display = 'block';
+        document.getElementById('titolo-livello-selezionato').innerText = `Unità sbloccate per il livello: ${nomeCorso}`;
+        
+        const listaUl = document.getElementById('lista-unita');
+        listaUl.innerHTML = '';
+
+        // Filtriamo le unità appartenenti solo al corso selezionato
+        const unitaFiltrate = databaseUnita.filter(u => u.corso === nomeCorso);
+
+        unitaFiltrate.forEach(unita => {
+            let card = document.createElement('div');
+            card.className = 'unita-card';
+
+            let info = `<div class="unita-info"><h4>${unita.titolo}</h4></div>`;
+            let azione = '';
+
+            if (ruolo === 'admin') {
+                azione = `<span class="status-badge status-active">Docente</span><a href="${unita.file}" class="btn-entra">Apri 👁️</a>`;
+            } else {
+                // Verifichiamo se l'unità specifica è stata abilitata dal docente e pagata
+                const sbloccataDocente = unita.id <= unitaAttivaGruppo;
+                const pagataStudente = unita.id <= maxPagatoStudente;
+
+                if (sbloccataDocente && pagataStudente) {
+                    azione = `<span class="status-badge status-active">Disponibile ✅</span><a href="${unita.file}" class="btn-entra">Inizia 🚀</a>`;
+                } else if (!sbloccataDocente && pagataStudente) {
+                    azione = `<span class="status-badge status-waiting">In arrivo ⏳</span><button class="btn-entra disabled">Attendi</button>`;
+                } else {
+                    azione = `<span class="status-badge status-locked">Bloccata ⛔</span><button class="btn-entra disabled">Bloccata</button>`;
+                }
+            }
+
+            card.innerHTML = info + `<div style="display:flex; align-items:center;">${azione}</div>`;
+            listaUl.appendChild(card);
+        });
+        
+        // Evidenzia visivamente il bottone del corso cliccato
+        document.querySelectorAll('.corso-btn').forEach(b => b.classList.remove('selezionato'));
+        event.currentTarget.classList.add('selezionato');
+    };
+
+    window.chiudiUnita = function() {
+        document.getElementById('area-unita').style.display = 'none';
+        document.querySelectorAll('.corso-btn').forEach(b => b.classList.remove('selezionato'));
+    };
+
+    window.logout = function() {
+        localStorage.clear();
+        window.location.href = "index.html";
+    }
+</script>
 </body>
 </html>
