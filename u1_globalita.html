@@ -25,7 +25,10 @@
       letter-spacing: 1px;
       margin-bottom: 10px;
     }
-    /* Stili per l'esercizio di accoppiamento visivo */
+    .unit-step {
+      display: block !important; 
+    }
+    /* Stili per la griglia adattiva */
     .matching-container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -33,34 +36,61 @@
       margin-top: 20px;
     }
     .matching-card {
-      background: #f8fafc;
-      border: 2px dashed #cbd5e1;
+      background: #ffffff;
+      border: 2px solid hsl(210, 20%, 90%);
       border-radius: 12px;
-      padding: 15px;
+      padding: 20px;
       text-align: center;
-      transition: all 0.3s;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow-sm);
     }
     .matching-card.correct {
-      border-color: var(--success, #28a745);
+      border-color: var(--italian-green, #28a745);
       background: #f0fdf4;
     }
     .matching-img {
       width: 100%;
-      height: 160px;
+      aspect-ratio: 1 / 1;
+      max-width: 240px;
       object-fit: cover;
       border-radius: 8px;
       margin-bottom: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     }
-    .word-select {
-      width: 100%;
-      padding: 10px;
-      border-radius: 6px;
-      border: 1px solid #cbd5e1;
-      font-size: 1rem;
-      background: white;
+    /* Layout per i pulsanti di opzione */
+    .options-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .opt-btn {
+      background: #ffffff;
+      border: 2px solid hsl(210, 20%, 88%);
+      color: var(--text-main, #333);
+      padding: 10px 16px;
+      border-radius: var(--radius-sm, 8px);
       cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      box-shadow: none;
+      width: 100%;
     }
-    .unit-step { display: block !important; }
+    .opt-btn:hover:not(:disabled) {
+      border-color: var(--primary, #0056b3);
+      background: rgba(10, 37, 64, 0.05);
+    }
+    .opt-btn.correct-choice {
+      background: #e3faf2 !important;
+      border-color: var(--italian-green, #20c997) !important;
+      color: var(--italian-green, #20c997) !important;
+    }
+    .opt-btn.wrong-choice {
+      background: #ffe3e3 !important;
+      border-color: var(--italian-red, #e03131) !important;
+      color: var(--italian-red, #e03131) !important;
+    }
   </style>
 </head>
 <body>
@@ -87,56 +117,44 @@
     <main class="global-wrapper">
       
       <section class="card unit-step" id="global-matching">
-        <h2>Guarda e Abbina</h2>
-        <div class="h2-ru">Посмотри и сопоставь</div>
-        <p style="color: #64748b; font-size: 0.95rem;">Abbina ogni immagine alla parola corretta in italiano (senza cirillico, usa il tuo intuito!).</p>
+        <h2>Guarda e Scegli</h2>
+        <div class="h2-ru">Посмотри и выбери</div>
+        <p style="color: #64748b; font-size: 0.95rem;">Scegli l'opzione corretta in italiano per ogni immagine.</p>
         
         <div class="matching-container">
           <div class="matching-card" id="card-scuola-tradizionale">
             <img src="img/unita1/scuolatradizionale.jpg" alt="Scuola Tradizionale" class="matching-img">
-            <select class="word-select" onchange="verificaAbbinamento(this, 'scuola-tradizionale')">
-              <option value="">Scegli... (Выбери...)</option>
-              <option value="scuola-online">La scuola online</option>
-              <option value="scuola-tradizionale">La scuola tradizionale</option>
-              <option value="insegnante">L'insegnante</option>
-              <option value="studenti">Gli studenti</option>
-            </select>
+            <div class="options-group">
+              <button class="opt-btn" onclick="controllaScelta(this, 'scuola-tradizionale', 'scuola-online')">La scuola online</button>
+              <button class="opt-btn" onclick="controllaScelta(this, 'scuola-tradizionale', 'scuola-tradizionale')">La scuola tradizionale</button>
+            </div>
           </div>
 
           <div class="matching-card" id="card-scuola-online">
-            <img src="img/unita1/scuolaonline.jpg" alt="Scuola Online" class="matching-img">
-            <select class="word-select" onchange="verificaAbbinamento(this, 'scuola-online')">
-              <option value="">Scegli... (Выбери...)</option>
-              <option value="scuola-online">La scuola online</option>
-              <option value="scuola-tradizionale">La scuola tradizionale</option>
-              <option value="insegnante">L'insegnante</option>
-              <option value="studenti">Gli studenti</option>
-            </select>
+            <img src="img/unita1/1-scuolaonline.jpg" alt="Scuola Online" class="matching-img">
+            <div class="options-group">
+              <button class="opt-btn" onclick="controllaScelta(this, 'scuola-online', 'scuola-online')">La scuola online</button>
+              <button class="opt-btn" onclick="controllaScelta(this, 'scuola-online', 'scuola-tradizionale')">La scuola tradizionale</button>
+            </div>
           </div>
         </div>
 
-        <div id="blocco-persone-scuola" style="display: none; margin-top: 25px; border-top: 1px solid #e2e8f0; padding-top: 25px;">
+        <div id="blocco-persone-scuola" style="display: none; margin-top: 25px; border-top: 2px dashed #e2e8f0; padding-top: 25px;">
           <div class="matching-container">
             <div class="matching-card" id="card-insegnante">
               <img src="img/unita1/insegnante.jpg" alt="Insegnante" class="matching-img">
-              <select class="word-select" onchange="verificaAbbinamento(this, 'insegnante')">
-                <option value="">Scegli... (Выбери...)</option>
-                <option value="scuola-online">La scuola online</option>
-                <option value="scuola-tradizionale">La scuola tradizionale</option>
-                <option value="insegnante">L'insegnante</option>
-                <option value="studenti">Gli studenti</option>
-              </select>
+              <div class="options-group">
+                <button class="opt-btn" onclick="controllaScelta(this, 'insegnante', 'insegnante')">L'insegnante</button>
+                <button class="opt-btn" onclick="controllaScelta(this, 'insegnante', 'studenti')">Gli studenti</button>
+              </div>
             </div>
 
             <div class="matching-card" id="card-studenti">
               <img src="img/unita1/studenti.jpg" alt="Studenti" class="matching-img">
-              <select class="word-select" onchange="verificaAbbinamento(this, 'studenti')">
-                <option value="">Scegli... (Выбери...)</option>
-                <option value="scuola-online">La scuola online</option>
-                <option value="scuola-tradizionale">La scuola tradizionale</option>
-                <option value="insegnante">L'insegnante</option>
-                <option value="studenti">Gli studenti</option>
-              </select>
+              <div class="options-group">
+                <button class="opt-btn" onclick="controllaScelta(this, 'studenti', 'insegnante')">L'insegnante</button>
+                <button class="opt-btn" onclick="controllaScelta(this, 'studenti', 'studenti')">Gli studenti</button>
+              </div>
             </div>
           </div>
         </div>
@@ -175,60 +193,61 @@
   </div>
 
   <script>
-    // 🔐 CONTROLLO DI SICUREZZA INIZIALE BASATO SUL PIN
     const userKey = localStorage.getItem('studente_pin');
     if (!userKey) {
         alert("Accesso negato. Fai prima il login!");
         window.location.href = "index.html";
     }
 
-    // Salva la posizione corrente dell'utente
     document.addEventListener("DOMContentLoaded", function() {
         localStorage.setItem(userKey + '_posizione_U1', 'u1_globalita.html');
     });
 
-    // Oggetto per tracciare le risposte corrette dell'abbinamento
-    const progressiAbbinamento = {
+    const statoVerifica = {
         'scuola-tradizionale': false,
         'scuola-online': false,
         'insegnante': false,
         'studenti': false
     };
 
-    window.verificaAbbinamento = function(selectElement, valoreCorretto) {
-        const card = selectElement.parentElement;
-        
-        if (selectElement.value === valoreCorretto) {
-            card.classList.add('correct');
-            selectElement.disabled = true;
-            progressiAbbinamento[valoreCorretto] = true;
-            
-            // Se le prime due scuole sono abbinate, sblocca la visualizzazione di Insegnante e Studenti
-            if (progressiAbbinamento['scuola-tradizionale'] && progressiAbbinamento['scuola-online']) {
+    window.controllaScelta = function(bottoneCliccato, cardId, rispostaScelta) {
+        const cardContainer = document.getElementById('card-' + cardId);
+        const tuttiBottoniCard = cardContainer.querySelectorAll('.opt-btn');
+
+        if (cardId === rispostaScelta) {
+            // Risposta esatta
+            bottoneCliccato.classList.add('correct-choice');
+            tuttiBottoniCard.forEach(btn => btn.disabled = true);
+            cardContainer.classList.add('correct');
+            statoVerifica[cardId] = true;
+
+            // Sblocca il secondo blocco se le prime due scuole sono corrette
+            if (statoVerifica['scuola-tradizionale'] && statoVerifica['scuola-online']) {
                 document.getElementById('blocco-persone-scuola').style.display = 'block';
             }
-            
-            // Se tutti e 4 sono corretti, mostra il video e sblocca il tasto "Avanti"
-            if (Object.values(progressiAbbinamento).every(val => val === true)) {
+
+            // Sblocca il video e il tasto avanti alla fine
+            if (Object.values(statoVerifica).every(v => v === true)) {
                 document.getElementById('global-video-section').style.display = 'block';
                 
                 const btnNext = document.getElementById('btn-avanti-analisi');
-                btnNext.style.backgroundColor = 'var(--primary, #0056b3)';
+                btnNext.style.backgroundColor = 'var(--italian-green, #22c55e)';
                 btnNext.style.color = 'white';
                 btnNext.style.cursor = 'pointer';
                 btnNext.disabled = false;
-                
-                // Scroll fluido verso la presentazione video dell'insegnante
+
                 setTimeout(() => {
                     document.getElementById('global-video-section').scrollIntoView({ behavior: 'smooth' });
                 }, 300);
             }
         } else {
-            card.classList.remove('correct');
-            if (selectElement.value !== "") {
-                alert("Prova ancora! Попробуй еще раз!");
-                selectElement.value = "";
-            }
+            // Risposta errata
+            bottoneCliccato.classList.add('wrong-choice');
+            bottoneCliccato.style.animation = 'shake 0.4s ease';
+            setTimeout(() => {
+                bottoneCliccato.classList.remove('wrong-choice');
+                bottoneCliccato.style.animation = '';
+            }, 1000);
         }
     };
 
