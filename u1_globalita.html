@@ -6,7 +6,6 @@
   <title>Unità 1 — Globalità — Parlo Italiano</title>
   <link rel="stylesheet" href="css/main.css">
   <style>
-    /* Integrazione layout pulito per la fase globale */
     .global-wrapper {
       max-width: 750px;
       margin: 0 auto;
@@ -26,18 +25,52 @@
       letter-spacing: 1px;
       margin-bottom: 10px;
     }
+    /* Stili per l'esercizio di accoppiamento visivo */
+    .matching-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .matching-card {
+      background: #f8fafc;
+      border: 2px dashed #cbd5e1;
+      border-radius: 12px;
+      padding: 15px;
+      text-align: center;
+      transition: all 0.3s;
+    }
+    .matching-card.correct {
+      border-color: var(--success, #28a745);
+      background: #f0fdf4;
+    }
+    .matching-img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+    .word-select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #cbd5e1;
+      font-size: 1rem;
+      background: white;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
 
-  <!-- BARRA DI NAVIGAZIONE -->
   <nav class="main-navbar" style="position: fixed; top: 0; left: 0; width: 100%; background: #ffffff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 9999; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; box-sizing: border-box;">
-    <div style="font-weight: bold; color: var(--primary); font-size: 1.1rem; font-family: 'Outfit', sans-serif;">
+    <div style="font-weight: bold; color: var(--primary, #0056b3); font-size: 1.1rem; font-family: 'Outfit', sans-serif;">
       Parlo Italiano 🇮🇹
     </div>
     <div style="display: flex; gap: 10px;">
       <a href="index.html" class="btn-nav" style="padding: 6px 12px; font-size: 0.85rem; text-decoration: none; background: #f1f5f9; color: #334155;">🏠 Home / Login</a>
-      <a href="bacheca.html" class="btn-nav" style="padding: 6px 12px; font-size: 0.85rem; text-decoration: none; background: var(--accent); color: white;">🪪 La mia Bacheca</a>
+      <a href="bacheca.html" class="btn-nav" style="padding: 6px 12px; font-size: 0.85rem; text-decoration: none; background: var(--accent, #e03131); color: white;">🪪 La mia Bacheca</a>
     </div>
   </nav>
 
@@ -52,32 +85,74 @@
 
     <main class="global-wrapper">
       
-      <!-- SOTTO-FASE A: PRESENTAZIONE -->
-      <section class="card unit-step" id="global-intro">
-        <h2>Presentazione</h2>
-        <div class="h2-ru">Презентация</div>
-        <div class="intro-section">
-          <div class="intro-text">
-            <p>Cominciamo il nostro viaggio in... Italia!</p>
-            <p>Questa è la scuola <span class="highlight-red">"Parlo Italiano"</span>.</p>
-            <p>La scuola "Parlo Italiano" è una <span class="highlight-green">scuola online</span>.</p>
+      <section class="card unit-step" id="global-matching">
+        <h2>Guarda e Abbina</h2>
+        <div class="h2-ru">Посмотри и сопоставь</div>
+        <p style="color: #64748b; font-size: 0.95rem;">Abbina ogni immagine alla parola corretta in italiano (senza cirillico, usa il tuo intuito!).</p>
+        
+        <div class="matching-container">
+          <div class="matching-card" id="card-scuola-tradizionale">
+            <img src="img/unita1/scuolatradizionale.jpg" alt="Scuola Tradizionale" class="matching-img">
+            <select class="word-select" onchange="verificaAbbinamento(this, 'scuola-tradizionale')">
+              <option value="">Scegli... (Выбери...)</option>
+              <option value="scuola-online">La scuola online</option>
+              <option value="scuola-tradizionale">La scuola tradizionale</option>
+              <option value="insegnante">L'insegnante</option>
+              <option value="studenti">Gli studenti</option>
+            </select>
           </div>
-          <img src="img/unita1/1-scuolaonline.jpg" alt="Scuola Online" class="intro-img">
+
+          <div class="matching-card" id="card-scuola-online">
+            <img src="img/unita1/1-scuolaonline.jpg" alt="Scuola Online" class="matching-img">
+            <select class="word-select" onchange="verificaAbbinamento(this, 'scuola-online')">
+              <option value="">Scegli... (Выбери...)</option>
+              <option value="scuola-online">La scuola online</option>
+              <option value="scuola-tradizionale">La scuola tradizionale</option>
+              <option value="insegnante">L'insegnante</option>
+              <option value="studenti">Gli studenti</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="blocco-persone-scuola" style="display: none; margin-top: 25px; border-top: 1px solid #e2e8f0; padding-top: 25px;">
+          <div class="matching-container">
+            <div class="matching-card" id="card-insegnante">
+              <img src="img/unita1/insegnante.jpg" alt="Insegnante" class="matching-img">
+              <select class="word-select" onchange="verificaAbbinamento(this, 'insegnante')">
+                <option value="">Scegli... (Выбери...)</option>
+                <option value="scuola-online">La scuola online</option>
+                <option value="scuola-tradizionale">La scuola tradizionale</option>
+                <option value="insegnante">L'insegnante</option>
+                <option value="studenti">Gli studenti</option>
+              </select>
+            </div>
+
+            <div class="matching-card" id="card-studenti">
+              <img src="img/unita1/studenti.jpg" alt="Studenti" class="matching-img">
+              <select class="word-select" onchange="verificaAbbinamento(this, 'studenti')">
+                <option value="">Scegli... (Выбери...)</option>
+                <option value="scuola-online">La scuola online</option>
+                <option value="scuola-tradizionale">La scuola tradizionale</option>
+                <option value="insegnante">L'insegnante</option>
+                <option value="studenti">Gli studenti</option>
+              </select>
+            </div>
+          </div>
         </div>
       </section>
 
-      <!-- SOTTO-FASE B: VIDEO CONTESTUALE -->
-      <section class="card unit-step" id="global-video">
+      <section class="card unit-step" id="global-video-section" style="display: none; border-left: 5px solid var(--primary, #0056b3);">
         <h2>L'insegnante di italiano</h2>
         <div class="h2-ru">Учитель итальянского</div>
-        <div class="intro-section">
-          <div class="intro-text">
-            <p><span class="highlight-green">Ciao!</span></p>
-            <p>Io sono <span class="highlight-red">Antonio</span>.</p>
-            <p>Io sono <span class="highlight-green">l'insegnante</span> della scuola "Parlo Italiano".</p>
+        <div class="intro-section" style="display: flex; flex-wrap: wrap; gap: 20px; align-items: center;">
+          <div class="intro-text" style="flex: 1; min-width: 250px;">
+            <p><span class="highlight-green" style="background: #d4edda; padding: 2px 5px; border-radius: 4px;">Ciao!</span></p>
+            <p>Io sono <span class="highlight-red" style="background: #f8d7da; padding: 2px 5px; border-radius: 4px;">Antonio</span>.</p>
+            <p>Io sono <span class="highlight-green" style="background: #d4edda; padding: 2px 5px; border-radius: 4px;">l'insegnante</span> della scuola "Parlo Italiano".</p>
           </div>
           <div style="max-width: 280px; width: 100%; margin: 0 auto;">
-            <iframe class="student-video-vertical" src="https://www.youtube.com/embed/c5k90S6hnUA?rel=0&modestbranding=1" 
+            <iframe class="student-video-vertical" style="width: 100%; height: 450px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" 
+                    src="https://www.youtube.com/embed/c5k90S6hnUA?rel=0&modestbranding=1" 
                     title="Antonio - Presentazione" 
                     frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
@@ -86,10 +161,9 @@
         </div>
       </section>
 
-      <!-- BOTTONI DI TRANSIZIONE DIDATTICA -->
       <div class="nav-buttons" style="margin-top: 20px; display: flex; justify-content: space-between;">
-        <a href="bacheca.html" class="btn-nav btn-back" style="text-decoration: none; text-align: center;">⬅ Torna in Bacheca</a>
-        <button onclick="vaiAdAnalisi()" class="btn-nav btn-next" style="background-color: var(--primary); color: white;">Vai all'Analisi ➡</button>
+        <a href="bacheca.html" class="btn-nav btn-back" style="text-decoration: none; text-align: center; background: #6c757d; color: white; padding: 10px 20px; border-radius: 6px; font-weight: bold;">⬅ Torna in Bacheca</a>
+        <button id="btn-avanti-analisi" onclick="vaiAdAnalisi()" class="btn-nav btn-next" style="background-color: #ccc; color: #666; padding: 10px 20px; border-radius: 6px; font-weight: bold; border: none; cursor: not-allowed;" disabled>Vai all'Analisi ➡</button>
       </div>
 
     </main>
@@ -107,12 +181,56 @@
         window.location.href = "index.html";
     }
 
-    // Salva automaticamente la posizione corrente dello studente per la bacheca
+    // Salva la posizione corrente dell'utente
     document.addEventListener("DOMContentLoaded", function() {
         localStorage.setItem(userKey + '_posizione_U1', 'u1_globalita.html');
     });
 
-    // Navigazione verso la fase successiva dell'Unità Didattica
+    // Oggetto per tracciare le risposte corrette dell'abbinamento
+    const progressiAbbinamento = {
+        'scuola-tradizionale': false,
+        'scuola-online': false,
+        'insegnante': false,
+        'studenti': false
+    };
+
+    window.verificaAbbinamento = function(selectElement, valoreCorretto) {
+        const card = selectElement.parentElement;
+        
+        if (selectElement.value === valoreCorretto) {
+            card.classList.add('correct');
+            selectElement.disabled = true;
+            progressiAbbinamento[valoreCorretto] = true;
+            
+            // Se le prime due scuole sono abbinate, sblocca la visualizzazione di Insegnante e Studenti
+            if (progressiAbbinamento['scuola-tradizionale'] && progressiAbbinamento['scuola-online']) {
+                document.getElementById('blocco-persone-scuola').style.display = 'block';
+            }
+            
+            // Se tutti e 4 sono corretti, mostra il video e sblocca il tasto "Avanti"
+            if (Object.values(progressiAbbinamento).every(val => val === true)) {
+                document.getElementById('global-video-section').style.display = 'block';
+                
+                const btnNext = document.getElementById('btn-avanti-analisi');
+                btnNext.style.backgroundColor = 'var(--primary, #0056b3)';
+                btnNext.style.color = 'white';
+                btnNext.style.cursor = 'pointer';
+                btnNext.disabled = false;
+                
+                // Scroll fluido verso la presentazione video dell'insegnante
+                setTimeout(() => {
+                    document.getElementById('global-video-section').scrollIntoView({ behavior: 'smooth' });
+                }, 300);
+            }
+        } else {
+            card.classList.remove('correct');
+            if (selectElement.value !== "") {
+                alert("Prova ancora! Попробуй еще раз!");
+                selectElement.value = "";
+            }
+        }
+    };
+
     window.vaiAdAnalisi = function() {
         window.location.href = "u1_analisi.html";
     }
