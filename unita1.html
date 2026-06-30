@@ -68,8 +68,8 @@
       Parlo Italiano 🇮🇹
     </div>
     <div style="display: flex; gap: 10px;">
-      <a href="index.html" class="btn-nav" style="padding: 6px 12px; font-size: 0.85rem; text-decoration: none; background: #f1f5f9; color: #334155;">🏠 Home</a>
-      <a href="profilo_studente.html" class="btn-nav" style="padding: 6px 12px; font-size: 0.85rem; text-decoration: none; background: var(--accent); color: white;">🪪 Il mio profilo</a>
+      <a href="bacheca.html" class="btn-nav" style="padding: 6px 12px; font-size: 0.85rem; text-decoration: none; background: #f1f5f9; color: #334155;">🏠 Home</a>
+      <a href="bacheca.html" class="btn-nav" style="padding: 6px 12px; font-size: 0.85rem; text-decoration: none; background: var(--accent); color: white;">🪪 La mia Bacheca</a>
     </div>
   </nav>
 
@@ -87,14 +87,14 @@
         <div class="h2-ru">Презентация</div>
         <div class="intro-section">
           <div class="intro-text">
-            <p>Cominciami il nostro viaggio in... Italia!</p>
+            <p>Cominciamo il nostro viaggio in... Italia!</p>
             <p>Questa è la scuola <span class="highlight-red">"Parlo Italiano"</span>.</p>
             <p>La scuola "Parlo Italiano" è una <span class="highlight-green">scuola online</span>.</p>
           </div>
           <img src="img/unita1/1-scuolaonline.jpg" alt="Scuola Online" class="intro-img">
         </div>
         <div class="nav-buttons">
-          <a href="index.html" class="btn-nav btn-back">⬅ Dashboard</a>
+          <a href="bacheca.html" class="btn-nav btn-back">⬅ Dashboard</a>
           <button onclick="showStep(2)" class="btn-nav btn-next">Avanti ➡</button>
         </div>
       </section>
@@ -337,7 +337,7 @@
               <span style="font-size: 2rem; min-width: 40px; text-align: center;">💼</span>
               <div>
                 <strong style="color: var(--primary); display: block; font-size: 1.1rem; font-family: 'Outfit', sans-serif;">Professione</strong>
-                <span style="font-size: 1.05rem;">È un cuoco in un ristorante italiano.</span>
+                <span style="font-size: 1.05rem;">È un cuoco in un restaurante italiano.</span>
               </div>
             </div>
             <div class="info-card" style="display: flex; align-items: center; gap: 15px;">
@@ -550,7 +550,7 @@
         </div>
 
         <div id="visual-dictionary-anchor" class="support-dictionary" style="margin-top: 40px; border-top: 2px dashed #cbd5e1; padding-top: 25px;">
-          <h3 style="font-size: 1.2rem; color: var(--primary); margin-bottom: 15px;">💡 Dizionario Visivo di Supporto</h3>
+          <h3>💡 Dizionario Visivo di Supporto</h3>
           
           <div style="margin-bottom: 25px;">
             <h4 style="font-size: 1rem; color: #334155; margin-bottom: 10px; border-left: 3px solid #22c55e; padding-left: 8px;">🌍 Nazionalità</h4>
@@ -616,10 +616,9 @@
 
         <div class="nav-buttons" style="margin-top: 35px;">
           <button onclick="showStep(10)" class="btn-nav btn-back">⬅ Indietro</button>
-          <button class="btn-nav btn-next" style="background-color: #22c55e; color: white;" onclick="alert('Complimenti! Hai completato con successo l\'Unità 1 del livello A0! 🎉')">Fine Unità 🏁</button>
+          <button class="btn-nav" style="background-color: #22c55e; color: white;" onclick="concludiLezione()">Fine Unità 🏁</button>
         </div>
       </section>
-
 
     </main>
 
@@ -629,19 +628,20 @@
   </div>
 
   <script>
-    // Controllo accesso dello studente
-    const user = localStorage.getItem('user_parloitaliano');
-    if (!user) { window.location.href = "index.html"; }
+    // 🔐 1. NUOVO CONTROLLO DI SICUREZZA BASATO SUL PIN STUDENTE O ADMIN
+    const userKey = localStorage.getItem('studente_pin');
+    if (!userKey) {
+        alert("Accesso negato. Fai prima il login!");
+        window.location.href = "index.html";
+    }
 
     window.onload = function() {
-      // Recuperiamo l'utente corrente per capire da dove era rimasto LUI
-      const userKey = localStorage.getItem('utente_corrente') || 'ospite';
+      // Recuperiamo lo step da cui era rimasto specificamente questo PIN studente
       const lastStep = localStorage.getItem(userKey + '_currentStep_U1');
-      
       if (lastStep) { 
         showStep(lastStep, false); 
       } else { 
-        showStep(1, false); // Se è la prima volta per questo utente, parte dal Passo 1
+        showStep(1, false); 
       }
     };
 
@@ -652,16 +652,20 @@
       if (targetStep) {
         targetStep.style.display = 'block';
         
-        // Recuperiamo l'utente corrente per isolare il salvataggio dei passi
-        const userKey = localStorage.getItem('utente_corrente') || 'ospite';
+        // Salvataggio dello step corrente isolato per singolo PIN utente
         localStorage.setItem(userKey + '_currentStep_U1', stepNumber);
         
-        // Se lo studente arriva allo Step 11, la tessera compare subito!
         if (stepNumber == 11) {
           document.getElementById('student-badge').style.display = "block";
         }
       }
       if (scroll) { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    }
+
+    // FUNZIONE PER IL TASTO "FINE UNITÀ" DIREZIONATO A bacheca.html
+    window.concludiLezione = function() {
+        alert("Complimenti! Hai completato con successo l'Unità 1 del livello A1.1! 🎉");
+        window.location.href = "bacheca.html";
     }
 
     // ESERCIZIO PASSO 3 (Chi è Antonio)
@@ -774,10 +778,10 @@
         const correctAnswer = input.getAttribute('data-answer').toLowerCase();
 
         if (userAnswer === correctAnswer) {
-          input.style.border = "2px solid #22c55e"; // Verde
+          input.style.border = "2px solid #22c55e";
           input.style.backgroundColor = "#f0fdf4";
         } else {
-          input.style.border = "2px solid #ef4444"; // Rosso
+          input.style.border = "2px solid #ef4444";
           input.style.backgroundColor = "#fef2f2";
           allCorrect = false;
         }
@@ -789,7 +793,6 @@
       const inputs = document.querySelectorAll(`#step-${stepId} .table-input`);
       inputs.forEach(input => {
         const userAnswer = input.value.trim().toLowerCase();
-        // Recuperiamo tutte le risposte corrette separate da "|"
         const validAnswers = input.getAttribute('data-answers').split('|');
 
         let isCorrect = false;
@@ -811,29 +814,22 @@
       });
     }
 
-    // Funzione "Suggerisci" per lo Step 10 (Aiuto progressivo)
+    // Funzione "Suggerisci" per lo Step 10
     function provideHint(stepId) {
       const inputs = document.querySelectorAll(`#step-${stepId} .table-input`);
       inputs.forEach(input => {
-        // Se il campo è già corretto o compilato non fa nulla
         if (input.style.backgroundColor === "rgb(230, 255, 239)") return;
 
-        // Prende la prima risposta valida disponibile
         const mainAnswer = input.getAttribute('data-answers').split('|')[0].trim();
         const currentText = input.value;
 
-        // Inserisce progressivamente la lettera successiva
         if (currentText.length < mainAnswer.length) {
           input.value = mainAnswer.substring(0, currentText.length + 1);
-          input.style.backgroundColor = "#fffbeb"; // Colore giallo chiaro di suggerimento
+          input.style.backgroundColor = "#fffbeb";
           input.style.borderColor = "#fef08a";
         }
       });
     }
-
-
-    // Recuperiamo subito l'identificativo dell'utente connesso
-    const userKey = localStorage.getItem('utente_corrente') || 'ospite';
 
     // Funzione per generare la tessera dello studente dello Step 11
     function generateBadge() {
@@ -847,42 +843,36 @@
       const finalJob = job ? job : "...";
       const finalMot = mot ? mot : "...";
 
-      // 1. Aggiorna visivamente il badge
       document.getElementById('badge-name').innerText = finalName;
       document.getElementById('badge-nat').innerText = finalNat;
       document.getElementById('badge-job').innerText = finalJob;
       document.getElementById('badge-mot').innerText = finalMot;
 
-      // 2. Salva associando il nome utente alla chiave (es. camilla_studente_nome)
+      // Salva le risposte legandole univocamente al PIN corrente dello studente
       localStorage.setItem(userKey + '_studente_nome', finalName);
       localStorage.setItem(userKey + '_studente_nazionalita', finalNat);
       localStorage.setItem(userKey + '_studente_professione', finalJob);
       localStorage.setItem(userKey + '_studente_motivazione', finalMot);
       localStorage.setItem(userKey + '_profilo_creato', 'true');
 
-      // 3. Mostra il badge
       const badge = document.getElementById('student-badge');
       badge.style.display = "block";
       badge.scrollIntoView({ behavior: 'smooth' });
     }
 
-    // Al caricamento della pagina, recupera i dati dell'utente specifico
+    // Caricamento e ripristino delle impostazioni del profilo utente
     document.addEventListener("DOMContentLoaded", function() {
-      // CONTROLLO DI SICUREZZA
-      if (localStorage.getItem('utente_autorizzato') !== 'true') {
-        alert("Accesso negato. Fai prima il login!");
-        window.location.href = "index.html";
-        return; 
-      }
-
-      const userKey = localStorage.getItem('utente_corrente') || 'ospite';
       const profiloCreato = localStorage.getItem(userKey + '_profilo_creato');
       const salvatoNome = localStorage.getItem(userKey + '_studente_nome');
 
-      // Precompila il nome specifico
+      // Se non c'è un nome nel profilo dell'esercizio, prova a usare il nome salvato al login generale
+      const nomeLogin = localStorage.getItem('studente_nome');
       if (salvatoNome) {
         document.getElementById('user-name').value = salvatoNome;
         document.getElementById('badge-name').innerText = salvatoNome;
+      } else if (nomeLogin && nomeLogin !== "Insegnante (Admin)") {
+        document.getElementById('user-name').value = nomeLogin;
+        document.getElementById('badge-name').innerText = nomeLogin;
       }
 
       if (profiloCreato === 'true') {
@@ -903,7 +893,6 @@
         document.getElementById('badge-mot').innerText = "...";
       }
     });
-
   </script>
 </body>
 </html>
