@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Unità 1 — Globalità — Parlo Italiano</title>
+  <link rel="stylesheet" href="css/main.css">
+  <style>
+    /* Integrazione layout pulito per la fase globale */
+    .global-wrapper {
+      max-width: 750px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+    .phase-badge {
+      display: inline-block;
+      background: #e1effe;
+      color: #1e429f;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BARRA DI NAVIGAZIONE -->
+  <nav class="main-navbar" style="position: fixed; top: 0; left: 0; width: 100%; background: #ffffff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 9999; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; box-sizing: border-box;">
+    <div style="font-weight: bold; color: var(--primary); font-size: 1.1rem; font-family: 'Outfit', sans-serif;">
+      Parlo Italiano 🇮🇹
+    </div>
+    <div style="display: flex; gap: 10px;">
+      <a href="index.html" class="btn-nav" style="padding: 6px 12px; font-size: 0.85rem; text-decoration: none; background: #f1f5f9; color: #334155;">🏠 Home / Login</a>
+      <a href="bacheca.html" class="btn-nav" style="padding: 6px 12px; font-size: 0.85rem; text-decoration: none; background: var(--accent); color: white;">🪪 La mia Bacheca</a>
+    </div>
+  </nav>
+
+  <div style="margin-top: 80px;"></div>
+
+  <div class="page">
+    <header style="text-align: center; margin-bottom: 40px;">
+      <span class="phase-badge">Fase 1: Globalità (Глобальное восприятие) 🧠🎨</span>
+      <h1>Unità 1 — Benvenuti!</h1>
+      <div class="subtitle-ru">Урок 1 — Добро пожаловать!</div>
+    </header>
+
+    <main class="global-wrapper">
+      
+      <!-- SOTTO-FASE A: PRESENTAZIONE -->
+      <section class="card unit-step" id="global-intro">
+        <h2>Presentazione</h2>
+        <div class="h2-ru">Презентация</div>
+        <div class="intro-section">
+          <div class="intro-text">
+            <p>Cominciamo il nostro viaggio in... Italia!</p>
+            <p>Questa è la scuola <span class="highlight-red">"Parlo Italiano"</span>.</p>
+            <p>La scuola "Parlo Italiano" è una <span class="highlight-green">scuola online</span>.</p>
+          </div>
+          <img src="img/unita1/1-scuolaonline.jpg" alt="Scuola Online" class="intro-img">
+        </div>
+      </section>
+
+      <!-- SOTTO-FASE B: VIDEO CONTESTUALE -->
+      <section class="card unit-step" id="global-video">
+        <h2>L'insegnante di italiano</h2>
+        <div class="h2-ru">Учитель итальянского</div>
+        <div class="intro-section">
+          <div class="intro-text">
+            <p><span class="highlight-green">Ciao!</span></p>
+            <p>Io sono <span class="highlight-red">Antonio</span>.</p>
+            <p>Io sono <span class="highlight-green">l'insegnante</span> della scuola "Parlo Italiano".</p>
+          </div>
+          <div style="max-width: 280px; width: 100%; margin: 0 auto;">
+            <iframe class="student-video-vertical" src="https://www.youtube.com/embed/c5k90S6hnUA?rel=0&modestbranding=1" 
+                    title="Antonio - Presentazione" 
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen></iframe>
+          </div>
+        </div>
+      </section>
+
+      <!-- BOTTONI DI TRANSIZIONE DIDATTICA -->
+      <div class="nav-buttons" style="margin-top: 20px; display: flex; justify-content: space-between;">
+        <a href="bacheca.html" class="btn-nav btn-back" style="text-decoration: none; text-align: center;">⬅ Torna in Bacheca</a>
+        <button onclick="vaiAdAnalisi()" class="btn-nav btn-next" style="background-color: var(--primary); color: white;">Vai all'Analisi ➡</button>
+      </div>
+
+    </main>
+
+    <footer style="margin-top: 50px; text-align: center; color: #64748b; font-size: 0.85rem;">
+      © 2026 Parlo Italiano — Scuola di Lingua Italiana Online
+    </footer>
+  </div>
+
+  <script>
+    // 🔐 CONTROLLO DI SICUREZZA INIZIALE BASATO SUL PIN
+    const userKey = localStorage.getItem('studente_pin');
+    if (!userKey) {
+        alert("Accesso negato. Fai prima il login!");
+        window.location.href = "index.html";
+    }
+
+    // Salva automaticamente la posizione corrente dello studente per la bacheca
+    document.addEventListener("DOMContentLoaded", function() {
+        localStorage.setItem(userKey + '_posizione_U1', 'u1_globalita.html');
+    });
+
+    // Navigazione verso la fase successiva dell'Unità Didattica
+    window.vaiAdAnalisi = function() {
+        window.location.href = "u1_analisi.html";
+    }
+  </script>
+</body>
+</html>
