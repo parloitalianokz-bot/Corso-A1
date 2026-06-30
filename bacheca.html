@@ -36,7 +36,7 @@
         .status-waiting { background: #fff3cd; color: #856404; }
         .status-locked { background: #ffe3e3; color: #e03131; }
         
-        .btn-entra { background: var(--primary); color: white; padding: 8px 16px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; text-decoration: none; font-size: 13px; }
+        .btn-entra { background: var(--primary); color: white; padding: 8px 16px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; text-decoration: none; font-size: 13px; display: inline-block; }
         .btn-entra.disabled { background: #ccc; color: #666; cursor: not-allowed; pointer-events: none; }
         .btn-back { background: #6c757d; color: white; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; margin-bottom: 15px; font-weight: bold; }
     </style>
@@ -82,7 +82,7 @@
     const elencoMacroCorsi = ["A1.1", "A1.2", "A2.1", "A2.2", "B1.1", "B1.2", "B1.3", "B1.4", "B2.1", "B2.2"];
     let databaseUnita = []; 
 
-    // 🌟 LEGGE ESCLUSIVAMENTE DA FIREBASE (NIENTE ELENCHI FISSI COPIATI)
+    // 🌟 LEGGE ESCLUSIVAMENTE DA FIREBASE
     onValue(ref(db, `scuola_materiale/unita`), (catalogSnap) => {
         databaseUnita = catalogSnap.exists() ? Object.values(catalogSnap.val()) : [];
         
@@ -143,13 +143,13 @@
             let azione = '';
 
             if (isAdmin) {
-                azione = `<span class="status-badge status-active">Docente</span><a href="${unita.file}" class="btn-entra">Apri 👁️</a>`;
+                azione = `<span class="status-badge status-active">Docente</span><button class="btn-entra" onclick="gestisciInizioUnita('${unita.id}', '${unita.file}')">Apri 👁️</button>`;
             } else {
                 const sbloccataDocente = unita.id <= attivaGruppo;
                 const pagataStudente = unita.id <= maxPagato;
 
                 if (sbloccataDocente && pagataStudente) {
-                    azione = `<span class="status-badge status-active">Disponibile ✅</span><a href="${unita.file}" class="btn-entra">Inizia 🚀</a>`;
+                    azione = `<span class="status-badge status-active">Disponibile ✅</span><button class="btn-entra" onclick="gestisciInizioUnita('${unita.id}', '${unita.file}')">Inizia 🚀</button>`;
                 } else if (!sbloccataDocente && pagataStudente) {
                     azione = `<span class="status-badge status-waiting">In arrivo ⏳</span><button class="btn-entra disabled">Attendi</button>`;
                 } else {
@@ -162,6 +162,22 @@
         
         document.querySelectorAll('.corso-btn').forEach(b => b.classList.remove('selezionato'));
         event.currentTarget.classList.add('selezionato');
+    };
+
+    // 🚀 NUOVA LOGICA INTELLIGENTE DI REINDIRIZZAMENTO SEQUENZIALE
+    window.gestisciInizioUnita = function(unitaId, fileDefault) {
+        // Se l'unità sul database è impostata come "unita1.html", deviamo verso il percorso Balboni
+        if (parseInt(unitaId) === 1 || fileDefault === 'unita1.html') {
+            const posizioneSalvata = localStorage.getItem(pin + '_posizione_U1');
+            if (posizioneSalvata) {
+                window.location.href = posizioneSalvata;
+            } else {
+                window.location.href = "u1_globalita.html";
+            }
+        } else {
+            // Per tutte le altre unità non ancora scomposate, segue il file classico impostato da Admin
+            window.location.href = fileDefault;
+        }
     };
 
     window.chiudiUnita = function() {
